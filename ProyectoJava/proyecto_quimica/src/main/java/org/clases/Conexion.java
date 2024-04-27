@@ -43,7 +43,6 @@ public class Conexion {
             System.out.println(ex);
         }
     }
-
     public static Connection conecta() {
         Connection con = null;
         try {

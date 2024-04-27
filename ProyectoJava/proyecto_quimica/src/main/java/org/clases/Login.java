@@ -1,6 +1,7 @@
 package org.clases;
 
-import org.clases.interfaces.Gestion;
+
+import org.clases.interfaces.Inicio;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,7 +65,7 @@ public class Login extends JFrame {
                     JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
                     Conexion.cerrar();
                     setVisible(false);
-                    new Gestion();
+                    new Inicio();
                 } else {
                     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
                     Conexion.cerrar();
