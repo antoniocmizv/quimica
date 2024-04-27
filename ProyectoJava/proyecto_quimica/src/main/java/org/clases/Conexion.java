@@ -28,21 +28,27 @@ public class Conexion {
         }
 
     }
+
     public static void buscarProductos(String busqueda) {
         try {
             conexion = conecta();
-            String sql = "SELECT * FROM productos where nombre = ?";
-            ps.setString(1, busqueda);
+            String sql = "SELECT * " +
+                    "FROM productos p " +
+                    "inner join  ubicaciones u on p.Id_Ubicacion = u.Id_Ubicacion" +
+                    " where p.nombre = ?";
             ps = conexion.prepareStatement(sql);
+            ps.setString(1, busqueda);
             rs = ps.executeQuery();
             while (rs.next()) {
-                System.out.println(rs.getString("nombre"+" ,"+rs.getString("cantidad")+" ,"
-                        +rs.getString("Stock_Minimo")));
+                System.out.println(rs.getString("nombre") + ", " +
+                        "cantidad: " + rs.getString("cantidad") +", ubicacion: "+
+                        rs.getString("Nombre_Ubicacion"));
             }
         } catch (Exception ex) {
             System.out.println(ex);
         }
     }
+
     public static void cerrar() {
         try {
             if (rs != null) {
@@ -58,6 +64,7 @@ public class Conexion {
             System.out.println(ex);
         }
     }
+
     public static Connection conecta() {
         Connection con = null;
         try {
