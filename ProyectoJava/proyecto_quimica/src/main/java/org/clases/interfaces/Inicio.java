@@ -189,6 +189,11 @@ public class Inicio extends javax.swing.JFrame {
         jScrollPane1.setViewportView(TablaProductos);
 
         campoNombre.setText("Nombre");
+        campoNombre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                campoNombreMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelBuscarLayout = new javax.swing.GroupLayout(PanelBuscar);
         PanelBuscar.setLayout(PanelBuscarLayout);
@@ -407,6 +412,11 @@ public class Inicio extends javax.swing.JFrame {
     private void FormatosListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FormatosListaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FormatosListaActionPerformed
+
+    private void campoNombreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoNombreMouseClicked
+        // TODO add your handling code here:
+        campoNombre.setText("");
+    }//GEN-LAST:event_campoNombreMouseClicked
 
     /**
      * @param args the command line arguments
