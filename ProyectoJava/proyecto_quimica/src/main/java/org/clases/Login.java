@@ -66,6 +66,7 @@ public class Login extends JFrame {
                     Conexion.cerrar();
                     setVisible(false);
                     new Inicio();
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
                     Conexion.cerrar();

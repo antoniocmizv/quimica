@@ -16,6 +16,7 @@ public class Inicio extends javax.swing.JFrame {
      */
     public Inicio() {
 //        this.setUndecorated(true);
+
         initComponents();
         FormatosLista.setVisible(false);
         TablaProductos.setVisible(false);
@@ -30,7 +31,7 @@ public class Inicio extends javax.swing.JFrame {
 
         PanelInsertar.setVisible(false);
         buscar.setEnabled(false);
-
+        this.setVisible(true);
     }
 
     /**

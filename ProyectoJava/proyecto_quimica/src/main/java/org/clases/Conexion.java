@@ -28,6 +28,21 @@ public class Conexion {
         }
 
     }
+    public static void buscarProductos(String busqueda) {
+        try {
+            conexion = conecta();
+            String sql = "SELECT * FROM productos where nombre = ?";
+            ps.setString(1, busqueda);
+            ps = conexion.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getString("nombre"+" ,"+rs.getString("cantidad")+" ,"
+                        +rs.getString("Stock_Minimo")));
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
     public static void cerrar() {
         try {
             if (rs != null) {
