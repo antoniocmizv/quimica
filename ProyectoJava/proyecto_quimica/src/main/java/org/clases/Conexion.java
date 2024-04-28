@@ -41,7 +41,8 @@ public class Conexion {
             rs = ps.executeQuery();
             while (rs.next()) {
                 System.out.println(rs.getString("nombre") + ", " +
-                        "cantidad: " + rs.getString("cantidad") +", ubicacion: "+
+                        "cantidad: " + rs.getString("cantidad") +
+                        "almacen: "+", ubicacion: "+
                         rs.getString("Nombre_Ubicacion"));
             }
         } catch (Exception ex) {
