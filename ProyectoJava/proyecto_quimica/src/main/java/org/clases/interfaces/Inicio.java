@@ -1,10 +1,12 @@
 package org.clases.interfaces;
 
 
+import org.clases.Clases.Producto;
 import org.clases.Conexion;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 
 /**
@@ -406,7 +408,32 @@ public class Inicio extends javax.swing.JFrame {
 
         FormatosLista.setVisible(true);
         TablaProductos.setVisible(true);
-        Conexion.buscarProductos(campoNombre.getText());
+        ArrayList < Producto> productos = Conexion.buscarProductos(campoNombre.getText());
+        //Añadir los productos a la tabla de productos
+        TablaProductos.removeAll();
+        TablaProductos.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String [] {
+                    "ID", "Nombre", "Cantidad", "Stock Minimo", "Ubicacion", "Almacen"
+                }
+        ));
+        for (Producto producto : productos) {
+            ((javax.swing.table.DefaultTableModel) TablaProductos.getModel()).addRow(new Object[]{
+                producto.getId_producto(),
+                producto.getNombre(),
+                producto.getCantidad(),
+                producto.getStock_minimo(),
+                producto.getUbicacion(),
+                producto.getAlmacen()
+            });
+        }
+
+
     }//GEN-LAST:event_BuscarBoton1MouseClicked
 
     private void FormatosListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FormatosListaActionPerformed

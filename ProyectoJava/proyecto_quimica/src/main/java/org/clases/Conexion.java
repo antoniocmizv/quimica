@@ -1,6 +1,9 @@
 package org.clases;
 
 import java.sql.*;
+import java.util.ArrayList;
+
+import org.clases.Clases.Producto;
 
 
 public class Conexion {
@@ -29,25 +32,34 @@ public class Conexion {
 
     }
 
-    public static void buscarProductos(String busqueda) {
+    public static ArrayList<Producto> buscarProductos(String busqueda) {
         try {
             conexion = conecta();
-            String sql = "SELECT * " +
-                    "FROM productos p " +
-                    "inner join  ubicaciones u on p.Id_Ubicacion = u.Id_Ubicacion" +
-                    " where p.nombre = ?";
+            String sql = "SELECT * FROM productos p " +
+                    "INNER JOIN ubicaciones u ON p.Id_Ubicacion = u.Id_Ubicacion " +
+                    "INNER JOIN salas s ON u.Codigo_Almacen = s.Id_Almacen " +
+                    "WHERE p.nombre = ?";
             ps = conexion.prepareStatement(sql);
             ps.setString(1, busqueda);
             rs = ps.executeQuery();
+            ArrayList<Producto> productos = new ArrayList<>();
             while (rs.next()) {
-                System.out.println(rs.getString("nombre") + ", " +
-                        "cantidad: " + rs.getString("cantidad") +
-                        "almacen: "+", ubicacion: "+
-                        rs.getString("Nombre_Ubicacion"));
+                String id_producto = rs.getString("id_producto");
+                String nombre = rs.getString("nombre");
+                int cantidad = rs.getInt("cantidad");
+                int stock_minimo = rs.getInt("stock_minimo");
+                String nombre_ubicacion = rs.getString("nombre_ubicacion");
+                String nombre_almacen = rs.getString("Nombre_Almacen");
+                Producto producto = new Producto(id_producto, nombre, cantidad, stock_minimo, nombre_ubicacion,
+                        nombre_almacen);
+
+                productos.add(producto);
             }
+            return productos;
         } catch (Exception ex) {
             System.out.println(ex);
         }
+        return null;
     }
 
     public static void cerrar() {
