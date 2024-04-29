@@ -1,7 +1,7 @@
-package org.clases;
+package org.clases.interfaces;
 
 
-import org.clases.interfaces.Inicio;
+import org.clases.Conexion;
 
 import javax.swing.*;
 import java.awt.*;

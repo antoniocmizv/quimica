@@ -139,11 +139,7 @@ public class Inicio extends javax.swing.JFrame {
         );
 
         BuscarBoton1.setText("Buscar");
-        BuscarBoton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BuscarBoton1MouseClicked(evt);
-            }
-        });
+
         BuscarBoton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BuscarBoton1ActionPerformed(evt);
@@ -155,7 +151,7 @@ public class Inicio extends javax.swing.JFrame {
 
                 },
                 new String[]{
-                        "ID", "Nombre", "Cantidad", "Stock Minimo", "Ubicacion", "Almacen"
+                        "ID", "Nombre", "Cantidad", "Stock Mínimo", "Ubicación", "Almacén"
                 }
         ));
         jScrollPane1.setViewportView(TablaProductos);
@@ -364,12 +360,6 @@ public class Inicio extends javax.swing.JFrame {
 
     private void BuscarBoton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBoton1ActionPerformed
         // TODO add your handling code here:
-
-    }//GEN-LAST:event_BuscarBoton1ActionPerformed
-
-    private void BuscarBoton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuscarBoton1MouseClicked
-        // TODO add your handling code here:
-
         TablaProductos.setVisible(true);
         ArrayList<Producto> productos = Conexion.buscarProductos(campoNombre.getText());
         //Añadir los productos a la tabla de productos
@@ -386,9 +376,9 @@ public class Inicio extends javax.swing.JFrame {
                     producto.getAlmacen()
             });
         }
+    }//GEN-LAST:event_BuscarBoton1ActionPerformed
 
 
-    }//GEN-LAST:event_BuscarBoton1MouseClicked
 
     private void campoNombreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoNombreMouseClicked
         // TODO add your handling code here:
