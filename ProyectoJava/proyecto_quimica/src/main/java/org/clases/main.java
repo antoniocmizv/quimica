@@ -1,5 +1,3 @@
-
-
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -21,9 +19,8 @@ public static void main(String[] args) {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-               new Login();
-    }
-});
-
-        // Tu código para crear y mostrar la GUI...
+            new Login();
         }
+    });
+
+}

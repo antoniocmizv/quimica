@@ -38,14 +38,14 @@ public class Conexion {
             String sql = "SELECT * FROM productos p " +
                     "INNER JOIN ubicaciones u ON p.Id_Ubicacion = u.Id_Ubicacion " +
                     "INNER JOIN salas s ON u.Codigo_Almacen = s.Id_Almacen " +
-                    "WHERE p.nombre = ?";
+                    "WHERE p.Nombre_Producto = ?";
             ps = conexion.prepareStatement(sql);
             ps.setString(1, busqueda);
             rs = ps.executeQuery();
             ArrayList<Producto> productos = new ArrayList<>();
             while (rs.next()) {
                 String id_producto = rs.getString("id_producto");
-                String nombre = rs.getString("nombre");
+                String nombre = rs.getString("nombre_producto");
                 int cantidad = rs.getInt("cantidad");
                 int stock_minimo = rs.getInt("stock_minimo");
                 String nombre_ubicacion = rs.getString("nombre_ubicacion");
@@ -87,4 +87,5 @@ public class Conexion {
         }
         return con;
     }
+
 }

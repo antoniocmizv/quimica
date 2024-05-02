@@ -1,19 +1,26 @@
 package org.clases.interfaces;
 
-
 import org.clases.Conexion;
+import org.clases.interfaces.Inicio;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class Login extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton;
+    private BufferedImage backgroundImage;
 
     public Login() {
+        // Cargar la imagen de fondo
+
+
         // Set the frame properties
         setTitle("Login");
         setSize(350, 200);
@@ -37,7 +44,13 @@ public class Login extends JFrame {
         passwordField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         // Create a panel for the text fields
-        JPanel textFieldsPanel = new JPanel();
+        JPanel textFieldsPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(backgroundImage, 0, 0, null);
+            }
+        };
         textFieldsPanel.setLayout(new BoxLayout(textFieldsPanel, BoxLayout.Y_AXIS));
         textFieldsPanel.add(new JLabel("Usuario:"));
         textFieldsPanel.add(usernameField);
