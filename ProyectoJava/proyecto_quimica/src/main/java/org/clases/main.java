@@ -12,10 +12,7 @@ public static void main(String[] args) {
             // Cambia la skin de la aplicación por FlatLaf
             // Se hace aqui ya que tiene que ser antes de que se inicie la Ventana Principal
             try {
-
-
                 FlatLightLaf.setup();
-
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

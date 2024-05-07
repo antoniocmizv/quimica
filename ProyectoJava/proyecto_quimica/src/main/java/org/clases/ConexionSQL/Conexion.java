@@ -1,4 +1,4 @@
-package org.clases;
+package org.clases.ConexionSQL;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,6 +31,24 @@ public class Conexion {
         }
 
     }
+    public static String getTypeUser(String username, String password){
+        try {
+            conexion = conecta();
+            String sql = "SELECT type FROM usuarios WHERE username = ? AND password = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getString("type");
+        } catch (
+                Exception ex) {
+            System.out.println(ex);
+            return null;
+        }
+
+    }
+
 
     public static ArrayList<Producto> buscarProductos(String busqueda) {
         try {

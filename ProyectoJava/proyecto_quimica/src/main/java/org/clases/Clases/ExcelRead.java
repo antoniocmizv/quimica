@@ -2,7 +2,7 @@ package org.clases.Clases;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.clases.Conexion;
+import org.clases.ConexionSQL.Conexion;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +17,7 @@ public class ExcelRead {
         insertarFormatos();
         insertarRiesgos();
         insertarQuimicos();
+
     }
 
     public static void insertarSalas() {
@@ -50,9 +51,6 @@ public class ExcelRead {
                 System.out.println("Se inserto: " + idAlmacen + " " + nombreSala);
             }
 
-            // Cierra la conexión a la base de datos
-            Conexion.cerrar();
-
             // Cierra el Workbook
             workbook.close();
 
@@ -60,6 +58,9 @@ public class ExcelRead {
             file.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            Conexion.cerrar();
         }
     }
 

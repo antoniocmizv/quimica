@@ -1,15 +1,12 @@
 package org.clases.interfaces;
 
-import org.clases.Conexion;
-import org.clases.interfaces.Inicio;
+import org.clases.ConexionSQL.Conexion;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 public class Login extends JFrame {
     private JTextField usernameField;
@@ -73,12 +70,15 @@ public class Login extends JFrame {
                 String password = new String(passwordField.getPassword());
 
                 boolean isValidUser = Conexion.validarUsuario(username, password);
-
+                String  typeuser = Conexion.getTypeUser(username, password);
                 if (isValidUser) {
                     JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
                     Conexion.cerrar();
                     setVisible(false);
-                    new Inicio();
+                    if (typeuser.equals("admin")) {
+                        new Inicio();
+                    }
+                    else new Inicio_Only_View();
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
