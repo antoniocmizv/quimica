@@ -1,5 +1,6 @@
 package org.clases.Clases;
 
+
 public class Quimico extends Producto {
     private String pureza;
     private String fecha_caducidad;

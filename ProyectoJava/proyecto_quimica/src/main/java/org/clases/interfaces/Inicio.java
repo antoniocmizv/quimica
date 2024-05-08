@@ -11,7 +11,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import javax.swing.JFrame;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,8 +34,9 @@ public class Inicio extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         PanelInsertar.setVisible(false);
         buscar.setEnabled(false);
-        this.setVisible(true);
         TablaProductos.setVisible(false);
+        this.setVisible(true);
+
 
     }
 
@@ -155,7 +156,7 @@ public class Inicio extends javax.swing.JFrame {
 
                 },
                 new String[]{
-                        "ID", "Nombre", "Cantidad", "Stock Mínimo", "Ubicación", "Almacén"
+                        " ", " ", " ", " ", " ", " "
                 }
         ));
         jScrollPane1.setViewportView(TablaProductos);
@@ -395,66 +396,75 @@ public class Inicio extends javax.swing.JFrame {
 
     private void BuscarBoton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBoton1ActionPerformed
         // TODO add your handling code here:
-        TablaProductos.setVisible(true);
-        ArrayList<Producto> productos = Conexion.buscarProductos(campoNombre.getText());
-        //Añadir los productos a la tabla de productos
-        DefaultTableModel model;
-        if (!productos.isEmpty()) {
-            Producto primerProducto = productos.get(0);
-            if (primerProducto instanceof Materiales) {
-                model = generarModeloTablaMateriales();
-            } else if (primerProducto instanceof Quimico) {
-                model = generarModeloTablaQuimico();
-            } else if (primerProducto instanceof ProductoAuxiliar) {
-                model = generarModeloTablaProductoAuxiliar();
+        try {
+            TablaProductos.setVisible(true);
+
+            ArrayList<Producto> productos = Conexion.buscarProductos(campoNombre.getText());
+            //Añadir los productos a la tabla de productos
+            DefaultTableModel model;
+
+            if (!productos.isEmpty()) {
+                Producto primerProducto = productos.get(0);
+                if (primerProducto instanceof Materiales) {
+                    model = generarModeloTablaMateriales();
+                } else if (primerProducto instanceof Quimico) {
+                    model = generarModeloTablaQuimico();
+                } else if (primerProducto instanceof ProductoAuxiliar) {
+                    model = generarModeloTablaProductoAuxiliar();
+                } else {
+                    model = generarModeloTablaProducto();
+                }
             } else {
+                JOptionPane.showMessageDialog(null, "No se encontraron productos");
                 model = generarModeloTablaProducto();
             }
-        } else {
-            model = generarModeloTablaProducto();
-        }
 
-        for (Producto producto : productos) {
-            if (producto instanceof Materiales) {
-                Materiales material = (Materiales) producto;
-                model.addRow(new Object[]{
-                        material.getId_producto(),
-                        material.getNombre(),
-                        material.getCantidad(),
-                        material.getStock_minimo(),
-                        material.getUbicacion(),
-                        material.getAlmacen(),
-                        material.getTipo(),
-                        material.getDescripcion(),
-                        material.getFecha_compra(),
-                        material.getNumero_serie()
-                });
-            } else if (producto instanceof Quimico) {
-                Quimico quimico = (Quimico) producto;
-                model.addRow(new Object[]{
-                        quimico.getId_producto(),
-                        quimico.getNombre(),
-                        quimico.getCantidad(),
-                        quimico.getStock_minimo(),
-                        quimico.getUbicacion(),
-                        quimico.getAlmacen(),
-                        quimico.getPureza(),
-                        quimico.getFecha_caducidad(),
-                        quimico.getFormato()
-                });
-            } else {
-                model.addRow(new Object[]{
-                        producto.getId_producto(),
-                        producto.getNombre(),
-                        producto.getCantidad(),
-                        producto.getStock_minimo(),
-                        producto.getUbicacion(),
-                        producto.getAlmacen()
-                });
+            for (Producto producto : productos) {
+                if (producto instanceof Materiales) {
+                    Materiales material = (Materiales) producto;
+                    model.addRow(new Object[]{
+                            material.getId_producto(),
+                            material.getNombre(),
+                            material.getCantidad(),
+                            material.getStock_minimo(),
+                            material.getUbicacion(),
+                            material.getAlmacen(),
+                            material.getTipo(),
+                            material.getDescripcion(),
+                            material.getFecha_compra(),
+                            material.getNumero_serie()
+                    });
+                } else if (producto instanceof Quimico) {
+                    Quimico quimico = (Quimico) producto;
+                    model.addRow(new Object[]{
+                            quimico.getId_producto(),
+                            quimico.getNombre(),
+                            quimico.getCantidad(),
+                            quimico.getStock_minimo(),
+                            quimico.getUbicacion(),
+                            quimico.getAlmacen(),
+                            quimico.getPureza(),
+                            quimico.getFecha_caducidad(),
+                            quimico.getFormato()
+                    });
+                } else {
+                    model.addRow(new Object[]{
+                            producto.getId_producto(),
+                            producto.getNombre(),
+                            producto.getCantidad(),
+                            producto.getStock_minimo(),
+                            producto.getUbicacion(),
+                            producto.getAlmacen()
+                    });
+                }
+                TablaProductos.setModel(model);
             }
+
+        }catch (Exception ex){
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Error al buscar productos, no se encuentra");
         }
 
-        TablaProductos.setModel(model);
 
     }//GEN-LAST:event_BuscarBoton1ActionPerformed
 
