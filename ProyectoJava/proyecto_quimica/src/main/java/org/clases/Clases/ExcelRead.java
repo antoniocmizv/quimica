@@ -8,16 +8,47 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class ExcelRead {
     public static void main(String[] args) {
+        vaciarBD();
         insertarSalas();
         insertarUbicaciones();
         insertarProductos();
         insertarFormatos();
         insertarRiesgos();
         insertarQuimicos();
+        insertarProductosAuxiliares();
+        insertarMateriales();
+    }
 
+    public static void vaciarBD() {
+        try (Connection conexion = Conexion.conecta()) {
+            // Desactiva las restricciones de clave foránea
+            PreparedStatement ps = conexion.prepareStatement("SET FOREIGN_KEY_CHECKS=0");
+            ps.execute();
+
+            // Lista de todas las tablas en tu base de datos
+            String[] tablas = {"salas", "ubicaciones", "productos", "quimicos", "formato", "riesgos",
+                    "productos_auxiliares", "materiales",};
+
+            // Itera sobre cada tabla
+            for (String tabla : tablas) {
+                // Crea la sentencia SQL para vaciar la tabla
+                String sql = "TRUNCATE TABLE " + tabla;
+
+                // Ejecuta la sentencia SQL
+                ps = conexion.prepareStatement(sql);
+                ps.executeUpdate();
+            }
+
+            // Reactiva las restricciones de clave foránea
+            ps = conexion.prepareStatement("SET FOREIGN_KEY_CHECKS=1");
+            ps.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
     }
 
     public static void insertarSalas() {
@@ -58,8 +89,7 @@ public class ExcelRead {
             file.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             Conexion.cerrar();
         }
     }
@@ -127,8 +157,8 @@ public class ExcelRead {
             Connection connection = Conexion.conecta();
             // Prepara la sentencia SQL para insertar los datos
             String sql = "INSERT INTO productos " +
-                    "(Id_Producto,Nombre_Producto,Cantidad,Stock_Minimo,Id_Ubicacion)" +
-                    " VALUES (?,?,?,?,?)";
+                    "(Id_Producto,Nombre_Producto,Cantidad,Stock_Minimo,Id_Ubicacion,tipo)" +
+                    " VALUES (?,?,?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(sql);
 
             // Itera sobre las filas de la hoja
@@ -139,7 +169,7 @@ public class ExcelRead {
                 int cantidad = (int) row.getCell(2).getNumericCellValue();
                 int stockMinimo = (int) row.getCell(3).getNumericCellValue();
                 int idUbicacion = (int) row.getCell(5).getNumericCellValue();
-
+                int tipo = (int) row.getCell(6).getNumericCellValue();
 
                 // Inserta los datos en la base de datos
                 ps.setInt(1, idProducto);
@@ -147,10 +177,10 @@ public class ExcelRead {
                 ps.setInt(3, cantidad);
                 ps.setInt(4, stockMinimo);
                 ps.setInt(5, idUbicacion);
+                ps.setInt(6, tipo);
 
                 ps.executeUpdate();
-                System.out.println("Se inserto: " + idProducto + " " + nombreProducto + " " +
-                        cantidad + " " + stockMinimo + " " + idUbicacion);
+                System.out.println(STR."Se inserto: \{idProducto} \{nombreProducto} \{cantidad} \{stockMinimo} \{idUbicacion}");
             }
 
             // Cierra la conexión a la base de datos
@@ -204,8 +234,7 @@ public class ExcelRead {
                 ps.setInt(6, idRiesgo);
 
                 ps.executeUpdate();
-                System.out.println("Se inserto: " + idQuimico + " " + pureza + " " + fechaCaducidad + " " +
-                        idProducto + " " + idFormato + " " + idRiesgo);
+                System.out.println(STR."Se inserto: \{idQuimico} \{pureza} \{fechaCaducidad} \{idProducto} \{idFormato} \{idRiesgo}");
             }
 
             // Cierra la conexión a la base de datos
@@ -251,7 +280,7 @@ public class ExcelRead {
                 ps.setString(2, formato);
 
                 ps.executeUpdate();
-                System.out.println("Se inserto: " + idFormato + " " + formato);
+                System.out.println(STR."Se inserto: \{idFormato} \{formato}");
             }
 
             // Cierra la conexión a la base de datos
@@ -298,6 +327,105 @@ public class ExcelRead {
                 //Ejecuta la sentencia
                 ps.executeUpdate();
                 System.out.println("Se inserto: " + idRiesgo + " " + Riesgo);
+            }
+
+            // Cierra la conexión a la base de datos
+            Conexion.cerrar();
+
+            // Cierra el Workbook
+            workbook.close();
+
+            // Cierra el FileInputStream
+            file.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertarProductosAuxiliares() {
+        try {
+            // Abre el archivo Excel
+            FileInputStream file = new FileInputStream(new File("src/main/java/org/clases/excels/datos.xlsx"));
+
+            // Crea un Workbook desde el archivo Excel
+            Workbook workbook = new XSSFWorkbook(file);
+            // Obtiene el número de hojas del Workbook
+            int numberRows = workbook.getNumberOfSheets();
+            // Obtiene la primera hoja del Workbook
+            Sheet sheet = workbook.getSheet("prod_aux");
+            // Obtiene una conexión a la base de datos
+            Connection connection = Conexion.conecta();
+            // Prepara la sentencia SQL para insertar los datos
+            String sql = "INSERT INTO productos_auxiliares " +
+                    "(Formato,Id_Producto)" +
+                    " VALUES (?,?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            // Itera sobre las filas de la hoja
+            for (Row row : sheet) {
+                // Obtiene los datos de la fila
+                int idProducto = (int) row.getCell(0).getNumericCellValue();
+                String formato = row.getCell(6).getStringCellValue();
+                // Inserta los datos en la base de datos
+                ps.setString(1, formato);
+                ps.setInt(2, idProducto);
+                ps.executeUpdate();
+                System.out.println("Se inserto: " + idProducto + " " + formato);
+            }
+
+            // Cierra la conexión a la base de datos
+            Conexion.cerrar();
+
+            // Cierra el Workbook
+            workbook.close();
+
+            // Cierra el FileInputStream
+            file.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertarMateriales() {
+        try {
+            // Abre el archivo Excel
+            FileInputStream file = new FileInputStream(new File("src/main/java/org/clases/excels/datos.xlsx"));
+
+            // Crea un Workbook desde el archivo Excel
+            Workbook workbook = new XSSFWorkbook(file);
+            // Obtiene el número de hojas del Workbook
+            int numberRows = workbook.getNumberOfSheets();
+            // Obtiene la primera hoja del Workbook
+            Sheet sheet = workbook.getSheet("materiales");
+            // Obtiene una conexión a la base de datos
+            Connection connection = Conexion.conecta();
+            // Prepara la sentencia SQL para insertar los datos
+            String sql = "INSERT INTO materiales " +
+                    "(id_material,tipo,descripcion,fecha_compra,id_producto,n_serie)" +
+                    " VALUES (?,?,?,?,?,?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            // Itera sobre las filas de la hoja
+            for (Row row : sheet) {
+                // Obtiene los datos de la fila
+                int idMaterial = (int) row.getCell(0).getNumericCellValue();
+                String tipo = row.getCell(1).getStringCellValue();
+                String descripcion = row.getCell(2).getStringCellValue();
+                String fechaCompra = row.getCell(3).getStringCellValue();
+                int idProducto = (int) row.getCell(4).getNumericCellValue();
+                String numeroSerie = row.getCell(5).getStringCellValue();
+
+                // Inserta los datos en la base de datos
+                ps.setInt(1, idMaterial);
+                ps.setString(2, tipo);
+                ps.setString(3, descripcion);
+                ps.setString(4, fechaCompra);
+                ps.setInt(5, idProducto);
+                ps.setString(6, numeroSerie);
+
+                //Ejecuta la sentencia
+                ps.executeUpdate();
+                System.out.println(STR."Se inserto: \{idMaterial} \{tipo} \{descripcion} \{fechaCompra} \{idProducto} \{numeroSerie}");
             }
 
             // Cierra la conexión a la base de datos

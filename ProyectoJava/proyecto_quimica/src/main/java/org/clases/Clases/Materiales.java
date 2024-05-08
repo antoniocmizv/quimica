@@ -6,6 +6,7 @@ public class Materiales extends Producto {
     private String fecha_compra;
     private String numero_serie;
 
+
     public Materiales(String id_producto, String nombre, int cantidad, int stock_minimo, String ubicacion,
                       String almacen, String tipo, String descripcion, String fecha_compra, String numero_serie) {
         super(id_producto, nombre, cantidad, stock_minimo, ubicacion, almacen);
