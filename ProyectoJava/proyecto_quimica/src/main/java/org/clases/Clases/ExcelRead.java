@@ -180,7 +180,8 @@ public class ExcelRead {
                 ps.setInt(6, tipo);
 
                 ps.executeUpdate();
-                System.out.println(STR."Se inserto: \{idProducto} \{nombreProducto} \{cantidad} \{stockMinimo} \{idUbicacion}");
+                System.out.println("Se inserto: " + idProducto + " " + nombreProducto + " " + cantidad + " " +
+                        stockMinimo + " " + idUbicacion + " " + tipo);
             }
 
             // Cierra la conexión a la base de datos
@@ -234,7 +235,8 @@ public class ExcelRead {
                 ps.setInt(6, idRiesgo);
 
                 ps.executeUpdate();
-                System.out.println(STR."Se inserto: \{idQuimico} \{pureza} \{fechaCaducidad} \{idProducto} \{idFormato} \{idRiesgo}");
+                System.out.println("Se inserto: " + idQuimico + " " + pureza + " " + fechaCaducidad + " " +
+                        idProducto + " " + idFormato + " " + idRiesgo);
             }
 
             // Cierra la conexión a la base de datos
@@ -280,7 +282,7 @@ public class ExcelRead {
                 ps.setString(2, formato);
 
                 ps.executeUpdate();
-                System.out.println(STR."Se inserto: \{idFormato} \{formato}");
+                System.out.println("Se inserto: " + idFormato + " " + formato);
             }
 
             // Cierra la conexión a la base de datos
@@ -425,7 +427,8 @@ public class ExcelRead {
 
                 //Ejecuta la sentencia
                 ps.executeUpdate();
-                System.out.println(STR."Se inserto: \{idMaterial} \{tipo} \{descripcion} \{fechaCompra} \{idProducto} \{numeroSerie}");
+                System.out.println("Se inserto: " + idMaterial + " " + tipo + " " + descripcion + " " +
+                        fechaCompra + " " + idProducto + " " + numeroSerie);
             }
 
             // Cierra la conexión a la base de datos

@@ -19,6 +19,8 @@ public class ProductoAuxiliar extends Producto {
 
     @Override
     public String toString() {
-        return STR."ProductoAuxiliar{formato='\{formato}\{'\''}\{'}'}";
+        return "ProductoAuxiliar{" +
+                "formato='" + formato + '\'' +
+                '}';
     }
 }

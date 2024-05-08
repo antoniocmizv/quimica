@@ -51,6 +51,11 @@ public class Materiales extends Producto {
 
     @Override
     public String toString() {
-        return STR."Materiales{tipo='\{tipo}\{'\''}, descripcion='\{descripcion}\{'\''}, fecha_compra='\{fecha_compra}\{'\''}, numero_serie='\{numero_serie}\{'\''}\{'}'}";
+        return "Materiales{" +
+                "tipo='" + tipo + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", fecha_compra='" + fecha_compra + '\'' +
+                ", numero_serie='" + numero_serie + '\'' +
+                '}';
     }
 }

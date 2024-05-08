@@ -41,6 +41,10 @@ public class Quimico extends Producto {
 
     @Override
     public String toString() {
-        return STR."Quimico{pureza='\{pureza}\{'\''}, fecha_caducidad='\{fecha_caducidad}\{'\''}, formato='\{formato}\{'\''}\{'}'}";
+        return "Quimico{" +
+                "pureza='" + pureza + '\'' +
+                ", fecha_caducidad='" + fecha_caducidad + '\'' +
+                ", formato='" + formato + '\'' +
+                '}';
     }
 }

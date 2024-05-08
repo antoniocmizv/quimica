@@ -1,14 +1,10 @@
 package org.clases.interfaces;
 
 
-import org.clases.Clases.Materiales;
-import org.clases.Clases.Producto;
-import org.clases.Clases.ProductoAuxiliar;
-import org.clases.Clases.Quimico;
+import org.clases.Clases.*;
 import org.clases.ConexionSQL.Conexion;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -460,9 +456,13 @@ public class Inicio extends javax.swing.JFrame {
                 TablaProductos.setModel(model);
             }
 
-        }catch (Exception ex){
+        }catch (NullPointerException ex){
             System.out.println(ex);
             JOptionPane.showMessageDialog(null, "Error al buscar productos, no se encuentra");
+        }
+        catch (Exception ex){
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Error al buscar productos" + ex);
         }
 
 
