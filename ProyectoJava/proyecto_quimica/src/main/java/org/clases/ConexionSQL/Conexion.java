@@ -43,7 +43,7 @@ public class Conexion {
             ps.setString(2, password);
             rs = ps.executeQuery();
             rs.next();
-            return rs.getString("tipo");
+            return rs.getString("type");
         } catch (
                 Exception ex) {
             System.out.println(ex);

@@ -5,13 +5,14 @@ import org.clases.Clases.*;
 import org.clases.ConexionSQL.Conexion;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * @author Mario Ortega
+ * @author Mario Ortega and Antonio Castillo
  */
 public class Inicio extends javax.swing.JFrame {
 
@@ -19,7 +20,7 @@ public class Inicio extends javax.swing.JFrame {
      * Creates new form INICIO
      */
     public Inicio() {
-//        this.setUndecorated(true);
+
 
         initComponents();
         // Obtener el tamaño de la pantalla
@@ -32,7 +33,79 @@ public class Inicio extends javax.swing.JFrame {
         buscar.setEnabled(false);
         TablaProductos.setVisible(false);
         this.setVisible(true);
+        // Agregar MouseListener a la JTable
+        TablaProductos.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                JTable table = (JTable) me.getSource();
+                Point p = me.getPoint();
+                int row = table.rowAtPoint(p);
+                if (me.getClickCount() == 2) {
+                    // Tu código aquí
+                } else if (me.getButton() == MouseEvent.BUTTON3) { // Botón derecho
+                    JPopupMenu popup = new JPopupMenu();
+                    JMenuItem menuItem = new JMenuItem("Modificar");
+                    menuItem.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Obtener los datos del registro seleccionado
+                            String id_producto = (String) TablaProductos.getValueAt(row, 0);
+                            String nombre = (String) TablaProductos.getValueAt(row, 1);
 
+                            // etc...
+
+                            // Abrir la ventana de edición
+                            JFrame frame = new JFrame("Editar Producto");
+                            frame.setSize(400, 300);
+                            frame.setLocationRelativeTo(null);
+                            frame.setLayout(new GridLayout(0, 2));
+
+                            // Crear los campos de texto y llenarlos con los datos actuales
+                            JTextField idField = new JTextField(id_producto);
+                            JTextField nombreField = new JTextField(nombre);
+
+
+
+                            // etc...
+
+                            // Agregar los campos de texto al frame
+                            frame.add(new JLabel("ID Producto:"));
+                            frame.add(idField);
+                            frame.add(new JLabel("Nombre:"));
+                            frame.add(nombreField);
+                            frame.add(new JLabel("Cantidad:"));
+
+
+                            // etc...
+
+                            // Crear el botón de guardar
+                            JButton saveButton = new JButton("Guardar");
+                            saveButton.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    // Actualizar los datos en la base de datos
+                                    String sql = "UPDATE productos SET Nombre_Producto = ? WHERE Id_Producto = ?";
+                                    try {
+                                        PreparedStatement ps = Conexion.conecta().prepareStatement(sql);
+                                        ps.setString(1, nombreField.getText());
+                                        ps.setString(2, idField.getText());
+                                        ps.executeUpdate();
+                                        // Actualizar la tabla
+                                        // ...
+                                    } catch (SQLException ex) {
+                                        System.out.println(ex);
+                                    }
+                                }
+                            });
+                            frame.add(saveButton);
+
+                            frame.setVisible(true);
+                        }
+                    });
+                    popup.add(menuItem);
+                    popup.show(table, me.getX(), me.getY());
+                }
+            }
+        });
 
     }
 
@@ -456,11 +529,10 @@ public class Inicio extends javax.swing.JFrame {
                 TablaProductos.setModel(model);
             }
 
-        }catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             System.out.println(ex);
             JOptionPane.showMessageDialog(null, "Error al buscar productos, no se encuentra");
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex);
             JOptionPane.showMessageDialog(null, "Error al buscar productos" + ex);
         }
@@ -473,6 +545,7 @@ public class Inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
         campoNombre.setText("");
     }//GEN-LAST:event_campoNombreMouseClicked
+
 
     /**
      * @param args the command line arguments

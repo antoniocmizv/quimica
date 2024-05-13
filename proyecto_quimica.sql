@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-05-2024 a las 22:03:04
+-- Tiempo de generación: 13-05-2024 a las 08:52:32
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -495,42 +495,43 @@ INSERT INTO `quimicos` (`Id_Quimico`, `Pureza`, `Fecha_Caducidad`, `Id_Producto`
 
 CREATE TABLE `riesgos` (
   `Id_Riesgos` int(11) NOT NULL,
-  `Riesgo` mediumblob NOT NULL
+  `Riesgo` varchar(100) NOT NULL,
+  `nombre_riesgo` varchar(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `riesgos`
 --
 
-INSERT INTO `riesgos` (`Id_Riesgos`, `Riesgo`) VALUES
-(1, 0x436f6d627572656e74652079206972726974616e746520),
-(2, 0x546f7869636964616420616775646120283629),
-(3, 0x436f6d627572656e74652079206e6f6369766f),
-(4, 0x4174656e6369c3b36e),
-(5, 0x4e6f6369766f),
-(6, 0x4972726974616e7465),
-(7, 0x546f78696369646164206167756461),
-(8, 0x436f72726f7369766f),
-(9, 0x4e6f6369766f20792070656c6967726f736f207061726120656c206d6564696f20616d6269656e7465),
-(10, 0x436f6d627572656e74652c20636f72726f7369766f20792070656c6967726f736f207061726120656c206d6564696f20616d6269656e7465),
-(11, 0x4e6f6369766f2c2070656c6967726f736f207061726120656c206d6564696f20616d6269656e7465207920636f72726f7369766f),
-(12, 0x436f6d627572656e7465),
-(13, 0x436f6d627572656e74652079206972726974616e7465),
-(14, 0x4e6f6369766f2c20636f6d627572656e74652c20636f72726f7369766f2c2070656c6967726f736f207061726120656c206d6564696f20616d6269656e746520792063617263696e6f67656e6f),
-(15, 0x4e6f6369766f207920636f6d627572656e7465),
-(16, 0x436f6d627572656e746520792070656c6967726f736f207061726120656c206d6564696f20616d6269656e7465),
-(17, 0x436f6d627572656e74652c206e6f6369766f20792070656c6967726f736f207061726120656c206d6564696f20616d6269656e7465),
-(18, 0x436f72726f7369766f2c2070656c6967726f736f207061726120656c206d6564696f20616d6269656e746520792063617263696ec3b367656e6f),
-(19, 0x436f72726f7369766f2c2070656c6967726f736f207061726120656c206d6564696f20616d6269656e74652c206e6f6369766f2079206972726974616e7465),
-(20, 0x4e6f6369766f2079206972726974616e7465),
-(21, 0x4e6f6369766f2c206972726974616e746520792063617263696ec3b367656e6f),
-(22, 0x496e666c616d61626c65),
-(23, 0x496e666c616d61626c65207920636f72726f7369766f),
-(24, 0x546f78696369646164206167756461207920636f72726f7369766f),
-(25, 0x436f72726f7369766f2c206e6f6369766f2079206972726974616e7465),
-(26, 0x436f6d627572656e7465207920636f72726f7369766f),
-(27, 0x436f6d627572656e74652c20746f78696369646164206167756461207920636f72726f7369766f),
-(28, 0x546f78696369646164206167756461207920636f72726f7369766f2e);
+INSERT INTO `riesgos` (`Id_Riesgos`, `Riesgo`, `nombre_riesgo`) VALUES
+(1, 'Comburente y irritante ', NULL),
+(2, 'Toxicidad aguda (6)', NULL),
+(3, 'Comburente y nocivo', NULL),
+(4, 'Atención', NULL),
+(5, 'Nocivo', NULL),
+(6, 'Irritante', NULL),
+(7, 'Toxicidad aguda', NULL),
+(8, 'Corrosivo', NULL),
+(9, 'Nocivo y peligroso para el medio ambiente', NULL),
+(10, 'Comburente, corrosivo y peligroso para el medio ambiente', NULL),
+(11, 'Nocivo, peligroso para el medio ambiente y corrosivo', NULL),
+(12, 'Comburente', NULL),
+(13, 'Comburente y irritante', NULL),
+(14, 'Nocivo, comburente, corrosivo, peligroso para el medio ambiente y carcinogeno', NULL),
+(15, 'Nocivo y comburente', NULL),
+(16, 'Comburente y peligroso para el medio ambiente', NULL),
+(17, 'Comburente, nocivo y peligroso para el medio ambiente', NULL),
+(18, 'Corrosivo, peligroso para el medio ambiente y carcinógeno', NULL),
+(19, 'Corrosivo, peligroso para el medio ambiente, nocivo y irritante', NULL),
+(20, 'Nocivo y irritante', NULL),
+(21, 'Nocivo, irritante y carcinógeno', NULL),
+(22, 'Inflamable', NULL),
+(23, 'Inflamable y corrosivo', NULL),
+(24, 'Toxicidad aguda y corrosivo', NULL),
+(25, 'Corrosivo, nocivo y irritante', NULL),
+(26, 'Comburente y corrosivo', NULL),
+(27, 'Comburente, toxicidad aguda y corrosivo', NULL),
+(28, 'Toxicidad aguda y corrosivo.', NULL);
 
 -- --------------------------------------------------------
 
