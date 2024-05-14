@@ -4,9 +4,9 @@
  */
 package com.mycompany.panelesActualizar;
 
-import com.mycompany.Clases.*;
+import com.mycompany.Clases.Producto;
+import com.mycompany.Clases.ProductoAuxiliar;
 import com.mycompany.ConexionSQL.Conexion;
-import com.mycompany.panelesInteriores.*;
 
 import javax.swing.*;
 
@@ -14,7 +14,7 @@ import javax.swing.*;
  *
  * @author mario
  */
-public class ActualizarPA extends javax.swing.JFrame {
+public class ActualizarPA extends JFrame {
 
     /**
      * Creates new form Insertar
@@ -33,13 +33,54 @@ public class ActualizarPA extends javax.swing.JFrame {
         FormatoPA.setText(pa.getFormato());
         // Para los JComboBox, necesitarás tener una lista de las posibles opciones y seleccionar la correcta
         // Aquí hay un ejemplo con CBUbiR, asumiendo que tienes una lista de ubicaciones
-        String[] ubicaciones = Conexion.obtenerUbicaciones();
-        CBLocR.setModel(new DefaultComboBoxModel<>(ubicaciones));
-        CBLocR.setSelectedItem(p.getUbicacion());
+        String[] localicaciones = Conexion.obtenerLocalizaciones();
+        CBLocR.setModel(new javax.swing.DefaultComboBoxModel<>(localicaciones));
+
+        CBLocR.addActionListener(e -> {
+            String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocR.getSelectedItem().toString());
+            CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
+        });
 
 
+        String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocR.getSelectedItem().toString());
+        CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
+        // Agrega un listener al botón de actualización
+        BInsertarM.addActionListener(e -> {
+            try {
+                // Obtiene los valores de los campos de entrada
+                String nombre = NombrePA.getText();
+                int cantidad = Integer.parseInt(CantidadPA.getText());
+                int stockMinimo = Integer.parseInt(StockMinimoM.getText());
+                String formato = FormatoPA.getText();
+                String localizacion = (String) CBLocR.getSelectedItem();
+                String ubicacion = (String) CBUbiR.getSelectedItem();
 
+
+                int idAlmacen = Conexion.obtenerIdAlmacen(localizacion);
+                int idUbicacion = Conexion.obtenerIdUbicacion(ubicacion);
+
+                //Creo un objeto ProductoAuxiliar con los datos del formulario
+                ProductoAuxiliar pa2 = new ProductoAuxiliar( p.getId_producto(),  nombre,  cantidad,  stockMinimo,  ubicacion,
+                        localizacion,  idAlmacen,  idUbicacion, formato);
+
+                // Actualiza el producto en la base de datos
+                Conexion.actualizarProductoAuxiliar(pa2  );
+
+                // Muestra un mensaje indicando que el producto se actualizó correctamente
+                JOptionPane.showMessageDialog(null, "Producto actualizado correctamente");
+
+                // Oculta la ventana actual
+                this.setVisible(false);
+            } catch (NumberFormatException ex) {
+                // Muestra un mensaje si hay un error de formato en los campos de cantidad o stock mínimo
+                JOptionPane.showMessageDialog(null, "Por favor, introduce un número válido en los campos Cantidad y Stock Mínimo");
+            }
+        });
     }
+
+
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,6 +91,7 @@ public class ActualizarPA extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         CantidadPA = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -68,69 +110,67 @@ public class ActualizarPA extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1046, 656));
         getContentPane().setLayout(null);
 
+        jPanel1.setBackground(new java.awt.Color(222, 255, 238));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1046, 656));
+        jPanel1.setLayout(null);
+
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Stock Mínimo");
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(600, 210, 190, 25);
-        getContentPane().add(CantidadPA);
-        CantidadPA.setBounds(280, 310, 190, 30);
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(600, 310, 190, 25);
+        jPanel1.add(CantidadPA);
+        CantidadPA.setBounds(280, 340, 190, 30);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Localización");
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(600, 120, 130, 30);
-        getContentPane().add(StockMinimoM);
-        StockMinimoM.setBounds(600, 250, 190, 30);
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(600, 130, 130, 30);
+        jPanel1.add(StockMinimoM);
+        StockMinimoM.setBounds(600, 340, 190, 30);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Nombre");
-        getContentPane().add(jLabel4);
+        jPanel1.add(jLabel4);
         jLabel4.setBounds(280, 130, 80, 25);
-        getContentPane().add(FormatoPA);
-        FormatoPA.setBounds(280, 230, 190, 30);
+        jPanel1.add(FormatoPA);
+        FormatoPA.setBounds(280, 260, 190, 30);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel5.setText("Cantidad");
-        getContentPane().add(jLabel5);
-        jLabel5.setBounds(280, 280, 80, 25);
-        getContentPane().add(NombrePA);
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(280, 300, 80, 25);
+        jPanel1.add(NombrePA);
         NombrePA.setBounds(280, 170, 190, 30);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setText("Formato");
-        getContentPane().add(jLabel6);
-        jLabel6.setBounds(280, 200, 80, 25);
+        jPanel1.add(jLabel6);
+        jLabel6.setBounds(280, 230, 80, 25);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Ubicación");
         jLabel7.setEnabled(false);
-        getContentPane().add(jLabel7);
-        jLabel7.setBounds(600, 300, 110, 25);
+        jPanel1.add(jLabel7);
+        jLabel7.setBounds(600, 220, 110, 25);
 
         CBLocR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(CBLocR);
-        CBLocR.setBounds(600, 160, 190, 30);
+        jPanel1.add(CBLocR);
+        CBLocR.setBounds(600, 170, 190, 30);
 
         CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         CBUbiR.setEnabled(false);
-        getContentPane().add(CBUbiR);
-        CBUbiR.setBounds(600, 340, 190, 30);
+        jPanel1.add(CBUbiR);
+        CBUbiR.setBounds(600, 260, 190, 30);
 
         BInsertarM.setBackground(new java.awt.Color(0, 102, 102));
         BInsertarM.setForeground(new java.awt.Color(255, 255, 255));
         BInsertarM.setText("Actualizar");
-        BInsertarM.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BInsertarMActionPerformed(evt);
-            }
-        });
-        getContentPane().add(BInsertarM);
+        jPanel1.add(BInsertarM);
         BInsertarM.setBounds(430, 520, 160, 40);
-    }// </editor-fold>//GEN-END:initComponents
 
-    private void BInsertarMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BInsertarMActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BInsertarMActionPerformed
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 1050, 660);
+    }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -147,5 +187,6 @@ public class ActualizarPA extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

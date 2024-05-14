@@ -9,9 +9,6 @@ import com.mycompany.Clases.Producto;
 import com.mycompany.Clases.ProductoAuxiliar;
 import com.mycompany.Clases.Quimico;
 import com.mycompany.ConexionSQL.Conexion;
-import com.mycompany.panelesActualizar.ActualizarM;
-import com.mycompany.panelesActualizar.ActualizarPA;
-import com.mycompany.panelesActualizar.ActualizarR;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -277,7 +274,7 @@ public class BuscarAlumno extends JPanel {
                             material.getStock_minimo(),
                             material.getUbicacion(),
                             material.getAlmacen(),
-                            material.getTipo(),
+                            material.getSubtipo(),
                             material.getDescripcion(),
                             material.getFecha_compra(),
                             material.getNumero_serie()
@@ -342,7 +339,7 @@ public class BuscarAlumno extends JPanel {
                         material.getStock_minimo(),
                         material.getUbicacion(),
                         material.getAlmacen(),
-                        material.getTipo(),
+                        material.getSubtipo(),
                         material.getDescripcion(),
                         material.getFecha_compra(),
                         material.getNumero_serie()

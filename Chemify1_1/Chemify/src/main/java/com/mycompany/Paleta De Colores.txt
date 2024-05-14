@@ -1,3 +1,0 @@
-[0,102,102]- Verde Oscuro BG
-[222,255,238]- Verde Claro BG y letras en fondo verde oscuro
-

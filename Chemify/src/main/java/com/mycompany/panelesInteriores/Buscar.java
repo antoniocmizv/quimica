@@ -4,11 +4,15 @@
  */
 package com.mycompany.panelesInteriores;
 
-import com.mycompany.Clases.*;
+import com.mycompany.Clases.Materiales;
+import com.mycompany.Clases.Producto;
+import com.mycompany.Clases.ProductoAuxiliar;
+import com.mycompany.Clases.Quimico;
 import com.mycompany.ConexionSQL.Conexion;
 import com.mycompany.panelesActualizar.ActualizarM;
 import com.mycompany.panelesActualizar.ActualizarPA;
 import com.mycompany.panelesActualizar.ActualizarR;
+import com.mycompany.popUp.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -17,8 +21,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
 
@@ -35,7 +37,8 @@ public class Buscar extends javax.swing.JPanel {
      */
     public Buscar() {
         initComponents();
-
+        //hago que la tabla no se pueda editar
+        tablaProductos.setDefaultEditor(Object.class, null);
     }
 
     /**
@@ -65,60 +68,114 @@ public class Buscar extends javax.swing.JPanel {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
                     // Ordenar por cantidad (asumiendo que la cantidad es la tercera columna)
-                    ordenarTabla((DefaultTableModel) tablaProductos.getModel(), 2);
+                    ordenarTablaCantidad((DefaultTableModel) tablaProductos.getModel(), 2);
                 }
             }
         });
+
         Nombreaz.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
                     // Ordenar por nombre (asumiendo que el nombre es la segunda columna)
-                    ordenarTabla((DefaultTableModel) tablaProductos.getModel(), 1);
+                    ordenarTablaNombreAZ((DefaultTableModel) tablaProductos.getModel(), 1);
+                }
+            }
+        });
+        Nombreza.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                    // Ordenar por nombre (asumiendo que el nombre es la segunda columna)
+                    ordenarTablaNombreZA((DefaultTableModel) tablaProductos.getModel(), 1);
                 }
             }
         });
         tablaProductos.addMouseListener(new MouseAdapter() {
-    public void mousePressed(MouseEvent me) {
-        JTable table =(JTable) me.getSource();
-        Point p = me.getPoint();
-        int row = table.rowAtPoint(p);
-        if (me.getClickCount() == 2) {
-            //abre un poup con el riesgo del producto seleccionado
-            System.out.println("Double click detected on row " + row);
-            Producto producto = productos.get(row);
-
-        }
-        if (me.getButton() == MouseEvent.BUTTON3) {
-            JPopupMenu popup = new JPopupMenu();
-            JMenuItem menuItem = new JMenuItem("Modificar");
-            popup.add(menuItem);
-            popup.show(table, me.getX(), me.getY());
-            System.out.println("Right click detected on row " + row);// Right click
-            menuItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Aquí va el código para modificar el producto
+            public void mousePressed(MouseEvent me) {
+                JTable table = (JTable) me.getSource();
+                Point p = me.getPoint();
+                int row = table.rowAtPoint(p);
+                if (me.getClickCount() == 2) {
+                    //abre un poup con el riesgo del producto seleccionado
+                    System.out.println("Double click detected on row " + row);
                     Producto producto = productos.get(row);
+                    //abre el popup dependiendo del tipo de producto
                     if (producto instanceof Materiales) {
                         Materiales material = (Materiales) producto;
-                        ActualizarM actualizarM = new ActualizarM(material);
-                        actualizarM.setVisible(true);
+                        PopUpM a = new PopUpM(material);
+                        a.setSize(800, 800);
+                        a.setLocationRelativeTo(null);
+                        a.setVisible(true);
                     } else if (producto instanceof Quimico) {
                         Quimico quimico = (Quimico) producto;
-                        ActualizarR actualizarR = new ActualizarR(quimico);
-                        actualizarR.setVisible(true);
+                        PopUpR a = new PopUpR(quimico);
+                        a.setSize(800, 800);
+                        a.setLocationRelativeTo(null);
+                        a.setVisible(true);
                     } else if (producto instanceof ProductoAuxiliar) {
                         ProductoAuxiliar auxiliar = (ProductoAuxiliar) producto;
-                        ActualizarPA actualizarPA = new ActualizarPA(auxiliar);
-                        actualizarPA.setVisible(true);
+                        PopUpPA a = new PopUpPA( auxiliar);
+                        a.setSize(800, 800);
+                        a.setLocationRelativeTo(null);
+                        a.setVisible(true);
                     } else {
-                        JOptionPane.showMessageDialog(null, "No se puede modificar el producto");
+                        JOptionPane.showMessageDialog(null, "No se puede mostrar el producto");
+
                     }
+
                 }
-            });
-        }
-    }
-});
+                if (me.getButton() == MouseEvent.BUTTON3) {
+                    JPopupMenu popup = new JPopupMenu();
+                    JMenuItem menuItem = new JMenuItem("Modificar");
+                    JMenuItem menuItem2 = new JMenuItem("Eliminar");
+                    popup.add(menuItem);
+                    popup.add(menuItem2);
+                    popup.show(table, me.getX(), me.getY());
+                    System.out.println("Right click detected on row " + row);// Right click
+                    menuItem.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Aquí va el código para modificar el producto
+                            Producto producto = productos.get(row);
+                            if (producto instanceof Materiales) {
+                                Materiales material = (Materiales) producto;
+                                ActualizarM actualizarM = new ActualizarM(material);
+                                actualizarM.setVisible(true);
+
+                            } else if (producto instanceof Quimico) {
+                                Quimico quimico = (Quimico) producto;
+                                ActualizarR actualizarR = new ActualizarR(quimico);
+                                actualizarR.setVisible(true);
+
+                            } else if (producto instanceof ProductoAuxiliar) {
+                                ProductoAuxiliar auxiliar = (ProductoAuxiliar) producto;
+                                ActualizarPA actualizarPA = new ActualizarPA(auxiliar);
+                                actualizarPA.setVisible(true);
+
+                            } else {
+                                JOptionPane.showMessageDialog(null, "No se puede modificar el producto");
+                            }
+                        }
+                    });
+                    menuItem2.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Aquí va el código para eliminar el producto
+                            Producto producto = productos.get(row);
+                            //mensaje de verificacion
+                            int dialogButton = JOptionPane.YES_NO_OPTION;
+                            int dialogResult = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el producto?", "Warning", dialogButton);
+                            if (dialogResult == JOptionPane.YES_OPTION) {
+                                // Eliminar el producto
+                                Conexion.eliminarProducto(producto);
+                                JOptionPane.showMessageDialog(null, "Producto eliminado");
+
+                            }
+
+                        }
+                    });
+                }
+            }
+        });
         setBackground(new java.awt.Color(222, 255, 238));
         setPreferredSize(new java.awt.Dimension(1046, 668));
 
@@ -223,6 +280,117 @@ public class Buscar extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ordenarTablaNombreAZ(DefaultTableModel model, int i) {
+        // Convertir los datos de la tabla a una lista
+        List<Producto> datos = new ArrayList<>(productos);
+
+        // Ordenar la lista por nombre
+        datos.sort(Comparator.comparing(Producto::getNombre));
+
+        // Limpiar la tabla
+        while (model.getRowCount() > 0) {
+            model.removeRow(0);
+        }
+
+        // Agregar los datos ordenados a la tabla
+        for (Producto producto : datos) {
+            if (producto instanceof Materiales) {
+                Materiales material = (Materiales) producto;
+                model.addRow(new Object[]{
+                        material.getId_producto(),
+                        material.getNombre(),
+                        material.getCantidad(),
+                        material.getStock_minimo(),
+                        material.getUbicacion(),
+                        material.getAlmacen(),
+                        material.getSubtipo(),
+                        material.getDescripcion(),
+                        material.getFecha_compra(),
+                        material.getNumero_serie()
+                });
+            } else if (producto instanceof Quimico) {
+                Quimico quimico = (Quimico) producto;
+                model.addRow(new Object[]{
+                        quimico.getId_producto(),
+                        quimico.getNombre(),
+                        quimico.getCantidad(),
+                        quimico.getStock_minimo(),
+                        quimico.getUbicacion(),
+                        quimico.getAlmacen(),
+                        quimico.getPureza(),
+                        quimico.getFecha_caducidad(),
+                        quimico.getFormato()
+                });
+            } else {
+                model.addRow(new Object[]{
+                        producto.getId_producto(),
+                        producto.getNombre(),
+                        producto.getCantidad(),
+                        producto.getStock_minimo(),
+                        producto.getUbicacion(),
+                        producto.getAlmacen()
+                });
+            }
+        }
+        // Establecer el modelo de la tabla
+        tablaProductos.setModel(model);
+    }
+    private void ordenarTablaNombreZA(DefaultTableModel model, int i) {
+        // Convertir los datos de la tabla a una lista
+        List<Producto> datos = new ArrayList<>(productos);
+
+        // Ordenar la lista por nombre
+        datos.sort(Comparator.comparing(Producto::getNombre).reversed());
+
+        // Limpiar la tabla
+        while (model.getRowCount() > 0) {
+            model.removeRow(0);
+        }
+
+        // Agregar los datos ordenados a la tabla
+        for (Producto producto : datos) {
+            if (producto instanceof Materiales) {
+                Materiales material = (Materiales) producto;
+                model.addRow(new Object[]{
+                        material.getId_producto(),
+                        material.getNombre(),
+                        material.getCantidad(),
+                        material.getStock_minimo(),
+                        material.getUbicacion(),
+                        material.getAlmacen(),
+                        material.getSubtipo(),
+                        material.getDescripcion(),
+                        material.getFecha_compra(),
+                        material.getNumero_serie()
+                });
+            } else if (producto instanceof Quimico) {
+                Quimico quimico = (Quimico) producto;
+                model.addRow(new Object[]{
+                        quimico.getId_producto(),
+                        quimico.getNombre(),
+                        quimico.getCantidad(),
+                        quimico.getStock_minimo(),
+                        quimico.getUbicacion(),
+                        quimico.getAlmacen(),
+                        quimico.getPureza(),
+                        quimico.getFecha_caducidad(),
+                        quimico.getFormato()
+                });
+            } else {
+                model.addRow(new Object[]{
+                        producto.getId_producto(),
+                        producto.getNombre(),
+                        producto.getCantidad(),
+                        producto.getStock_minimo(),
+                        producto.getUbicacion(),
+                        producto.getAlmacen()
+                });
+            }
+        }
+        // Establecer el modelo de la tabla
+        tablaProductos.setModel(model);
+    }
+
     private void TFBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFBuscarActionPerformed
         // TODO add your handling code here:
 
@@ -285,6 +453,7 @@ public class Buscar extends javax.swing.JPanel {
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarBoton1ActionPerformed
         // TODO add your handling code here:
         try {
+
             tablaProductos.setVisible(true);
 
             productos = Conexion.buscarProductos(TFBuscar.getText());
@@ -317,7 +486,7 @@ public class Buscar extends javax.swing.JPanel {
                             material.getStock_minimo(),
                             material.getUbicacion(),
                             material.getAlmacen(),
-                            material.getTipo(),
+                            material.getSubtipo(),
                             material.getDescripcion(),
                             material.getFecha_compra(),
                             material.getNumero_serie()
@@ -359,7 +528,7 @@ public class Buscar extends javax.swing.JPanel {
 
     }//GEN-LAST:event_BuscarBoton1ActionPerformed
 
-    private void ordenarTabla(DefaultTableModel modelo, int columna) {
+    private void ordenarTablaCantidad(DefaultTableModel modelo, int columna) {
         // Convertir los datos de la tabla a una lista
         List<Producto> datos = new ArrayList<>(productos);
 
@@ -382,7 +551,7 @@ public class Buscar extends javax.swing.JPanel {
                         material.getStock_minimo(),
                         material.getUbicacion(),
                         material.getAlmacen(),
-                        material.getTipo(),
+                        material.getSubtipo(),
                         material.getDescripcion(),
                         material.getFecha_compra(),
                         material.getNumero_serie()
@@ -414,6 +583,7 @@ public class Buscar extends javax.swing.JPanel {
         // Establecer el modelo de la tabla
         tablaProductos.setModel(modelo);
     }
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

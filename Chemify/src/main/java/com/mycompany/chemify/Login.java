@@ -239,6 +239,10 @@ public class Login extends javax.swing.JFrame {
 
         boolean isValidUser = Conexion.validarUsuario(username, password);
         String typeuser = Conexion.getTypeUser(username, password);
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña vacíos");
+            return;
+        }
         if (isValidUser) {
             JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
             Conexion.cerrar();

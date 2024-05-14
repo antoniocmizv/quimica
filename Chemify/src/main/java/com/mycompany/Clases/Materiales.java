@@ -1,28 +1,28 @@
 package com.mycompany.Clases;
 
 public class Materiales extends Producto {
-    private String tipo;
+    private String subtipo;
     private String descripcion;
     private String fecha_compra;
     private String numero_serie;
 
 
     public Materiales(String id_producto, String nombre, int cantidad, int stock_minimo, String ubicacion,
-                      String almacen, String tipo, String descripcion, String fecha_compra, String numero_serie) {
-        super(id_producto, nombre, cantidad, stock_minimo, ubicacion, almacen);
-        this.tipo = tipo;
+                      String almacen, int id_almacen, int id_ubicacion, String tipo, String descripcion, String fecha_compra, String numero_serie) {
+        super(id_producto, nombre, cantidad, stock_minimo, ubicacion, almacen, id_almacen, id_ubicacion);
+        this.subtipo = tipo;
         this.descripcion = descripcion;
         this.fecha_compra = fecha_compra;
         this.numero_serie = numero_serie;
 
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getSubtipo() {
+        return subtipo;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setSubtipo(String subtipo) {
+        this.subtipo = subtipo;
     }
 
     public String getDescripcion() {
@@ -52,7 +52,7 @@ public class Materiales extends Producto {
     @Override
     public String toString() {
         return "Materiales{" +
-                "tipo='" + tipo + '\'' +
+                "tipo='" + subtipo + '\'' +
                 ", descripcion='" + descripcion + '\'' +
                 ", fecha_compra='" + fecha_compra + '\'' +
                 ", numero_serie='" + numero_serie + '\'' +

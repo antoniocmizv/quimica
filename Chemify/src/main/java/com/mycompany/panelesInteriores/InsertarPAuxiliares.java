@@ -4,6 +4,9 @@
  */
 package com.mycompany.panelesInteriores;
 
+import com.mycompany.Clases.ProductoAuxiliar;
+import com.mycompany.ConexionSQL.Conexion;
+
 /**
  *
  * @author mario
@@ -15,6 +18,42 @@ public class InsertarPAuxiliares extends javax.swing.JPanel {
      */
     public InsertarPAuxiliares() {
         initComponents();
+        //relleno los combox con una consulta a la base de datos
+        String[] localicaciones = Conexion.obtenerLocalizaciones();
+        CBLocR.setModel(new javax.swing.DefaultComboBoxModel<>(localicaciones));
+
+        CBLocR.addActionListener(e -> {
+            String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocR.getSelectedItem().toString());
+            CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
+        });
+        String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocR.getSelectedItem().toString());
+        CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
+
+        //añado un action listener al boton insertar
+        BInsertarM.addActionListener(e -> {
+            //Creo un objeto Material con los datos del formulario
+            String nombre = NombrePA.getText();
+            int cantidad = Integer.parseInt(CantidadPA.getText());
+            int stockMinimo = Integer.parseInt(StockMinimoM.getText());
+            String formato = FormatoPA.getText();
+            String ubicacion = (String) CBUbiR.getSelectedItem();
+            String localizacion = (String) CBLocR.getSelectedItem();
+
+            int id_almacen = Conexion.obtenerIdAlmacen(localizacion);
+            int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
+            ProductoAuxiliar pa = new ProductoAuxiliar("1",nombre,cantidad,stockMinimo,ubicacion,localizacion,
+                    id_almacen,id_ubicacion,formato);
+            Conexion.insertarProductoAuxiliar(pa);
+            //limipo los campos
+            NombrePA.setText("");
+            CantidadPA.setText("");
+            StockMinimoM.setText("");
+            FormatoPA.setText("");
+            CBUbiR.setSelectedIndex(0);
+            CBLocR.setSelectedIndex(0);
+            //mensaje de confirmacion
+            javax.swing.JOptionPane.showMessageDialog(null, "Material insertado correctamente");
+        });
     }
 
     /**

@@ -4,7 +4,10 @@
  */
 package com.mycompany.panelesInteriores;
 
+import com.mycompany.Clases.Materiales;
 import com.mycompany.ConexionSQL.Conexion;
+
+import javax.swing.*;
 
 /**
  *
@@ -18,11 +21,52 @@ public class InsertarMateriales extends javax.swing.JPanel {
     public InsertarMateriales() {
         initComponents();
         //relleno los combox con una consulta a la base de datos
-        String[] ubicaciones = Conexion.obtenerUbicaciones();
-        CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
-
+        //sinconizo los datos de las ubicaciones en funcion de la localizacion seleccionada
         String[] localicaciones = Conexion.obtenerLocalizaciones();
         CBLocM.setModel(new javax.swing.DefaultComboBoxModel<>(localicaciones));
+
+        CBLocM.addActionListener(e -> {
+            String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocM.getSelectedItem().toString());
+            CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
+        });
+
+
+        String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocM.getSelectedItem().toString());
+        CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
+
+        //añado un action listener al boton insertar
+        BInsertarM.addActionListener(e -> {
+            //Creo un objeto Material con los datos del formulario
+            String nombre = NombreM3.getText();
+            int cantidad = Integer.parseInt(CantidadM2.getText());
+            int stockMinimo = Integer.parseInt(StockMinimoM1.getText());
+            String tipo = tipoTF.getText();
+            String fechaCompra = FechaComM.getText();
+            String numeroSerie = NSerieM1.getText();
+            String descripcion = TADesM.getText();
+            String ubicacion = (String) CBUbiM1.getSelectedItem();
+            String localizacion = (String) CBLocM.getSelectedItem();
+
+            int id_almacen = Conexion.obtenerIdAlmacen(localizacion);
+            int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
+            Materiales material = new Materiales("1",nombre,cantidad,stockMinimo,ubicacion,localizacion,
+                    id_almacen,id_ubicacion,tipo,descripcion,fechaCompra,numeroSerie);
+            Conexion.insertarMaterial(material);
+            //limipo los campos
+            NombreM3.setText("");
+            CantidadM2.setText("");
+            StockMinimoM1.setText("");
+            tipoTF.setText("");
+            FechaComM.setText("");
+            NSerieM1.setText("");
+            TADesM.setText("");
+            CBUbiM1.setSelectedIndex(0);
+            CBLocM.setSelectedIndex(0);
+            //mensaje de confirmacion
+            JOptionPane.showMessageDialog(null, "Material insertado correctamente");
+
+        });
+
 
     }
 
@@ -40,14 +84,11 @@ public class InsertarMateriales extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         FechaComM = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        FormatoM1 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         CBLocM = new javax.swing.JComboBox<>();
-        CBTipoM = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        CantidadM1 = new javax.swing.JTextField();
+        tipoTF = new javax.swing.JTextField();
         CBUbiM1 = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         NombreM3 = new javax.swing.JTextField();
@@ -57,6 +98,7 @@ public class InsertarMateriales extends javax.swing.JPanel {
         StockMinimoM1 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         NSerieM1 = new javax.swing.JTextField();
+        CantidadM2 = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(222, 255, 238));
         setPreferredSize(new java.awt.Dimension(1046, 656));
@@ -76,31 +118,24 @@ public class InsertarMateriales extends javax.swing.JPanel {
             }
         });
         add(BInsertarM);
-        BInsertarM.setBounds(430, 510, 160, 40);
+        BInsertarM.setBounds(450, 480, 160, 40);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Localización");
         add(jLabel3);
         jLabel3.setBounds(570, 30, 130, 30);
         add(FechaComM);
-        FechaComM.setBounds(420, 340, 190, 30);
+        FechaComM.setBounds(280, 130, 190, 30);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Nombre");
         add(jLabel4);
         jLabel4.setBounds(280, 30, 80, 25);
-        add(FormatoM1);
-        FormatoM1.setBounds(280, 130, 190, 30);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel5.setText("Descripción");
         add(jLabel5);
-        jLabel5.setBounds(390, 380, 190, 25);
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setText("Formato");
-        add(jLabel6);
-        jLabel6.setBounds(280, 100, 80, 25);
+        jLabel5.setBounds(470, 320, 190, 25);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Ubicación");
@@ -111,16 +146,12 @@ public class InsertarMateriales extends javax.swing.JPanel {
         add(CBLocM);
         CBLocM.setBounds(570, 60, 190, 30);
 
-        CBTipoM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        add(CBTipoM);
-        CBTipoM.setBounds(280, 270, 190, 30);
-
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel8.setText("Cantidad");
         add(jLabel8);
         jLabel8.setBounds(280, 170, 80, 25);
-        add(CantidadM1);
-        CantidadM1.setBounds(280, 200, 190, 30);
+        add(tipoTF);
+        tipoTF.setBounds(280, 270, 190, 30);
 
         CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         add(CBUbiM1);
@@ -129,7 +160,7 @@ public class InsertarMateriales extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel9.setText("Fecha de Compra");
         add(jLabel9);
-        jLabel9.setBounds(420, 310, 190, 25);
+        jLabel9.setBounds(280, 100, 190, 25);
         add(NombreM3);
         NombreM3.setBounds(280, 60, 190, 30);
 
@@ -138,7 +169,7 @@ public class InsertarMateriales extends javax.swing.JPanel {
         jScrollPane1.setViewportView(TADesM);
 
         add(jScrollPane1);
-        jScrollPane1.setBounds(390, 410, 234, 86);
+        jScrollPane1.setBounds(410, 360, 234, 86);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel10.setText("Stock Mínimo");
@@ -153,6 +184,8 @@ public class InsertarMateriales extends javax.swing.JPanel {
         jLabel11.setBounds(280, 240, 190, 25);
         add(NSerieM1);
         NSerieM1.setBounds(570, 270, 190, 30);
+        add(CantidadM2);
+        CantidadM2.setBounds(280, 200, 190, 30);
     }// </editor-fold>//GEN-END:initComponents
 
     private void BInsertarMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BInsertarMActionPerformed
@@ -164,11 +197,9 @@ public class InsertarMateriales extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BInsertarM;
     private javax.swing.JComboBox<String> CBLocM;
-    private javax.swing.JComboBox<String> CBTipoM;
     private javax.swing.JComboBox<String> CBUbiM1;
-    private javax.swing.JTextField CantidadM1;
+    private javax.swing.JTextField CantidadM2;
     private javax.swing.JTextField FechaComM;
-    private javax.swing.JTextField FormatoM1;
     private javax.swing.JTextField NSerieM1;
     private javax.swing.JTextField NombreM3;
     private javax.swing.JTextField StockMinimoM1;
@@ -179,10 +210,10 @@ public class InsertarMateriales extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField tipoTF;
     // End of variables declaration//GEN-END:variables
 }

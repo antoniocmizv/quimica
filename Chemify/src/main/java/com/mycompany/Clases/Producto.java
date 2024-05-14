@@ -1,20 +1,25 @@
 package com.mycompany.Clases;
 
-public class Producto {
- private String id_producto;
- private String nombre;
- private int cantidad;
- private int stock_minimo;
- private String ubicacion;
- private String almacen;
+public class Producto implements Comparable {
+    private String id_producto;
+    private String nombre;
+    private int cantidad;
+    private int stock_minimo;
+    private String ubicacion;
+    private String almacen;
+    private int id_almacen;
+    private int id_ubicacion;
 
-    public Producto(String id_producto, String nombre, int cantidad, int stock_minimo, String ubicacion, String almacen) {
+    public Producto(String id_producto, String nombre, int cantidad, int stock_minimo, String ubicacion,
+                    String almacen, int id_almacen, int id_ubicacion) {
         this.id_producto = id_producto;
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.stock_minimo = stock_minimo;
         this.ubicacion = ubicacion;
         this.almacen = almacen;
+        this.id_almacen = id_almacen;
+        this.id_ubicacion = id_ubicacion;
     }
 
     public String getId_producto() {
@@ -65,6 +70,22 @@ public class Producto {
         this.almacen = almacen;
     }
 
+    public int getId_almacen() {
+        return id_almacen;
+    }
+
+    public void setId_almacen(int id_almacen) {
+        this.id_almacen = id_almacen;
+    }
+
+    public int getId_ubicacion() {
+        return id_ubicacion;
+    }
+
+    public void setId_ubicacion(int id_ubicacion) {
+        this.id_ubicacion = id_ubicacion;
+    }
+
     @Override
     public String toString() {
         return "Producto{" +
@@ -75,5 +96,13 @@ public class Producto {
                 ", ubicacion='" + ubicacion + '\'' +
                 ", almacen='" + almacen + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Producto p = (Producto) o;
+        //comparo los productos por su nombre
+        return this.nombre.compareTo(p.getNombre());
+
     }
 }
