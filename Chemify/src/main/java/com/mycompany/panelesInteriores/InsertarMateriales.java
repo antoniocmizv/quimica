@@ -34,42 +34,77 @@ public class InsertarMateriales extends javax.swing.JPanel {
         String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocM.getSelectedItem().toString());
         CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
 
-        //añado un action listener al boton insertar
-        BInsertarM.addActionListener(e -> {
-            //Creo un objeto Material con los datos del formulario
-            String nombre = NombreM3.getText();
-            int cantidad = Integer.parseInt(CantidadM2.getText());
-            int stockMinimo = Integer.parseInt(StockMinimoM1.getText());
-            String tipo = tipoTF.getText();
-            String fechaCompra = FechaComM.getText();
-            String numeroSerie = NSerieM1.getText();
-            String descripcion = TADesM.getText();
-            String ubicacion = (String) CBUbiM1.getSelectedItem();
-            String localizacion = (String) CBLocM.getSelectedItem();
 
-            int id_almacen = Conexion.obtenerIdAlmacen(localizacion);
-            int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
-            Materiales material = new Materiales("1",nombre,cantidad,stockMinimo,ubicacion,localizacion,
-                    id_almacen,id_ubicacion,tipo,descripcion,fechaCompra,numeroSerie);
-            Conexion.insertarMaterial(material);
-            //limipo los campos
-            NombreM3.setText("");
-            CantidadM2.setText("");
-            StockMinimoM1.setText("");
-            tipoTF.setText("");
-            FechaComM.setText("");
-            NSerieM1.setText("");
-            TADesM.setText("");
-            CBUbiM1.setSelectedIndex(0);
-            CBLocM.setSelectedIndex(0);
-            //mensaje de confirmacion
-            JOptionPane.showMessageDialog(null, "Material insertado correctamente");
+            BInsertarM.addActionListener(e -> {
+                //Creo un objeto Material con los datos del formulario
+                   try {
+                        //Compruebo que los campos no esten vacios
+                        if (NombreM3.getText().isEmpty() || CantidadM2.getText().isEmpty() || StockMinimoM1.getText().isEmpty() ||
+                                tipoTF.getText().isEmpty() || FechaComM.getText().isEmpty() || NSerieM1.getText().isEmpty() ||
+                                TADesM.getText().isEmpty()){
+                            javax.swing.JOptionPane.showMessageDialog(null, "Rellene todos los campos");
+                            return;
+                        }
+                    } catch (Exception ex) {
+                        javax.swing.JOptionPane.showMessageDialog(null, "Rellene todos los campos");
+                        return;
+                    }try {
+                        //Compruebo que los campos numericos sean numericos
+                        Integer.parseInt(CantidadM2.getText());
+                        Integer.parseInt(StockMinimoM1.getText());
+                    } catch (Exception ex) {
+                        javax.swing.JOptionPane.showMessageDialog(null, "Cantidad y Stock Minimo deben ser numeros");
+                        limpiarCampos();
+                        return;
+                   }
+                    String nombre = NombreM3.getText();
+                    int cantidad = Integer.parseInt(CantidadM2.getText());
+                    int stockMinimo = Integer.parseInt(StockMinimoM1.getText());
+                    String tipo = tipoTF.getText();
+                    String fechaCompra = FechaComM.getText();
+                    String numeroSerie = NSerieM1.getText();
+                    String descripcion = TADesM.getText();
+                    String ubicacion = (String) CBUbiM1.getSelectedItem();
+                    String localizacion = (String) CBLocM.getSelectedItem();
 
-        });
+                    int id_almacen = Conexion.obtenerIdAlmacen(localizacion);
+                    int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
+                    Materiales material = new Materiales("1",nombre,cantidad,stockMinimo,ubicacion,localizacion,
+                            id_almacen,id_ubicacion,tipo,descripcion,fechaCompra,numeroSerie);
+                    Conexion.insertarMaterial(material);
+                    //limipo los campos
+                    NombreM3.setText("");
+                    CantidadM2.setText("");
+                    StockMinimoM1.setText("");
+                    tipoTF.setText("");
+                    FechaComM.setText("");
+                    NSerieM1.setText("");
+                    TADesM.setText("");
+                    CBUbiM1.setSelectedIndex(0);
+                    CBLocM.setSelectedIndex(0);
+                    //mensaje de confirmacion
+                    JOptionPane.showMessageDialog(null, "Material insertado correctamente");
+
+
+
+            });
+
+
+
 
 
     }
-
+    public void limpiarCampos(){
+        NombreM3.setText("");
+        CantidadM2.setText("");
+        StockMinimoM1.setText("");
+        tipoTF.setText("");
+        FechaComM.setText("");
+        NSerieM1.setText("");
+        TADesM.setText("");
+        CBUbiM1.setSelectedIndex(0);
+        CBLocM.setSelectedIndex(0);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

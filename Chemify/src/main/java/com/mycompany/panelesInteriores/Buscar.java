@@ -60,6 +60,8 @@ public class Buscar extends javax.swing.JPanel {
         Nombreza = new javax.swing.JCheckBox();
         TFBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                //si clicas dos veces en el textfield se borra su contenido
+                if (evt.getClickCount() == 2)
                 TFBuscar.setText("");
             }
         });
@@ -284,8 +286,9 @@ public class Buscar extends javax.swing.JPanel {
         // Convertir los datos de la tabla a una lista
         List<Producto> datos = new ArrayList<>(productos);
 
-        // Ordenar la lista por nombre
+        // Ordenar la lista por nombre usando el comparable de la clase producto
         datos.sort(Comparator.comparing(Producto::getNombre));
+
 
         // Limpiar la tabla
         while (model.getRowCount() > 0) {

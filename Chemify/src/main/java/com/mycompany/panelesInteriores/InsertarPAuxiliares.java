@@ -31,6 +31,26 @@ public class InsertarPAuxiliares extends javax.swing.JPanel {
 
         //añado un action listener al boton insertar
         BInsertarM.addActionListener(e -> {
+            try {
+                //Compruebo que los campos no esten vacios
+                if (NombrePA.getText().isEmpty() || CantidadPA.getText().isEmpty() || StockMinimoM.getText().isEmpty() ||
+                        FormatoPA.getText().isEmpty() ){
+                    javax.swing.JOptionPane.showMessageDialog(null, "Rellene todos los campos");
+                    return;
+                }
+            } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Rellene todos los campos");
+                return;
+            }try {
+                //Compruebo que los campos numericos sean numericos
+                Integer.parseInt(CantidadPA.getText());
+                Integer.parseInt(StockMinimoM.getText());
+            } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Cantidad y Stock Minimo deben ser numeros");
+                limpiarCampos();
+                return;
+            }
+
             //Creo un objeto Material con los datos del formulario
             String nombre = NombrePA.getText();
             int cantidad = Integer.parseInt(CantidadPA.getText());
@@ -140,7 +160,14 @@ public class InsertarPAuxiliares extends javax.swing.JPanel {
         add(BInsertarM);
         BInsertarM.setBounds(430, 520, 160, 40);
     }// </editor-fold>//GEN-END:initComponents
-
+    private void limpiarCampos() {
+        NombrePA.setText("");
+        CantidadPA.setText("");
+        StockMinimoM.setText("");
+        FormatoPA.setText("");
+        CBUbiR.setSelectedIndex(0);
+        CBLocR.setSelectedIndex(0);
+    }
     private void BInsertarMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BInsertarMActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BInsertarMActionPerformed

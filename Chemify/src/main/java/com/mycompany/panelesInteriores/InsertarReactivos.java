@@ -36,6 +36,27 @@ public class InsertarReactivos extends javax.swing.JPanel {
 
         //añado un action listener al boton insertar
         BInsertarM.addActionListener(e -> {
+            try {
+                //Compruebo que los campos no esten vacios
+                if (NombreR.getText().isEmpty() || CantidadR.getText().isEmpty() || StockMinimoR.getText().isEmpty() ||
+                        GradoPurezaR.getText().isEmpty() || FechaCaducidadR.getText().isEmpty()){
+                    javax.swing.JOptionPane.showMessageDialog(null, "Rellene todos los campos");
+                    return;
+                }
+            } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Rellene todos los campos");
+                return;
+            }
+            try {
+                //Compruebo que los campos numericos sean numericos
+                Integer.parseInt(CantidadR.getText());
+                Integer.parseInt(StockMinimoR.getText());
+            } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Cantidad y Stock Minimo deben ser numeros");
+                //limpio los campos
+                limpiarCampos();
+                return;
+            }
             //Creo un objeto Material con los datos del formulario
             String nombre = NombreR.getText();
             int cantidad = Integer.parseInt(CantidadR.getText());
@@ -186,7 +207,15 @@ public class InsertarReactivos extends javax.swing.JPanel {
     private void BInsertarMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BInsertarMActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BInsertarMActionPerformed
-
+    private void limpiarCampos() {
+        NombreR.setText("");
+        CantidadR.setText("");
+        StockMinimoR.setText("");
+        GradoPurezaR.setText("");
+        FechaCaducidadR.setText("");
+        CBUbiR.setSelectedIndex(0);
+        CBLocR1.setSelectedIndex(0);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BInsertarM;

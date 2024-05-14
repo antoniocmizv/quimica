@@ -32,6 +32,7 @@ public class Conexion implements ConexionManager {
             return false;
         }
 
+
     }
 
     public static String getTypeUser(String username, String password) {
@@ -445,8 +446,6 @@ public class Conexion implements ConexionManager {
 
         } catch (SQLException ex) {
             System.out.println(ex);
-        } finally {
-            cerrar();
         }
 
     }
@@ -509,9 +508,6 @@ public class Conexion implements ConexionManager {
             }
         } catch (SQLException ex) {
             System.out.println(ex);
-        } finally {
-            // Cerrar recursos (ResultSet, PreparedStatement, Connection)
-            // Manejar excepciones de cierre adecuadamente
         }
 
     }

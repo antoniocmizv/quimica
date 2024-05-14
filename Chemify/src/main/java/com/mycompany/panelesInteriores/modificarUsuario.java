@@ -9,10 +9,10 @@ import com.mycompany.ConexionSQL.Conexion;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- *
  * @author Mario Ortega
  */
 public class modificarUsuario extends javax.swing.JPanel {
@@ -29,26 +29,36 @@ public class modificarUsuario extends javax.swing.JPanel {
         modelo.addColumn("Tipo de Usuario");
         jTable1.setModel(modelo);
         //añado los usuarios actuales
-       ArrayList<User> usuarios = Conexion.obtenerUsuarios();
-       for (User usuario : usuarios) {
-           modelo.addRow(new Object[]{usuario.getUsername(), usuario.getPassword(), usuario.getType()});
-       }
-         //defino el combobox de tipo de usuario
+        ArrayList<User> usuarios = Conexion.obtenerUsuarios();
+        for (User usuario : usuarios) {
+            modelo.addRow(new Object[]{usuario.getUsername(), usuario.getPassword(), usuario.getType()});
+        }
+        //defino el combobox de tipo de usuario
         TipoUsuario.removeAllItems();
         TipoUsuario.addItem("admin");
         TipoUsuario.addItem("user");
 
         //añado el action listener al boton de añadir usuario
         jButton1.addActionListener(e -> {
-            String nombre = NUsuario.getText();
-            String contraseña = CUsuario.getText();
-            String tipo = (String) TipoUsuario.getSelectedItem();
-            User usuario = new User(nombre, contraseña, tipo);
-            Conexion.insertarUsuario(usuario);
-            modelo.addRow(new Object[]{nombre, contraseña, tipo});
-            NUsuario.setText("");
-            CUsuario.setText("");
+            try {
+                String nombre = NUsuario.getText().trim();
+                String contraseña = CUsuario.getText().trim();
+                String tipo = (String) TipoUsuario.getSelectedItem();
 
+                // Validación de entrada
+                if (nombre.isEmpty() || contraseña.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "El nombre y la contraseña no pueden estar vacíos.");
+                    return;
+                }
+                User usuario = new User(nombre, contraseña, tipo);
+                Conexion.insertarUsuario(usuario);
+                modelo.addRow(new Object[]{nombre, contraseña, tipo});
+                NUsuario.setText("");
+                CUsuario.setText("");
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+            }
         });
         //añado el listener de click derecho para eliminar un usuario
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -122,7 +132,7 @@ public class modificarUsuario extends javax.swing.JPanel {
         add(jButton1);
         jButton1.setBounds(100, 480, 130, 30);
 
-        TipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        TipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
         add(TipoUsuario);
         TipoUsuario.setBounds(110, 400, 120, 22);
 
@@ -132,15 +142,15 @@ public class modificarUsuario extends javax.swing.JPanel {
         jLabel3.setBounds(90, 270, 160, 40);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new Object[][]{
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                },
+                new String[]{
+                        "Title 1", "Title 2", "Title 3", "Title 4"
+                }
         ));
         jScrollPane1.setViewportView(jTable1);
 
