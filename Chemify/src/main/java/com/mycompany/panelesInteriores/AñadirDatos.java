@@ -4,9 +4,25 @@
  */
 package com.mycompany.panelesInteriores;
 
+import com.mycompany.Clases.Materiales;
+import com.mycompany.Clases.Producto;
+import com.mycompany.Clases.ProductoAuxiliar;
+import com.mycompany.Clases.Quimico;
 import com.mycompany.ConexionSQL.Conexion;
+import com.mycompany.panelesActualizar.ActualizarM;
+import com.mycompany.panelesActualizar.ActualizarPA;
+import com.mycompany.panelesActualizar.ActualizarR;
+import com.mycompany.popUp.PopUpM;
+import com.mycompany.popUp.PopUpPA;
+import com.mycompany.popUp.PopUpR;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  *
@@ -86,6 +102,50 @@ public class AñadirDatos extends javax.swing.JPanel {
                     break;
                 default:
                     break;
+            }
+        });
+
+        //añado un listener a la tabla para que el click derecho borre
+        jTable1.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                JTable table = (JTable) me.getSource();
+                Point p = me.getPoint();
+                int row = table.rowAtPoint(p);
+                if (me.getButton() == MouseEvent.BUTTON3) {
+                    JPopupMenu popup = new JPopupMenu();
+                    JMenuItem menuItem2 = new JMenuItem("Eliminar");
+                    popup.add(menuItem2);
+                    popup.show(table, me.getX(), me.getY());
+                    menuItem2.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Aquí va el código para eliminar el producto
+                            //obtengo el valor seleccionado en la tabla
+                            String valor = (String) jTable1.getValueAt(row, 0);
+
+
+                            //mensaje de verificacion
+                            int dialogButton = JOptionPane.YES_NO_OPTION;
+                            int dialogResult = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el campo?", "Warning", dialogButton);
+                            if (dialogResult == JOptionPane.YES_OPTION) {
+                                // Eliminar el producto
+                                if (jComboBox1.getSelectedItem().equals("Formato")) {
+                                    Conexion.eliminarFormato(valor);
+                                    rellenarTablaFormato();
+                                } else if (jComboBox1.getSelectedItem().equals("Ubicación")) {
+                                    Conexion.eliminarUbicacion(valor);
+                                    rellenarTablaUbicaciones();
+                                } else if (jComboBox1.getSelectedItem().equals("Almacen")) {
+                                    Conexion.eliminarLocalizacion(valor);
+                                    rellenarTablaLocalizaciones();
+                                }
+                                JOptionPane.showMessageDialog(null, "Registro eliminado");
+
+                            }
+
+                        }
+                    });
+                }
             }
         });
 

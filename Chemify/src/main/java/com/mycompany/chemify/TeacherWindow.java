@@ -48,6 +48,8 @@ public class TeacherWindow extends javax.swing.JFrame {
             SistemaAlertasStock.verificarStock();
         });
 
+
+
     }
 
     /**

@@ -672,6 +672,42 @@ public class Conexion implements ConexionManager {
         }
     }
 
+    public static void eliminarFormato(String valor) {
+        try {
+            conexion = conecta();
+            String sql = "DELETE FROM formato WHERE formato = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, valor);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public static void eliminarUbicacion(String valor) {
+        try {
+            conexion = conecta();
+            String sql = "DELETE FROM ubicaciones WHERE nombre_ubicacion = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, valor);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public static void eliminarLocalizacion(String valor) {
+        try {
+            conexion = conecta();
+            String sql = "DELETE FROM salas WHERE nombre_almacen = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, valor);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
     @Override
     public void insertar(Producto p) {
 
