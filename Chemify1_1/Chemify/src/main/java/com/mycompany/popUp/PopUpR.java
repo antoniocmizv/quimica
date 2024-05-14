@@ -4,7 +4,7 @@
  */
 package com.mycompany.popUp;
 
-import com.mycompany.Clases.Quimico;
+import com.mycompany.Clases.objetos.Quimico;
 
 import javax.swing.*;
 import java.net.URL;
@@ -117,7 +117,7 @@ public class PopUpR extends javax.swing.JFrame {
         GraTF = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(44, 171, 182));
         jPanel1.setLayout(null);
@@ -132,18 +132,18 @@ public class PopUpR extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(175, 175, 175)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(175, Short.MAX_VALUE))
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(175, 175, 175)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(175, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(34, Short.MAX_VALUE))
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2);
@@ -152,7 +152,7 @@ public class PopUpR extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Ubicación");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(460, 140, 80, 25);
+        jLabel7.setBounds(460, 140, 160, 25);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Nombre");
@@ -209,8 +209,6 @@ public class PopUpR extends javax.swing.JFrame {
         jLabel10.setText("Fecha de Caducidad");
         jPanel1.add(jLabel10);
         jLabel10.setBounds(460, 280, 190, 25);
-
-        PicJL.setIcon(new ImageIcon("C:\\Users\\Mario\\Downloads\\biologico.png")); // NOI18N
         jPanel1.add(PicJL);
         PicJL.setBounds(260, 500, 250, 250);
 
@@ -235,12 +233,12 @@ public class PopUpR extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
 
         pack();

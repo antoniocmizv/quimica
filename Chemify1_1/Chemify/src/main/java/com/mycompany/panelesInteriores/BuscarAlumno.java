@@ -4,10 +4,10 @@
  */
 package com.mycompany.panelesInteriores;
 
-import com.mycompany.Clases.Materiales;
-import com.mycompany.Clases.Producto;
-import com.mycompany.Clases.ProductoAuxiliar;
-import com.mycompany.Clases.Quimico;
+import com.mycompany.Clases.objetos.Materiales;
+import com.mycompany.Clases.objetos.Producto;
+import com.mycompany.Clases.objetos.ProductoAuxiliar;
+import com.mycompany.Clases.objetos.Quimico;
 import com.mycompany.ConexionSQL.Conexion;
 
 import javax.swing.*;

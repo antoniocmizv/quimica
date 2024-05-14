@@ -4,8 +4,8 @@
  */
 package com.mycompany.panelesActualizar;
 
-import com.mycompany.Clases.Materiales;
-import com.mycompany.Clases.Producto;
+import com.mycompany.Clases.objetos.Materiales;
+import com.mycompany.Clases.objetos.Producto;
 import com.mycompany.ConexionSQL.Conexion;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ import javax.swing.*;
 /**
  * @author mario
  */
-public class ActualizarM extends javax.swing.JFrame {
+public class ActualizarM extends JFrame {
 
     /**
      * Creates new form Insertar
@@ -34,194 +34,211 @@ public class ActualizarM extends javax.swing.JFrame {
         FechaComM.setText(pm.getFecha_compra());
         NSerieM1.setText(pm.getNumero_serie());
         TADesM.setText(pm.getDescripcion());
-        // Para los JComboBox, necesitarás tener una lista de las posibles opciones y seleccionar la correcta
-        // Aquí hay un ejemplo con CBUbiM1, asumiendo que tienes una lista de ubicaciones
-        String[] ubicaciones = Conexion.obtenerUbicaciones();
-        CBUbiM1.setModel(new DefaultComboBoxModel<>(ubicaciones));
-        CBUbiM1.setSelectedItem(p.getUbicacion());
+
+        String[] localicaciones = Conexion.obtenerLocalizaciones();
+        CBLocM.setModel(new javax.swing.DefaultComboBoxModel<>(localicaciones));
+
+        CBLocM.addActionListener(e -> {
+            String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocM.getSelectedItem().toString());
+            CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
+        });
+
+
+        String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocM.getSelectedItem().toString());
+        CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
 
         //Creo un objeto Material con los datos del formulario
 
         try {
+            // El bloque try debería comenzar desde aquí
 
-            BInsertarM.addActionListener(e ->
+            // Agrega un listener al botón de inserción
+            BInsertarM.addActionListener(e -> {
+                try {
+                    // Obtiene los valores de los campos de entrada
+                    String nombre = NombreM3.getText();
+                    int cantidad = Integer.parseInt(CantidadM2.getText());
+                    int stockMinimo = Integer.parseInt(StockMinimoM1.getText());
+                    String tipo = tipoTF.getText();
+                    String fechaCompra = FechaComM.getText();
+                    String numeroSerie = NSerieM1.getText();
+                    String descripcion = TADesM.getText();
+                    String ubicacion = (String) CBUbiM1.getSelectedItem();
+                    String localizacion = (String) CBLocM.getSelectedItem();
 
-            {
-                String nombre = NombreM3.getText();
-                int cantidad = Integer.parseInt(CantidadM2.getText());
-                int stockMinimo = Integer.parseInt(StockMinimoM1.getText());
-                String tipo = tipoTF.getText();
-                String fechaCompra = FechaComM.getText();
-                String numeroSerie = NSerieM1.getText();
-                String descripcion = TADesM.getText();
-                String ubicacion = (String) CBUbiM1.getSelectedItem();
-                String localizacion = (String) CBLocM.getSelectedItem();
+                    // Obtén los valores de id_almacen e id_ubicacion según tu implementación
+                    int idAlmacen = Conexion.obtenerIdAlmacen(localizacion);
+                    int idUbicacion = Conexion.obtenerIdUbicacion(ubicacion);
 
-                // Aquí necesitarás obtener los valores de id_almacen e id_ubicacion
-                // Estos valores dependen de tu implementación y de cómo estés manejando los almacenes y las ubicaciones
-                int idAlmacen = p.getId_almacen(); // Reemplaza esto con el valor correcto
-                int idUbicacion = p.getId_ubicacion(); // Reemplaza esto con el valor correcto
+                    // Crea un objeto de tipo Materiales con los valores obtenidos
+                    Materiales m = new Materiales(p.getId_producto(), nombre, cantidad, stockMinimo, ubicacion, localizacion, idAlmacen, idUbicacion, tipo, descripcion, fechaCompra, numeroSerie);
 
-                Materiales m = new Materiales(p.getId_producto(), nombre, cantidad, stockMinimo, ubicacion, localizacion, idAlmacen, idUbicacion, tipo, descripcion, fechaCompra, numeroSerie);
+                    // Actualiza el producto utilizando el objeto m
+                    Conexion.actualizarMaterial(m);
 
-                // Aquí puedes hacer lo que necesites con el objeto m
-                // Por ejemplo, puedes agregarlo a una lista, actualizar la base de datos, etc.
-                Conexion.actualizarProducto(m);
-                System.out.println("Producto actualizado");
-                this.setVisible(false);
+                    // Muestra un mensaje indicando que el producto se actualizó correctamente
+                    JOptionPane.showMessageDialog(null, "Producto actualizado correctamente");
+
+                    // Oculta la ventana actual
+                    this.setVisible(false);
+                } catch (NumberFormatException ex) {
+                    // Muestra un mensaje si hay un error de formato en los campos de cantidad o stock mínimo
+                    JOptionPane.showMessageDialog(null, "Por favor, introduce un número válido en los campos Cantidad y Stock Mínimo");
+                }
             });
         } catch (NumberFormatException e) {
+            // Este catch no tiene sentido aquí, ya que no hay ninguna operación numérica directamente dentro del bloque try
             JOptionPane.showMessageDialog(null, "Por favor, introduce un número válido en los campos Cantidad y Stock Mínimo");
         }
-    //Actualizo el producto en la base de datos añadiendo el listener
+
+        //Actualizo el producto en la base de datos añadiendo el listener
 
 
+    }
 
-}
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-/**
- * This method is called from within the constructor to initialize the form.
- * WARNING: Do NOT modify this code. The content of this method is always
- * regenerated by the Form Editor.
- */
-@SuppressWarnings("unchecked")
-// <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-private void initComponents() {
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        BInsertarM = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        FechaComM = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        CBLocM = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        tipoTF = new javax.swing.JTextField();
+        CBUbiM1 = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        NombreM3 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TADesM = new javax.swing.JTextArea();
+        jLabel10 = new javax.swing.JLabel();
+        StockMinimoM1 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        NSerieM1 = new javax.swing.JTextField();
+        CantidadM2 = new javax.swing.JTextField();
 
-    jLabel2 = new javax.swing.JLabel();
-    BInsertarM = new javax.swing.JButton();
-    jLabel3 = new javax.swing.JLabel();
-    FechaComM = new javax.swing.JTextField();
-    jLabel4 = new javax.swing.JLabel();
-    jLabel5 = new javax.swing.JLabel();
-    jLabel7 = new javax.swing.JLabel();
-    CBLocM = new javax.swing.JComboBox<>();
-    jLabel8 = new javax.swing.JLabel();
-    tipoTF = new javax.swing.JTextField();
-    CBUbiM1 = new javax.swing.JComboBox<>();
-    jLabel9 = new javax.swing.JLabel();
-    NombreM3 = new javax.swing.JTextField();
-    jScrollPane1 = new javax.swing.JScrollPane();
-    TADesM = new javax.swing.JTextArea();
-    jLabel10 = new javax.swing.JLabel();
-    StockMinimoM1 = new javax.swing.JTextField();
-    jLabel11 = new javax.swing.JLabel();
-    NSerieM1 = new javax.swing.JTextField();
-    CantidadM2 = new javax.swing.JTextField();
+        setBackground(new java.awt.Color(222, 255, 238));
+        setPreferredSize(new java.awt.Dimension(1046, 656));
+        getContentPane().setLayout(null);
 
-    setBackground(new java.awt.Color(255, 255, 255));
-    setPreferredSize(new java.awt.Dimension(1046, 656));
-    getContentPane().setLayout(null);
+        jPanel1.setBackground(new java.awt.Color(222, 255, 238));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1046, 656));
+        jPanel1.setLayout(null);
 
-    jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-    jLabel2.setText("Nº Serie");
-    getContentPane().add(jLabel2);
-    jLabel2.setBounds(570, 240, 190, 25);
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setText("Nº Serie");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(570, 240, 190, 25);
 
-    BInsertarM.setBackground(new java.awt.Color(0, 102, 102));
-    BInsertarM.setForeground(new java.awt.Color(142, 190, 255));
-    BInsertarM.setText("Actualizar");
-    BInsertarM.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            BInsertarMActionPerformed(evt);
-        }
-    });
-    getContentPane().add(BInsertarM);
-    BInsertarM.setBounds(430, 510, 160, 40);
+        BInsertarM.setBackground(new java.awt.Color(0, 102, 102));
+        BInsertarM.setForeground(new java.awt.Color(255, 255, 255));
+        BInsertarM.setText("Actualizar");
+        jPanel1.add(BInsertarM);
+        BInsertarM.setBounds(430, 510, 160, 40);
 
-    jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-    jLabel3.setText("Localización");
-    getContentPane().add(jLabel3);
-    jLabel3.setBounds(570, 30, 130, 30);
-    getContentPane().add(FechaComM);
-    FechaComM.setBounds(280, 140, 190, 30);
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setText("Localización");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(570, 30, 130, 30);
+        jPanel1.add(FechaComM);
+        FechaComM.setBounds(280, 140, 190, 30);
 
-    jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-    jLabel4.setText("Nombre");
-    getContentPane().add(jLabel4);
-    jLabel4.setBounds(280, 30, 80, 25);
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel4.setText("Nombre");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(280, 30, 80, 25);
 
-    jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-    jLabel5.setText("Descripción");
-    getContentPane().add(jLabel5);
-    jLabel5.setBounds(390, 380, 190, 25);
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel5.setText("Descripción");
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(390, 380, 190, 25);
 
-    jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-    jLabel7.setText("Ubicación");
-    getContentPane().add(jLabel7);
-    jLabel7.setBounds(570, 100, 140, 25);
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel7.setText("Ubicación");
+        jPanel1.add(jLabel7);
+        jLabel7.setBounds(570, 100, 140, 25);
 
-    CBLocM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
-    getContentPane().add(CBLocM);
-    CBLocM.setBounds(570, 60, 190, 30);
+        CBLocM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(CBLocM);
+        CBLocM.setBounds(570, 60, 190, 30);
 
-    jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-    jLabel8.setText("Cantidad");
-    getContentPane().add(jLabel8);
-    jLabel8.setBounds(280, 170, 80, 25);
-    getContentPane().add(tipoTF);
-    tipoTF.setBounds(280, 270, 200, 30);
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel8.setText("Cantidad");
+        jPanel1.add(jLabel8);
+        jLabel8.setBounds(280, 170, 80, 25);
+        jPanel1.add(tipoTF);
+        tipoTF.setBounds(280, 270, 190, 30);
 
-    CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
-    getContentPane().add(CBUbiM1);
-    CBUbiM1.setBounds(570, 130, 190, 30);
+        CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(CBUbiM1);
+        CBUbiM1.setBounds(570, 130, 190, 30);
 
-    jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-    jLabel9.setText("Fecha de Compra");
-    getContentPane().add(jLabel9);
-    jLabel9.setBounds(280, 100, 190, 25);
-    getContentPane().add(NombreM3);
-    NombreM3.setBounds(280, 60, 190, 30);
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel9.setText("Fecha de Compra");
+        jPanel1.add(jLabel9);
+        jLabel9.setBounds(280, 100, 190, 25);
+        jPanel1.add(NombreM3);
+        NombreM3.setBounds(280, 60, 190, 30);
 
-    TADesM.setColumns(20);
-    TADesM.setRows(5);
-    jScrollPane1.setViewportView(TADesM);
+        TADesM.setColumns(20);
+        TADesM.setRows(5);
+        jScrollPane1.setViewportView(TADesM);
 
-    getContentPane().add(jScrollPane1);
-    jScrollPane1.setBounds(390, 410, 234, 86);
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(390, 410, 234, 86);
 
-    jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-    jLabel10.setText("Stock Mínimo");
-    getContentPane().add(jLabel10);
-    jLabel10.setBounds(570, 170, 190, 25);
-    getContentPane().add(StockMinimoM1);
-    StockMinimoM1.setBounds(570, 200, 190, 30);
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel10.setText("Stock Mínimo");
+        jPanel1.add(jLabel10);
+        jLabel10.setBounds(570, 170, 190, 25);
+        jPanel1.add(StockMinimoM1);
+        StockMinimoM1.setBounds(570, 200, 190, 30);
 
-    jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-    jLabel11.setText("Subcategoría o tipo");
-    getContentPane().add(jLabel11);
-    jLabel11.setBounds(280, 240, 190, 25);
-    getContentPane().add(NSerieM1);
-    NSerieM1.setBounds(570, 270, 190, 30);
-    getContentPane().add(CantidadM2);
-    CantidadM2.setBounds(280, 200, 190, 30);
-}// </editor-fold>//GEN-END:initComponents
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel11.setText("Subcategoría o tipo");
+        jPanel1.add(jLabel11);
+        jLabel11.setBounds(280, 240, 190, 25);
+        jPanel1.add(NSerieM1);
+        NSerieM1.setBounds(570, 270, 190, 30);
+        jPanel1.add(CantidadM2);
+        CantidadM2.setBounds(280, 200, 190, 30);
 
-private void BInsertarMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BInsertarMActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_BInsertarMActionPerformed
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 1050, 656);
+    }// </editor-fold>//GEN-END:initComponents
 
 
-// Variables declaration - do not modify//GEN-BEGIN:variables
-private javax.swing.JButton BInsertarM;
-private javax.swing.JComboBox<String> CBLocM;
-private javax.swing.JComboBox<String> CBUbiM1;
-private javax.swing.JTextField CantidadM2;
-private javax.swing.JTextField FechaComM;
-private javax.swing.JTextField NSerieM1;
-private javax.swing.JTextField NombreM3;
-private javax.swing.JTextField StockMinimoM1;
-private javax.swing.JTextArea TADesM;
-private javax.swing.JLabel jLabel10;
-private javax.swing.JLabel jLabel11;
-private javax.swing.JLabel jLabel2;
-private javax.swing.JLabel jLabel3;
-private javax.swing.JLabel jLabel4;
-private javax.swing.JLabel jLabel5;
-private javax.swing.JLabel jLabel7;
-private javax.swing.JLabel jLabel8;
-private javax.swing.JLabel jLabel9;
-private javax.swing.JScrollPane jScrollPane1;
-private javax.swing.JTextField tipoTF;
-// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BInsertarM;
+    private javax.swing.JComboBox<String> CBLocM;
+    private javax.swing.JComboBox<String> CBUbiM1;
+    private javax.swing.JTextField CantidadM2;
+    private javax.swing.JTextField FechaComM;
+    private javax.swing.JTextField NSerieM1;
+    private javax.swing.JTextField NombreM3;
+    private javax.swing.JTextField StockMinimoM1;
+    private javax.swing.JTextArea TADesM;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField tipoTF;
+    // End of variables declaration//GEN-END:variables
 }

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.mycompany.panelesInteriores;
-import com.mycompany.Clases.Quimico;
+import com.mycompany.Clases.objetos.Quimico;
 import com.mycompany.ConexionSQL.Conexion;
 
 /**
@@ -18,11 +18,17 @@ public class InsertarReactivos extends javax.swing.JPanel {
     public InsertarReactivos() {
         initComponents();
         //relleno los combox con una consulta a la base de datos
-        String[] ubicaciones = Conexion.obtenerUbicaciones();
-        CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
+        //sinconizo los datos de las ubicaciones en funcion de la localizacion seleccionada
 
         String[] localicaciones = Conexion.obtenerLocalizaciones();
         CBLocR1.setModel(new javax.swing.DefaultComboBoxModel<>(localicaciones));
+
+        CBLocR1.addActionListener(e -> {
+            String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocR1.getSelectedItem().toString());
+            CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
+        });
+        String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocR1.getSelectedItem().toString());
+        CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
 
         String[] formatos = Conexion.obtenerFormatosQ();
         CBForR.setModel(new javax.swing.DefaultComboBoxModel<>(formatos));
@@ -41,8 +47,8 @@ public class InsertarReactivos extends javax.swing.JPanel {
             String formato = (String) CBForR.getSelectedItem();
             String riesgo = (String) CBRiesR.getSelectedItem();
 
-            int id_almacen = 1; // Aquí debes obtener el id_almacen
-            int id_ubicacion = 1; // Aquí debes obtener el id_ubicacion
+            int id_almacen = Conexion.obtenerIdAlmacen(localizacion);
+            int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
             Quimico quimico = new Quimico("1",nombre,cantidad,stockMinimo,ubicacion,localizacion,
                     id_almacen,id_ubicacion,gradoPureza,fechaCaducidad,formato,riesgo);
             Conexion.insertarQuimico(quimico);

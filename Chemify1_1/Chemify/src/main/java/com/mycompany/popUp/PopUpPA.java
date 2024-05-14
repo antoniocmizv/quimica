@@ -4,9 +4,7 @@
  */
 package com.mycompany.popUp;
 
-import com.mycompany.Clases.ProductoAuxiliar;
-
-import javax.swing.*;
+import com.mycompany.Clases.objetos.ProductoAuxiliar;
 
 /**
  *
@@ -77,7 +75,7 @@ public class PopUpPA extends javax.swing.JFrame {
         LocTF = new javax.swing.JTextField();
         StoTF = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(44, 171, 182));
         jPanel1.setLayout(null);
@@ -145,7 +143,7 @@ public class PopUpPA extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Ubicación");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(470, 360, 80, 25);
+        jLabel7.setBounds(470, 360, 140, 25);
         jPanel1.add(LocTF);
         LocTF.setBounds(470, 300, 190, 30);
         jPanel1.add(StoTF);

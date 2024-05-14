@@ -4,7 +4,7 @@
  */
 package com.mycompany.panelesInteriores;
 
-import com.mycompany.Clases.User;
+import com.mycompany.Clases.objetos.User;
 import com.mycompany.ConexionSQL.Conexion;
 
 import javax.swing.*;
@@ -46,6 +46,9 @@ public class modificarUsuario extends javax.swing.JPanel {
             User usuario = new User(nombre, contraseña, tipo);
             Conexion.insertarUsuario(usuario);
             modelo.addRow(new Object[]{nombre, contraseña, tipo});
+            NUsuario.setText("");
+            CUsuario.setText("");
+
         });
         //añado el listener de click derecho para eliminar un usuario
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -90,6 +93,7 @@ public class modificarUsuario extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(222, 255, 238));
+        setPreferredSize(new java.awt.Dimension(1046, 656));
         setLayout(null);
         add(NUsuario);
         NUsuario.setBounds(90, 220, 160, 30);

@@ -1,6 +1,8 @@
 package com.mycompany.Clases;
 
+import com.mycompany.Clases.objetos.Producto;
+
 public interface ConexionManager {
-    void closeConexion();
-    void openConexion();
+    void insertar(Producto p);
+    void eliminar(Producto p);
 }

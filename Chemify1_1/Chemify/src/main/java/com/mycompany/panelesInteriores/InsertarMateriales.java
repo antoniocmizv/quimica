@@ -4,7 +4,7 @@
  */
 package com.mycompany.panelesInteriores;
 
-import com.mycompany.Clases.Materiales;
+import com.mycompany.Clases.objetos.Materiales;
 import com.mycompany.ConexionSQL.Conexion;
 
 import javax.swing.*;
@@ -21,10 +21,17 @@ public class InsertarMateriales extends javax.swing.JPanel {
     public InsertarMateriales() {
         initComponents();
         //relleno los combox con una consulta a la base de datos
+        //sinconizo los datos de las ubicaciones en funcion de la localizacion seleccionada
         String[] localicaciones = Conexion.obtenerLocalizaciones();
         CBLocM.setModel(new javax.swing.DefaultComboBoxModel<>(localicaciones));
 
-        String[] ubicaciones = Conexion.obtenerUbicaciones();
+        CBLocM.addActionListener(e -> {
+            String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocM.getSelectedItem().toString());
+            CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
+        });
+
+
+        String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocM.getSelectedItem().toString());
         CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
 
         //añado un action listener al boton insertar
@@ -40,8 +47,8 @@ public class InsertarMateriales extends javax.swing.JPanel {
             String ubicacion = (String) CBUbiM1.getSelectedItem();
             String localizacion = (String) CBLocM.getSelectedItem();
 
-            int id_almacen = 1; // Aquí debes obtener el id_almacen
-            int id_ubicacion = 1; // Aquí debes obtener el id_ubicacion
+            int id_almacen = Conexion.obtenerIdAlmacen(localizacion);
+            int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
             Materiales material = new Materiales("1",nombre,cantidad,stockMinimo,ubicacion,localizacion,
                     id_almacen,id_ubicacion,tipo,descripcion,fechaCompra,numeroSerie);
             Conexion.insertarMaterial(material);
@@ -77,9 +84,7 @@ public class InsertarMateriales extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         FechaComM = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        FormatoM1 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         CBLocM = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
@@ -113,31 +118,24 @@ public class InsertarMateriales extends javax.swing.JPanel {
             }
         });
         add(BInsertarM);
-        BInsertarM.setBounds(430, 510, 160, 40);
+        BInsertarM.setBounds(450, 480, 160, 40);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Localización");
         add(jLabel3);
         jLabel3.setBounds(570, 30, 130, 30);
         add(FechaComM);
-        FechaComM.setBounds(390, 340, 190, 30);
+        FechaComM.setBounds(280, 130, 190, 30);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Nombre");
         add(jLabel4);
         jLabel4.setBounds(280, 30, 80, 25);
-        add(FormatoM1);
-        FormatoM1.setBounds(280, 130, 190, 30);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel5.setText("Descripción");
         add(jLabel5);
-        jLabel5.setBounds(390, 380, 190, 25);
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setText("Formato");
-        add(jLabel6);
-        jLabel6.setBounds(280, 100, 80, 25);
+        jLabel5.setBounds(470, 320, 190, 25);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Ubicación");
@@ -162,7 +160,7 @@ public class InsertarMateriales extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel9.setText("Fecha de Compra");
         add(jLabel9);
-        jLabel9.setBounds(390, 310, 190, 25);
+        jLabel9.setBounds(280, 100, 190, 25);
         add(NombreM3);
         NombreM3.setBounds(280, 60, 190, 30);
 
@@ -171,7 +169,7 @@ public class InsertarMateriales extends javax.swing.JPanel {
         jScrollPane1.setViewportView(TADesM);
 
         add(jScrollPane1);
-        jScrollPane1.setBounds(390, 410, 234, 86);
+        jScrollPane1.setBounds(410, 360, 234, 86);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel10.setText("Stock Mínimo");
@@ -202,7 +200,6 @@ public class InsertarMateriales extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> CBUbiM1;
     private javax.swing.JTextField CantidadM2;
     private javax.swing.JTextField FechaComM;
-    private javax.swing.JTextField FormatoM1;
     private javax.swing.JTextField NSerieM1;
     private javax.swing.JTextField NombreM3;
     private javax.swing.JTextField StockMinimoM1;
@@ -213,7 +210,6 @@ public class InsertarMateriales extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

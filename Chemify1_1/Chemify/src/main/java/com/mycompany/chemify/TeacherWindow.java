@@ -4,6 +4,7 @@
  */
 package com.mycompany.chemify;
 
+import com.mycompany.Clases.SistemaAlertasStock;
 import com.mycompany.panelesInteriores.*;
 
 import java.awt.*;
@@ -40,6 +41,13 @@ public class TeacherWindow extends javax.swing.JFrame {
         PanelPAuxiliares.setVisible(false);
 
         PanelMateriales.setBackground(new Color(40, 180, 99));
+
+        // Agrega un listener al botón de alertas
+        BLog.addActionListener(e -> {
+            // Llama a la función para verificar el stock y enviar alertas
+            SistemaAlertasStock.verificarStock();
+        });
+
     }
 
     /**
@@ -61,6 +69,7 @@ public class TeacherWindow extends javax.swing.JFrame {
         BInsertarDatos = new javax.swing.JButton();
         BLog = new javax.swing.JButton();
         GestiónUsuarios = new javax.swing.JButton();
+        lupa = new javax.swing.JLabel();
         Derecha = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         PanelMateriales = new javax.swing.JPanel();
@@ -78,14 +87,14 @@ public class TeacherWindow extends javax.swing.JFrame {
         PanelTeacher.setPreferredSize(new java.awt.Dimension(1400, 800));
         PanelTeacher.setLayout(null);
 
-        Izquierda.setBackground(new Color(0, 102, 102));
+        Izquierda.setBackground(new java.awt.Color(0, 102, 102));
         Izquierda.setPreferredSize(new java.awt.Dimension(350, 800));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setForeground(new Color(222, 255, 238));
+        jLabel1.setForeground(new java.awt.Color(222, 255, 238));
         jLabel1.setText("CHEMIFY");
 
-        BBuscar.setBackground(new Color(255, 255, 238));
+        BBuscar.setBackground(new java.awt.Color(255, 255, 238));
         BBuscar.setText("Buscar");
         BBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,7 +102,7 @@ public class TeacherWindow extends javax.swing.JFrame {
             }
         });
 
-        BInsertar.setBackground(new Color(255, 255, 238));
+        BInsertar.setBackground(new java.awt.Color(255, 255, 238));
         BInsertar.setText("Insertar");
         BInsertar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,7 +110,7 @@ public class TeacherWindow extends javax.swing.JFrame {
             }
         });
 
-        BCerrarSesion.setBackground(new Color(255, 255, 238));
+        BCerrarSesion.setBackground(new java.awt.Color(255, 255, 238));
         BCerrarSesion.setText("Cerrar Sesión");
         BCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,7 +118,7 @@ public class TeacherWindow extends javax.swing.JFrame {
             }
         });
 
-        BInsertarDatos.setBackground(new Color(255, 255, 238));
+        BInsertarDatos.setBackground(new java.awt.Color(255, 255, 238));
         BInsertarDatos.setText("Añadir Datos");
         BInsertarDatos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,7 +126,7 @@ public class TeacherWindow extends javax.swing.JFrame {
             }
         });
 
-        BLog.setBackground(new Color(255, 255, 238));
+        BLog.setBackground(new java.awt.Color(255, 255, 238));
         BLog.setText("Consultar Log");
         BLog.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,7 +134,7 @@ public class TeacherWindow extends javax.swing.JFrame {
             }
         });
 
-        GestiónUsuarios.setBackground(new Color(255, 255, 238));
+        GestiónUsuarios.setBackground(new java.awt.Color(255, 255, 238));
         GestiónUsuarios.setText("Gestionar Usuarios");
         GestiónUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,7 +155,7 @@ public class TeacherWindow extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, IzquierdaLayout.createSequentialGroup()
-                .addContainerGap(99, Short.MAX_VALUE)
+                .addContainerGap(100, Short.MAX_VALUE)
                 .addGroup(IzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, IzquierdaLayout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -156,7 +165,9 @@ public class TeacherWindow extends javax.swing.JFrame {
                             .addComponent(BBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(BInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(BInsertarDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(87, 87, 87))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lupa, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, IzquierdaLayout.createSequentialGroup()
                         .addComponent(GestiónUsuarios)
                         .addGap(100, 100, 100))))
@@ -167,7 +178,9 @@ public class TeacherWindow extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
-                .addComponent(BBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(IzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lupa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
                 .addGap(50, 50, 50)
                 .addComponent(BInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
@@ -186,13 +199,13 @@ public class TeacherWindow extends javax.swing.JFrame {
         PanelTeacher.add(Izquierda);
         Izquierda.setBounds(-10, -10, 350, 810);
 
-        Derecha.setBackground(new Color(222, 255, 238));
+        Derecha.setBackground(new java.awt.Color(222, 255, 238));
         Derecha.setPreferredSize(new java.awt.Dimension(1050, 800));
 
-        jPanel2.setBackground(new Color(0, 102, 102));
+        jPanel2.setBackground(new java.awt.Color(0, 102, 102));
         jPanel2.setPreferredSize(new java.awt.Dimension(1050, 123));
 
-        PanelMateriales.setBackground(new Color(0, 102, 102));
+        PanelMateriales.setBackground(new java.awt.Color(0, 102, 102));
         PanelMateriales.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PanelMaterialesMouseClicked(evt);
@@ -203,7 +216,7 @@ public class TeacherWindow extends javax.swing.JFrame {
         });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel3.setForeground(new Color(255, 255, 255));
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Material");
 
         javax.swing.GroupLayout PanelMaterialesLayout = new javax.swing.GroupLayout(PanelMateriales);
@@ -223,7 +236,7 @@ public class TeacherWindow extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        PanelReactivos.setBackground(new Color(0, 102, 102));
+        PanelReactivos.setBackground(new java.awt.Color(0, 102, 102));
         PanelReactivos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PanelReactivosMouseClicked(evt);
@@ -231,7 +244,7 @@ public class TeacherWindow extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel4.setForeground(new Color(255, 255, 255));
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Reactivo");
 
         javax.swing.GroupLayout PanelReactivosLayout = new javax.swing.GroupLayout(PanelReactivos);
@@ -251,7 +264,7 @@ public class TeacherWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        PanelPAuxiliares.setBackground(new Color(0, 102, 102));
+        PanelPAuxiliares.setBackground(new java.awt.Color(0, 102, 102));
         PanelPAuxiliares.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PanelPAuxiliaresMouseClicked(evt);
@@ -259,7 +272,7 @@ public class TeacherWindow extends javax.swing.JFrame {
         });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel5.setForeground(new Color(255, 255, 255));
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("P. Auxiliar");
 
         javax.swing.GroupLayout PanelPAuxiliaresLayout = new javax.swing.GroupLayout(PanelPAuxiliares);
@@ -301,7 +314,7 @@ public class TeacherWindow extends javax.swing.JFrame {
                     .addComponent(PanelMateriales, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        Contenedor.setBackground(new Color(222, 255, 238));
+        Contenedor.setBackground(new java.awt.Color(222, 255, 238));
         Contenedor.setPreferredSize(new java.awt.Dimension(1050, 668));
 
         javax.swing.GroupLayout ContenedorLayout = new javax.swing.GroupLayout(Contenedor);
@@ -564,5 +577,6 @@ public class TeacherWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lupa;
     // End of variables declaration//GEN-END:variables
 }

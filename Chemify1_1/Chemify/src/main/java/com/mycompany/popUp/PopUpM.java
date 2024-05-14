@@ -4,10 +4,7 @@
  */
 package com.mycompany.popUp;
 
-import com.mycompany.Clases.Materiales;
-import com.mycompany.Clases.Producto;
-
-import javax.swing.*;
+import com.mycompany.Clases.objetos.Materiales;
 
 /**
  *
@@ -26,8 +23,6 @@ public class PopUpM extends javax.swing.JFrame {
         NomTF.setEditable(false);
         NomTF.setFocusable(false);
 
-        ForTF.setEditable(false);
-        ForTF.setFocusable(false);
 
         CanTF.setEditable(false);
         CanTF.setFocusable(false);
@@ -82,9 +77,7 @@ public class PopUpM extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         FecTF = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        ForTF = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         CanTF = new javax.swing.JTextField();
@@ -100,9 +93,11 @@ public class PopUpM extends javax.swing.JFrame {
         UbiTF = new javax.swing.JTextField();
         LocTF = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(801, 816));
 
         jPanel1.setBackground(new java.awt.Color(44, 171, 182));
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 800));
         jPanel1.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 102));
@@ -142,29 +137,22 @@ public class PopUpM extends javax.swing.JFrame {
         jPanel1.add(jLabel3);
         jLabel3.setBounds(460, 160, 130, 30);
         jPanel1.add(FecTF);
-        FecTF.setBounds(300, 500, 190, 30);
+        FecTF.setBounds(170, 260, 190, 30);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Nombre");
         jPanel1.add(jLabel4);
         jLabel4.setBounds(170, 160, 80, 25);
-        jPanel1.add(ForTF);
-        ForTF.setBounds(170, 260, 190, 30);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel5.setText("Descripción");
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(350, 550, 100, 25);
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setText("Formato");
-        jPanel1.add(jLabel6);
-        jLabel6.setBounds(170, 230, 80, 25);
+        jLabel5.setBounds(350, 470, 100, 25);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Ubicación");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(460, 230, 80, 25);
+        jLabel7.setBounds(460, 230, 140, 25);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel8.setText("Cantidad");
@@ -176,7 +164,7 @@ public class PopUpM extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel9.setText("Fecha de Compra");
         jPanel1.add(jLabel9);
-        jLabel9.setBounds(320, 470, 150, 25);
+        jLabel9.setBounds(170, 230, 150, 25);
 
         NomTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,7 +179,7 @@ public class PopUpM extends javax.swing.JFrame {
         jScrollPane1.setViewportView(DesTF);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(280, 580, 234, 86);
+        jScrollPane1.setBounds(290, 520, 234, 86);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel10.setText("Stock Mínimo");
@@ -205,7 +193,7 @@ public class PopUpM extends javax.swing.JFrame {
         jPanel1.add(jLabel11);
         jLabel11.setBounds(170, 370, 190, 25);
         jPanel1.add(NSeTF);
-        NSeTF.setBounds(460, 400, 190, 30);
+        NSeTF.setBounds(460, 410, 190, 30);
         jPanel1.add(StoTF);
         StoTF.setBounds(460, 330, 190, 30);
         jPanel1.add(UbiTF);
@@ -217,11 +205,13 @@ public class PopUpM extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
         );
 
         pack();
@@ -240,7 +230,6 @@ public class PopUpM extends javax.swing.JFrame {
     private javax.swing.JTextField CanTF;
     private javax.swing.JTextArea DesTF;
     private javax.swing.JTextField FecTF;
-    private javax.swing.JTextField ForTF;
     private javax.swing.JTextField LocTF;
     private javax.swing.JTextField NSeTF;
     private javax.swing.JTextField NomTF;
@@ -254,7 +243,6 @@ public class PopUpM extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

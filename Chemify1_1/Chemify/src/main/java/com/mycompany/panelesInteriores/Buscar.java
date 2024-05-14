@@ -4,7 +4,10 @@
  */
 package com.mycompany.panelesInteriores;
 
-import com.mycompany.Clases.*;
+import com.mycompany.Clases.objetos.Materiales;
+import com.mycompany.Clases.objetos.Producto;
+import com.mycompany.Clases.objetos.ProductoAuxiliar;
+import com.mycompany.Clases.objetos.Quimico;
 import com.mycompany.ConexionSQL.Conexion;
 import com.mycompany.panelesActualizar.ActualizarM;
 import com.mycompany.panelesActualizar.ActualizarPA;
@@ -65,15 +68,24 @@ public class Buscar extends javax.swing.JPanel {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
                     // Ordenar por cantidad (asumiendo que la cantidad es la tercera columna)
-                    ordenarTabla((DefaultTableModel) tablaProductos.getModel(), 2);
+                    ordenarTablaCantidad((DefaultTableModel) tablaProductos.getModel(), 2);
                 }
             }
         });
+
         Nombreaz.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
                     // Ordenar por nombre (asumiendo que el nombre es la segunda columna)
-                    ordenarTabla((DefaultTableModel) tablaProductos.getModel(), 1);
+                    ordenarTablaNombreAZ((DefaultTableModel) tablaProductos.getModel(), 1);
+                }
+            }
+        });
+        Nombreza.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                    // Ordenar por nombre (asumiendo que el nombre es la segunda columna)
+                    ordenarTablaNombreZA((DefaultTableModel) tablaProductos.getModel(), 1);
                 }
             }
         });
@@ -268,6 +280,117 @@ public class Buscar extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ordenarTablaNombreAZ(DefaultTableModel model, int i) {
+        // Convertir los datos de la tabla a una lista
+        List<Producto> datos = new ArrayList<>(productos);
+
+        // Ordenar la lista por nombre
+        datos.sort(Comparator.comparing(Producto::getNombre));
+
+        // Limpiar la tabla
+        while (model.getRowCount() > 0) {
+            model.removeRow(0);
+        }
+
+        // Agregar los datos ordenados a la tabla
+        for (Producto producto : datos) {
+            if (producto instanceof Materiales) {
+                Materiales material = (Materiales) producto;
+                model.addRow(new Object[]{
+                        material.getId_producto(),
+                        material.getNombre(),
+                        material.getCantidad(),
+                        material.getStock_minimo(),
+                        material.getUbicacion(),
+                        material.getAlmacen(),
+                        material.getSubtipo(),
+                        material.getDescripcion(),
+                        material.getFecha_compra(),
+                        material.getNumero_serie()
+                });
+            } else if (producto instanceof Quimico) {
+                Quimico quimico = (Quimico) producto;
+                model.addRow(new Object[]{
+                        quimico.getId_producto(),
+                        quimico.getNombre(),
+                        quimico.getCantidad(),
+                        quimico.getStock_minimo(),
+                        quimico.getUbicacion(),
+                        quimico.getAlmacen(),
+                        quimico.getPureza(),
+                        quimico.getFecha_caducidad(),
+                        quimico.getFormato()
+                });
+            } else {
+                model.addRow(new Object[]{
+                        producto.getId_producto(),
+                        producto.getNombre(),
+                        producto.getCantidad(),
+                        producto.getStock_minimo(),
+                        producto.getUbicacion(),
+                        producto.getAlmacen()
+                });
+            }
+        }
+        // Establecer el modelo de la tabla
+        tablaProductos.setModel(model);
+    }
+    private void ordenarTablaNombreZA(DefaultTableModel model, int i) {
+        // Convertir los datos de la tabla a una lista
+        List<Producto> datos = new ArrayList<>(productos);
+
+        // Ordenar la lista por nombre
+        datos.sort(Comparator.comparing(Producto::getNombre).reversed());
+
+        // Limpiar la tabla
+        while (model.getRowCount() > 0) {
+            model.removeRow(0);
+        }
+
+        // Agregar los datos ordenados a la tabla
+        for (Producto producto : datos) {
+            if (producto instanceof Materiales) {
+                Materiales material = (Materiales) producto;
+                model.addRow(new Object[]{
+                        material.getId_producto(),
+                        material.getNombre(),
+                        material.getCantidad(),
+                        material.getStock_minimo(),
+                        material.getUbicacion(),
+                        material.getAlmacen(),
+                        material.getSubtipo(),
+                        material.getDescripcion(),
+                        material.getFecha_compra(),
+                        material.getNumero_serie()
+                });
+            } else if (producto instanceof Quimico) {
+                Quimico quimico = (Quimico) producto;
+                model.addRow(new Object[]{
+                        quimico.getId_producto(),
+                        quimico.getNombre(),
+                        quimico.getCantidad(),
+                        quimico.getStock_minimo(),
+                        quimico.getUbicacion(),
+                        quimico.getAlmacen(),
+                        quimico.getPureza(),
+                        quimico.getFecha_caducidad(),
+                        quimico.getFormato()
+                });
+            } else {
+                model.addRow(new Object[]{
+                        producto.getId_producto(),
+                        producto.getNombre(),
+                        producto.getCantidad(),
+                        producto.getStock_minimo(),
+                        producto.getUbicacion(),
+                        producto.getAlmacen()
+                });
+            }
+        }
+        // Establecer el modelo de la tabla
+        tablaProductos.setModel(model);
+    }
+
     private void TFBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFBuscarActionPerformed
         // TODO add your handling code here:
 
@@ -405,7 +528,7 @@ public class Buscar extends javax.swing.JPanel {
 
     }//GEN-LAST:event_BuscarBoton1ActionPerformed
 
-    private void ordenarTabla(DefaultTableModel modelo, int columna) {
+    private void ordenarTablaCantidad(DefaultTableModel modelo, int columna) {
         // Convertir los datos de la tabla a una lista
         List<Producto> datos = new ArrayList<>(productos);
 

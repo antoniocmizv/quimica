@@ -1,12 +1,14 @@
 package com.mycompany.ConexionSQL;
 
 import com.mycompany.Clases.*;
+import com.mycompany.Clases.objetos.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class Conexion {
+public class Conexion implements ConexionManager{
 
     private static final String DB_URL = "jdbc:mysql://localhost/proyecto_quimica";
     private static final String USER = "root";
@@ -49,7 +51,6 @@ public class Conexion {
         }
 
     }
-
 
     public static ArrayList<Producto> buscarProductos(String busqueda) {
         try {
@@ -181,6 +182,16 @@ public class Conexion {
         return null;
     }
 
+    public static Connection conecta() {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(DB_URL, USER, PASS);
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return con;
+    }
+
     public static void cerrar() {
         try {
             if (rs != null) {
@@ -197,21 +208,29 @@ public class Conexion {
         }
     }
 
-    public static Connection conecta() {
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(DB_URL, USER, PASS);
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return con;
-    }
-
     public static String[] obtenerUbicaciones() {
         try {
             conexion = conecta();
             String sql = "SELECT nombre_ubicacion FROM ubicaciones";
             ps = conexion.prepareStatement(sql);
+            rs = ps.executeQuery();
+            ArrayList<String> ubicaciones = new ArrayList<>();
+            while (rs.next()) {
+                ubicaciones.add(rs.getString("nombre_ubicacion"));
+            }
+            return ubicaciones.toArray(new String[0]);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+    public static String[] obtenerUbicacionesDeAlmacen(String almacen) {
+        try {
+            conexion = conecta();
+            String sql = "SELECT nombre_ubicacion FROM ubicaciones u" +
+                    " INNER JOIN salas s ON u.Codigo_Almacen = s.Id_Almacen WHERE s.nombre_almacen = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, almacen);
             rs = ps.executeQuery();
             ArrayList<String> ubicaciones = new ArrayList<>();
             while (rs.next()) {
@@ -288,7 +307,7 @@ public class Conexion {
     }
 
 
-    public static void actualizarProducto(Materiales m) {
+    public static void actualizarMaterial(Materiales m) {
         try {
             conexion = conecta();
             String sql = "UPDATE productos SET Nombre_Producto = ?, Cantidad = ?, Stock_Minimo = ?, Id_Ubicacion = ? " +
@@ -301,8 +320,7 @@ public class Conexion {
             ps.setString(5, m.getId_producto());
             ps.executeUpdate();
 
-            System.out.println("Producto actualizado");
-            sql = "UPDATE materiales SET Tipo = ?, Descripcion = ?, Fecha_Compra = ?, N_Serie = ? " +
+            sql = "UPDATE materiales SET subtipo = ?, Descripcion = ?, Fecha_Compra = ?, N_Serie = ? " +
                     "WHERE Id_Producto = ?";
             ps = conexion.prepareStatement(sql);
             ps.setString(1, m.getSubtipo());
@@ -314,6 +332,32 @@ public class Conexion {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+
+    }
+
+    public static void actualizarProductoAuxiliar(ProductoAuxiliar pa) {
+        try {
+            conexion = conecta();
+            String sql = "UPDATE productos SET Nombre_Producto = ?, Cantidad = ?, Stock_Minimo = ?, Id_Ubicacion = ? " +
+                    "WHERE Id_Producto = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, pa.getNombre());
+            ps.setInt(2, pa.getCantidad());
+            ps.setInt(3, pa.getStock_minimo());
+            ps.setInt(4, pa.getId_ubicacion());
+            ps.setString(5, pa.getId_producto());
+            ps.executeUpdate();
+
+            sql = "UPDATE productos_auxiliares SET formato = ? " +
+                    "WHERE Id_Producto = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, pa.getFormato());
+            ps.setString(2, pa.getId_producto());
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
     }
 
     public static ArrayList<User> obtenerUsuarios() {
@@ -401,9 +445,8 @@ public class Conexion {
 
         } catch (SQLException ex) {
             System.out.println(ex);
-        }
-        finally {
-           cerrar();
+        } finally {
+            cerrar();
         }
 
     }
@@ -508,5 +551,143 @@ public class Conexion {
         } finally {
             cerrar();
         }
+    }
+
+    public static void actualizarQuimico(Quimico pq) {
+        try {
+            conexion = conecta();
+            String sql = "UPDATE productos SET Nombre_Producto = ?, Cantidad = ?, Stock_Minimo = ?, Id_Ubicacion = ? " +
+                    "WHERE Id_Producto = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, pq.getNombre());
+            ps.setInt(2, pq.getCantidad());
+            ps.setInt(3, pq.getStock_minimo());
+            ps.setInt(4, pq.getId_ubicacion());
+            ps.setString(5, pq.getId_producto());
+            ps.executeUpdate();
+            //Busco el id del formato
+            sql = "SELECT Id_Formato FROM formato WHERE formato = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, pq.getFormato());
+            rs = ps.executeQuery();
+            rs.next();
+            int id_formato = rs.getInt("Id_Formato");
+
+            sql = "UPDATE quimicos SET pureza = ?, fecha_caducidad = ?, id_Formato =? " +
+                    "WHERE Id_Producto = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, pq.getPureza());
+            ps.setString(2, pq.getFecha_caducidad());
+            ps.setInt(3, id_formato);
+            ps.setString(4, pq.getId_producto());
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public static List<Producto> obtenerProductos() {
+        try {
+            conexion = conecta();
+            String sql = "SELECT * FROM productos p" +
+                    " INNER JOIN ubicaciones u ON p.Id_Ubicacion = u.Id_Ubicacion"+
+                    " INNER JOIN salas s ON u.Codigo_Almacen = s.Id_Almacen";
+            ps = conexion.prepareStatement(sql);
+            rs = ps.executeQuery();
+            List<Producto> productos = new ArrayList<>();
+            while (rs.next()) {
+                String id_producto = rs.getString("id_producto");
+                String nombre = rs.getString("nombre_producto");
+                int cantidad = rs.getInt("cantidad");
+                int stock_minimo = rs.getInt("stock_minimo");
+                String ubicacion = rs.getString("nombre_ubicacion");
+                String almacen = rs.getString("nombre_almacen");
+                int id_almacen = rs.getInt("id_almacen");
+                int id_ubicacion = rs.getInt("id_ubicacion");
+
+                Producto producto = new Producto(id_producto, nombre, cantidad, stock_minimo, ubicacion,
+                        almacen, id_almacen, id_ubicacion);
+                productos.add(producto);
+            }
+            return productos;
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+
+    public static void insertarUbicacion(String valor, int idAlmacen) {
+        try {
+
+            conexion = conecta();
+            String sql = "INSERT INTO ubicaciones (nombre_ubicacion, Codigo_Almacen) VALUES (?, ?)";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, valor);
+            ps.setInt(2, idAlmacen);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public static void insertarLocalizacion(String valor) {
+        try {
+            conexion = conecta();
+            String sql = "INSERT INTO salas (nombre_almacen) VALUES (?)";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, valor);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public static int obtenerIdAlmacen(String localizacion) {
+        try {
+            conexion = conecta();
+            String sql = "SELECT Id_Almacen FROM salas WHERE nombre_almacen = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, localizacion);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt("Id_Almacen");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return 0;
+        }
+    }
+
+    public static int obtenerIdUbicacion(String ubicacion) {
+        try {
+            conexion = conecta();
+            String sql = "SELECT Id_Ubicacion FROM ubicaciones WHERE nombre_ubicacion = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, ubicacion);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt("Id_Ubicacion");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return 0;
+        }
+    }
+
+    @Override
+    public void insertar(Producto p) {
+
+    }
+
+    @Override
+    public void eliminar(Producto p) {
+        try {
+            conexion = conecta();
+            String sql = "DELETE FROM productos WHERE Id_Producto = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, p.getId_producto());
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
     }
 }

@@ -22,6 +22,7 @@ public class OnlyView extends javax.swing.JFrame {
      * Creates new form OnlyView
      */
     public OnlyView() {
+        this.setVisible(true);
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);

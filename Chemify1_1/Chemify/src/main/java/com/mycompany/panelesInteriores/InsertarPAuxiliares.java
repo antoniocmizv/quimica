@@ -4,7 +4,7 @@
  */
 package com.mycompany.panelesInteriores;
 
-import com.mycompany.Clases.ProductoAuxiliar;
+import com.mycompany.Clases.objetos.ProductoAuxiliar;
 import com.mycompany.ConexionSQL.Conexion;
 
 /**
@@ -19,11 +19,15 @@ public class InsertarPAuxiliares extends javax.swing.JPanel {
     public InsertarPAuxiliares() {
         initComponents();
         //relleno los combox con una consulta a la base de datos
-        String[] ubicaciones = Conexion.obtenerUbicaciones();
-        CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
-
         String[] localicaciones = Conexion.obtenerLocalizaciones();
         CBLocR.setModel(new javax.swing.DefaultComboBoxModel<>(localicaciones));
+
+        CBLocR.addActionListener(e -> {
+            String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocR.getSelectedItem().toString());
+            CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
+        });
+        String[] ubicaciones = Conexion.obtenerUbicacionesDeAlmacen(CBLocR.getSelectedItem().toString());
+        CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
 
         //añado un action listener al boton insertar
         BInsertarM.addActionListener(e -> {
@@ -35,8 +39,8 @@ public class InsertarPAuxiliares extends javax.swing.JPanel {
             String ubicacion = (String) CBUbiR.getSelectedItem();
             String localizacion = (String) CBLocR.getSelectedItem();
 
-            int id_almacen = 1; // Aquí debes obtener el id_almacen
-            int id_ubicacion = 1; // Aquí debes obtener el id_ubicacion
+            int id_almacen = Conexion.obtenerIdAlmacen(localizacion);
+            int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
             ProductoAuxiliar pa = new ProductoAuxiliar("1",nombre,cantidad,stockMinimo,ubicacion,localizacion,
                     id_almacen,id_ubicacion,formato);
             Conexion.insertarProductoAuxiliar(pa);
