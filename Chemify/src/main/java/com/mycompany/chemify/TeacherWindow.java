@@ -129,7 +129,7 @@ public class TeacherWindow extends javax.swing.JFrame {
         });
 
         BLog.setBackground(new java.awt.Color(255, 255, 238));
-        BLog.setText("Consultar Log");
+        BLog.setText("Consultar Alertas");
         BLog.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BLogActionPerformed(evt);

@@ -8,6 +8,7 @@ import com.mycompany.Clases.Quimico;
 
 import javax.swing.*;
 import java.net.URL;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Mario
@@ -57,19 +58,19 @@ public class PopUpR extends javax.swing.JFrame {
         if (q.getPictogramas().size() > 0) {
             jButton1.setVisible(true);
         }
+        AtomicInteger i = new AtomicInteger(1);
         //añade un listener al boton para que al hacer click se cambie el pictograma
         jButton1.addActionListener(e -> {
          //va avanzando por los pictogramas
-            if (q.getPictogramas().size() > 0) {
-                q.getPictogramas().remove(0);
-                URL url1 = getClass().getResource("/"+q.getPictogramas().get(0).getRuta());
-                ImageIcon icon1 = new ImageIcon(url1);
-                PicJL.setIcon(icon1);
-               //cuando llego al ultimo pictograma se reinicia al primero
-                if (q.getPictogramas().size() == 1) {
-                    jButton1.setVisible(false);
-                }
+            if (i.get() == q.getPictogramas().size()) {
+                i.set(0);
             }
+            URL url1 = getClass().getResource("/"+q.getPictogramas().get(i.get()).getRuta());
+            ImageIcon icon1 = new ImageIcon(url1);
+            PicJL.setIcon(icon1);
+            i.getAndIncrement();
+
+
         });
 
 

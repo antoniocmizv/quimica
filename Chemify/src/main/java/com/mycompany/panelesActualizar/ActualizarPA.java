@@ -11,7 +11,6 @@ import com.mycompany.ConexionSQL.Conexion;
 import javax.swing.*;
 
 /**
- *
  * @author mario
  */
 public class ActualizarPA extends JFrame {
@@ -46,40 +45,49 @@ public class ActualizarPA extends JFrame {
         CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(ubicaciones));
         // Agrega un listener al botón de actualización
         BInsertarM.addActionListener(e -> {
+            //compruebo que los campos de cantidad y stock minimo sean numeros
             try {
-                // Obtiene los valores de los campos de entrada
-                String nombre = NombrePA.getText();
-                int cantidad = Integer.parseInt(CantidadPA.getText());
-                int stockMinimo = Integer.parseInt(StockMinimoM.getText());
-                String formato = FormatoPA.getText();
-                String localizacion = (String) CBLocR.getSelectedItem();
-                String ubicacion = (String) CBUbiR.getSelectedItem();
-
-
-                int idAlmacen = Conexion.obtenerIdAlmacen(localizacion);
-                int idUbicacion = Conexion.obtenerIdUbicacion(ubicacion);
-
-                //Creo un objeto ProductoAuxiliar con los datos del formulario
-                ProductoAuxiliar pa2 = new ProductoAuxiliar( p.getId_producto(),  nombre,  cantidad,  stockMinimo,  ubicacion,
-                        localizacion,  idAlmacen,  idUbicacion, formato);
-
-                // Actualiza el producto en la base de datos
-                Conexion.actualizarProductoAuxiliar(pa2  );
-
-                // Muestra un mensaje indicando que el producto se actualizó correctamente
-                JOptionPane.showMessageDialog(null, "Producto actualizado correctamente");
-
-                // Oculta la ventana actual
-                this.setVisible(false);
+                Integer.parseInt(CantidadPA.getText());
+                Integer.parseInt(StockMinimoM.getText());
             } catch (NumberFormatException ex) {
-                // Muestra un mensaje si hay un error de formato en los campos de cantidad o stock mínimo
                 JOptionPane.showMessageDialog(null, "Por favor, introduce un número válido en los campos Cantidad y Stock Mínimo");
+                CantidadPA.setText(String.valueOf(p.getCantidad()));
+                StockMinimoM.setText(String.valueOf(p.getStock_minimo()));
+                return;
             }
+            //compruebo que los campos no esten vacios
+            if (NombrePA.getText().isEmpty() || FormatoPA.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Por favor, rellena todos los campos");
+                return;
+            }
+
+            // Obtiene los valores de los campos de entrada
+            String nombre = NombrePA.getText();
+            int cantidad = Integer.parseInt(CantidadPA.getText());
+            int stockMinimo = Integer.parseInt(StockMinimoM.getText());
+            String formato = FormatoPA.getText();
+            String localizacion = (String) CBLocR.getSelectedItem();
+            String ubicacion = (String) CBUbiR.getSelectedItem();
+
+
+            int idAlmacen = Conexion.obtenerIdAlmacen(localizacion);
+            int idUbicacion = Conexion.obtenerIdUbicacion(ubicacion);
+
+            //Creo un objeto ProductoAuxiliar con los datos del formulario
+            ProductoAuxiliar pa2 = new ProductoAuxiliar(p.getId_producto(), nombre, cantidad, stockMinimo, ubicacion,
+                    localizacion, idAlmacen, idUbicacion, formato);
+
+            // Actualiza el producto en la base de datos
+            Conexion.actualizarProductoAuxiliar(pa2);
+
+            // Muestra un mensaje indicando que el producto se actualizó correctamente
+            JOptionPane.showMessageDialog(null, "Producto actualizado correctamente");
+
+            // Oculta la ventana actual
+            this.setVisible(false);
+
         });
     }
-
-
-
 
 
     /**
@@ -153,11 +161,11 @@ public class ActualizarPA extends JFrame {
         jPanel1.add(jLabel7);
         jLabel7.setBounds(600, 220, 110, 25);
 
-        CBLocR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CBLocR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
         jPanel1.add(CBLocR);
         CBLocR.setBounds(600, 170, 190, 30);
 
-        CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
         CBUbiR.setEnabled(false);
         jPanel1.add(CBUbiR);
         CBUbiR.setBounds(600, 260, 190, 30);

@@ -59,34 +59,46 @@ public class ActualizarR extends JFrame {
         CBLocR1.setModel(new DefaultComboBoxModel<>(localizaciones));
         //saco los datos para actualizar
         BInsertarM.addActionListener(e -> {
-            try {
-                // Obtiene los valores de los campos de entrada
-                String nombre = NombreR.getText();
-                int cantidad = Integer.parseInt(CantidadR.getText());
-                int stockMinimo = Integer.parseInt(StockMinimoR.getText());
-                String gradoPureza = GradoPurezaR.getText();
-                String fechaCaducidad = FechaCaducidadR.getText();
-                String ubicacion = (String) CBUbiR.getSelectedItem();
-                String formato = (String) CBForR.getSelectedItem();
-                String riesgo = (String) CBRiesR.getSelectedItem();
-                String localizacion = (String) CBLocR1.getSelectedItem();
-
-                // Obtén los valores de id_almacen e id_ubicacion según tu implementación
-                int idAlmacen = Conexion.obtenerIdAlmacen(localizacion);
-                int idUbicacion = Conexion.obtenerIdUbicacion(ubicacion);
-
-                //Creo un objeto Quimico con los datos del formulario
-                Quimico pq2 = new Quimico(p.getId_producto(), nombre, cantidad, stockMinimo, ubicacion, localizacion
-                        , idAlmacen, idUbicacion, gradoPureza, fechaCaducidad, formato, riesgo);
-
-                // Actualiza el producto en la base de datos
-                Conexion.actualizarQuimico(pq2);
-                JOptionPane.showMessageDialog(null, "Producto actualizado correctamente");
-                //cierra la ventana
-                this.setVisible(false);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error al actualizar el producto: " + ex.getMessage());
+            //compruebo que los campos no esten vacios
+            if (NombreR.getText().isEmpty() || GradoPurezaR.getText().isEmpty() || FechaCaducidadR.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Por favor, rellena todos los campos");
+                return;
             }
+            //compruebo que los campos de cantidad y stock minimo sean numeros
+            try {
+                Integer.parseInt(CantidadR.getText());
+                Integer.parseInt(StockMinimoR.getText());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Por favor, introduce un número válido en los campos Cantidad y Stock Mínimo");
+                CantidadR.setText(String.valueOf(p.getCantidad()));
+                StockMinimoR.setText(String.valueOf(p.getStock_minimo()));
+                return;
+            }
+            // Obtiene los valores de los campos de entrada
+            String nombre = NombreR.getText();
+            int cantidad = Integer.parseInt(CantidadR.getText());
+            int stockMinimo = Integer.parseInt(StockMinimoR.getText());
+            String gradoPureza = GradoPurezaR.getText();
+            String fechaCaducidad = FechaCaducidadR.getText();
+            String ubicacion = (String) CBUbiR.getSelectedItem();
+            String formato = (String) CBForR.getSelectedItem();
+            String riesgo = (String) CBRiesR.getSelectedItem();
+            String localizacion = (String) CBLocR1.getSelectedItem();
+
+            // Obtén los valores de id_almacen e id_ubicacion según tu implementación
+            int idAlmacen = Conexion.obtenerIdAlmacen(localizacion);
+            int idUbicacion = Conexion.obtenerIdUbicacion(ubicacion);
+
+            //Creo un objeto Quimico con los datos del formulario
+            Quimico pq2 = new Quimico(p.getId_producto(), nombre, cantidad, stockMinimo, ubicacion, localizacion
+                    , idAlmacen, idUbicacion, gradoPureza, fechaCaducidad, formato, riesgo);
+
+            // Actualiza el producto en la base de datos
+            Conexion.actualizarQuimico(pq2);
+            JOptionPane.showMessageDialog(null, "Producto actualizado correctamente");
+            //cierra la ventana
+            this.setVisible(false);
+
         });
     }
 
@@ -178,15 +190,15 @@ public class ActualizarR extends JFrame {
         jPanel1.add(GradoPurezaR);
         GradoPurezaR.setBounds(580, 250, 190, 30);
 
-        CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CBUbiR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
         jPanel1.add(CBUbiR);
         CBUbiR.setBounds(580, 180, 190, 30);
 
-        CBForR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CBForR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
         jPanel1.add(CBForR);
         CBForR.setBounds(270, 180, 190, 30);
 
-        CBRiesR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CBRiesR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
         jPanel1.add(CBRiesR);
         CBRiesR.setBounds(270, 320, 190, 30);
 
@@ -195,7 +207,7 @@ public class ActualizarR extends JFrame {
         jPanel1.add(jLabel9);
         jLabel9.setBounds(580, 220, 190, 25);
 
-        CBLocR1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CBLocR1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
         CBLocR1.setFocusable(false);
         jPanel1.add(CBLocR1);
         CBLocR1.setBounds(580, 110, 190, 30);
