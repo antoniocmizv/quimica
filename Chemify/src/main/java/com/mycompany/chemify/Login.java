@@ -7,6 +7,7 @@ package com.mycompany.chemify;
 import com.mycompany.ConexionSQL.Conexion;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.net.URL;
 
@@ -36,6 +37,11 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         });
+        try {
+            this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/quimica.png")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -239,6 +245,7 @@ public class Login extends javax.swing.JFrame {
 
         boolean isValidUser = Conexion.validarUsuario(username, password);
         String typeuser = Conexion.getTypeUser(username, password);
+        //control de errores.
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Usuario o contraseña vacíos");
             return;

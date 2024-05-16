@@ -24,7 +24,11 @@ public class TeacherWindow extends javax.swing.JFrame {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-
+        try {
+            this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/quimica.png")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Buscar b1 = new Buscar();
         b1.setSize(1046, 656);
         b1.setLocation(0, 0);

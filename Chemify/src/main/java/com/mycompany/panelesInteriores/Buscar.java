@@ -476,7 +476,9 @@ public class Buscar extends javax.swing.JPanel {
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontraron productos");
-                model = generarModeloTablaProducto();
+                limpiarTabla();
+                return;
+
             }
 
             for (Producto producto : productos) {
@@ -523,13 +525,25 @@ public class Buscar extends javax.swing.JPanel {
         } catch (NullPointerException ex) {
             System.out.println(ex);
             JOptionPane.showMessageDialog(null, "Error al buscar productos, no se encuentra");
-        } catch (Exception ex) {
-            System.out.println(ex);
-            JOptionPane.showMessageDialog(null, "Error al buscar productos" + ex);
+            limpiarTabla();
         }
 
 
     }//GEN-LAST:event_BuscarBoton1ActionPerformed
+
+    //Función para limpiar la tabla
+    public void limpiarTabla() {
+        tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+                        {null, null, null, null},
+
+                },
+                new String[]{
+                        " ", " ", " ", " ", " "
+                }
+        ));
+        jScrollPane1.setViewportView(tablaProductos);
+    }
 
     private void ordenarTablaCantidad(DefaultTableModel modelo, int columna) {
         // Convertir los datos de la tabla a una lista

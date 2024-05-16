@@ -7,6 +7,7 @@ package com.mycompany.popUp;
 import com.mycompany.Clases.Quimico;
 
 import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -21,6 +22,13 @@ public class PopUpR extends javax.swing.JFrame {
     public PopUpR(Quimico q) {
         initComponents();
         this.pack();
+        try {
+            this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/quimica.png")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.setResizable(false);
+
         GraTF.setEditable(false);
         GraTF.setFocusable(false);
 
@@ -51,7 +59,7 @@ public class PopUpR extends javax.swing.JFrame {
         //hago que el boton de siguiente no esté visible
         jButton1.setVisible(false);
         //añado el primer pictograma
-        URL url = getClass().getResource("/"+q.getPictogramas().get(0).getRuta());
+        URL url = getClass().getResource("/" + q.getPictogramas().get(0).getRuta());
         ImageIcon icon = new ImageIcon(url);
         PicJL.setIcon(icon);
         //si hay mas de un pictograma, activo el boton de siguiente
@@ -61,14 +69,14 @@ public class PopUpR extends javax.swing.JFrame {
         AtomicInteger i = new AtomicInteger(1);
         //añade un listener al boton para que al hacer click se cambie el pictograma
         jButton1.addActionListener(e -> {
-         //va avanzando por los pictogramas
+            //va avanzando por los pictogramas
             if (i.get() == q.getPictogramas().size()) {
                 i.set(0);
             }
-            URL url1 = getClass().getResource("/"+q.getPictogramas().get(i.get()).getRuta());
+            URL url1 = getClass().getResource("/" + q.getPictogramas().get(i.get()).getRuta());
             ImageIcon icon1 = new ImageIcon(url1);
             PicJL.setIcon(icon1);
-            i.getAndIncrement();
+            i.set(i.get() + 1);
 
 
         });
@@ -133,18 +141,18 @@ public class PopUpR extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(175, 175, 175)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(175, Short.MAX_VALUE))
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(175, 175, 175)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(175, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2);
@@ -234,12 +242,12 @@ public class PopUpR extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
 
         pack();

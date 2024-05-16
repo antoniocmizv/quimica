@@ -36,7 +36,7 @@ public class modificarUsuario extends javax.swing.JPanel {
         //defino el combobox de tipo de usuario
         TipoUsuario.removeAllItems();
         TipoUsuario.addItem("admin");
-        TipoUsuario.addItem("user");
+        TipoUsuario.addItem("viewer");
 
         //añado el action listener al boton de añadir usuario
         jButton1.addActionListener(e -> {

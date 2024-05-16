@@ -34,7 +34,8 @@ public class BuscarAlumno extends JPanel {
      */
     public BuscarAlumno() {
         initComponents();
-
+    //hago que la tabla no se pueda editar
+        tablaProductos.setDefaultEditor(Object.class, null);
     }
 
     /**

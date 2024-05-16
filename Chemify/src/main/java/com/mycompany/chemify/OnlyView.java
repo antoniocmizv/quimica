@@ -4,7 +4,7 @@
  */
 package com.mycompany.chemify;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.net.URL;
 
 import com.mycompany.Clases.ConexionManager;
@@ -27,7 +27,11 @@ public class OnlyView extends javax.swing.JFrame {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        
+        try {
+            this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/quimica.png")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
         BuscarAlumno pba1 = new BuscarAlumno();
         pba1.setSize(1046,656);

@@ -58,7 +58,7 @@ public class Conexion implements ConexionManager {
             conexion = conecta();
             String sql1 = "SELECT tipo FROM productos WHERE Nombre_Producto like ?";
             ps = conexion.prepareStatement(sql1);
-            ps.setString(1, busqueda + "%");
+            ps.setString(1, "%"+busqueda + "%");
             rs = ps.executeQuery();
             rs.next();
             String type = rs.getString("tipo");
@@ -84,7 +84,7 @@ public class Conexion implements ConexionManager {
                     "INNER JOIN productos_auxiliares a ON p.Id_Producto = a.Id_Producto " +
                     "WHERE p.Nombre_Producto like ?";
             ps = conexion.prepareStatement(sql);
-            ps.setString(1, busqueda + "%");
+            ps.setString(1, "%"+busqueda + "%");
             rs = ps.executeQuery();
             ArrayList<Producto> auxiliares = new ArrayList<>();
             while (rs.next()) {
@@ -118,7 +118,7 @@ public class Conexion implements ConexionManager {
                     "INNER JOIN materiales m ON p.Id_Producto = m.Id_Producto " +
                     "WHERE p.Nombre_Producto like ?";
             ps = conexion.prepareStatement(sql);
-            ps.setString(1, busqueda + "%");
+            ps.setString(1, "%"+busqueda + "%");
             rs = ps.executeQuery();
             ArrayList<Producto> materiales = new ArrayList<>();
             while (rs.next()) {
@@ -155,7 +155,7 @@ public class Conexion implements ConexionManager {
                     "INNER JOIN formato f on q.Id_Formato = f.Id_Formato " +
                     "WHERE p.Nombre_Producto like ?";
             ps = conexion.prepareStatement(sql);
-            ps.setString(1, busqueda + "%");
+            ps.setString(1, "%"+busqueda + "%");
             rs = ps.executeQuery();
             ArrayList<Producto> quimicos = new ArrayList<>();
             while (rs.next()) {
@@ -701,6 +701,40 @@ public class Conexion implements ConexionManager {
             ps.executeUpdate();
         } catch (Exception ex) {
             System.out.println(ex);
+        }
+    }
+
+    public static void modificarProducto(Producto producto) {
+        try {
+            conexion = conecta();
+            String sql = "UPDATE productos SET Nombre_Producto = ?, Cantidad = ?, Stock_Minimo = ?, Id_Ubicacion = ? " +
+                    "WHERE Id_Producto = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, producto.getNombre());
+            ps.setInt(2, producto.getCantidad());
+            ps.setInt(3, producto.getStock_minimo());
+            ps.setInt(4, producto.getId_ubicacion());
+            ps.setString(5, producto.getId_producto());
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public static ArrayList<String> obtenerCorreosUsuarios() {
+        try {
+            conexion = conecta();
+            String sql = "SELECT correo FROM correos";
+            ps = conexion.prepareStatement(sql);
+            rs = ps.executeQuery();
+            ArrayList<String> correos = new ArrayList<>();
+            while (rs.next()) {
+                correos.add(rs.getString("destinatario"));
+            }
+            return correos;
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return null;
         }
     }
 

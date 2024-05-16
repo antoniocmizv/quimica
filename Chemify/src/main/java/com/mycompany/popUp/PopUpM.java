@@ -6,6 +6,9 @@ package com.mycompany.popUp;
 
 import com.mycompany.Clases.Materiales;
 
+import javax.swing.*;
+import java.awt.*;
+
 /**
  *
  * @author Mario
@@ -17,7 +20,13 @@ public class PopUpM extends javax.swing.JFrame {
      */
     public PopUpM(Materiales m) {
         initComponents();
+        this.setResizable(false);
         this.pack();
+        try {
+            this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/quimica.png")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         NomTF.setEditable(false);
 
         NomTF.setEditable(false);
@@ -93,7 +102,7 @@ public class PopUpM extends javax.swing.JFrame {
         UbiTF = new javax.swing.JTextField();
         LocTF = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(801, 816));
 
         jPanel1.setBackground(new java.awt.Color(44, 171, 182));

@@ -49,57 +49,47 @@ public class ActualizarM extends JFrame {
 
         //Creo un objeto Material con los datos del formulario
 
-
+        try {
             // El bloque try debería comenzar desde aquí
 
             // Agrega un listener al botón de inserción
             BInsertarM.addActionListener(e -> {
-
-                //compruebo que los campos no estén vacíos
-                if (NombreM3.getText().isEmpty() || CantidadM2.getText().isEmpty() || StockMinimoM1.getText().isEmpty() || tipoTF.getText().isEmpty() || FechaComM.getText().isEmpty() || NSerieM1.getText().isEmpty() || TADesM.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Por favor, rellena todos los campos");
-                    return;
-                }
-                //compruebo que la cantidad y el stock mínimo sean números
                 try {
-                    Integer.parseInt(CantidadM2.getText());
-                    Integer.parseInt(StockMinimoM1.getText());
+                    // Obtiene los valores de los campos de entrada
+                    String nombre = NombreM3.getText();
+                    int cantidad = Integer.parseInt(CantidadM2.getText());
+                    int stockMinimo = Integer.parseInt(StockMinimoM1.getText());
+                    String tipo = tipoTF.getText();
+                    String fechaCompra = FechaComM.getText();
+                    String numeroSerie = NSerieM1.getText();
+                    String descripcion = TADesM.getText();
+                    String ubicacion = (String) CBUbiM1.getSelectedItem();
+                    String localizacion = (String) CBLocM.getSelectedItem();
+
+                    // Obtén los valores de id_almacen e id_ubicacion según tu implementación
+                    int idAlmacen = Conexion.obtenerIdAlmacen(localizacion);
+                    int idUbicacion = Conexion.obtenerIdUbicacion(ubicacion);
+
+                    // Crea un objeto de tipo Materiales con los valores obtenidos
+                    Materiales m = new Materiales(p.getId_producto(), nombre, cantidad, stockMinimo, ubicacion, localizacion, idAlmacen, idUbicacion, tipo, descripcion, fechaCompra, numeroSerie);
+
+                    // Actualiza el producto utilizando el objeto m
+                    Conexion.actualizarMaterial(m);
+
+                    // Muestra un mensaje indicando que el producto se actualizó correctamente
+                    JOptionPane.showMessageDialog(null, "Producto actualizado correctamente");
+
+                    // Oculta la ventana actual
+                    this.setVisible(false);
                 } catch (NumberFormatException ex) {
+                    // Muestra un mensaje si hay un error de formato en los campos de cantidad o stock mínimo
                     JOptionPane.showMessageDialog(null, "Por favor, introduce un número válido en los campos Cantidad y Stock Mínimo");
-                    CantidadM2.setText(String.valueOf(p.getCantidad()));
-                    StockMinimoM1.setText(String.valueOf(p.getStock_minimo()));
-                    return;
                 }
-
-                // Obtiene los valores de los campos de entrada
-                String nombre = NombreM3.getText();
-                int cantidad = Integer.parseInt(CantidadM2.getText());
-                int stockMinimo = Integer.parseInt(StockMinimoM1.getText());
-                String tipo = tipoTF.getText();
-                String fechaCompra = FechaComM.getText();
-                String numeroSerie = NSerieM1.getText();
-                String descripcion = TADesM.getText();
-                String ubicacion = (String) CBUbiM1.getSelectedItem();
-                String localizacion = (String) CBLocM.getSelectedItem();
-
-                // Obtén los valores de id_almacen e id_ubicacion según tu implementación
-                int idAlmacen = Conexion.obtenerIdAlmacen(localizacion);
-                int idUbicacion = Conexion.obtenerIdUbicacion(ubicacion);
-
-                // Crea un objeto de tipo Materiales con los valores obtenidos
-                Materiales m = new Materiales(p.getId_producto(), nombre, cantidad, stockMinimo, ubicacion, localizacion, idAlmacen, idUbicacion, tipo, descripcion, fechaCompra, numeroSerie);
-
-                // Actualiza el producto utilizando el objeto m
-                Conexion.actualizarMaterial(m);
-
-                // Muestra un mensaje indicando que el producto se actualizó correctamente
-                JOptionPane.showMessageDialog(null, "Producto actualizado correctamente");
-
-                // Oculta la ventana actual
-                this.setVisible(false);
-
             });
-
+        } catch (NumberFormatException e) {
+            // Este catch no tiene sentido aquí, ya que no hay ninguna operación numérica directamente dentro del bloque try
+            JOptionPane.showMessageDialog(null, "Por favor, introduce un número válido en los campos Cantidad y Stock Mínimo");
+        }
 
         //Actualizo el producto en la base de datos añadiendo el listener
 
@@ -178,7 +168,7 @@ public class ActualizarM extends JFrame {
         jPanel1.add(jLabel7);
         jLabel7.setBounds(570, 100, 140, 25);
 
-        CBLocM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
+        CBLocM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(CBLocM);
         CBLocM.setBounds(570, 60, 190, 30);
 
@@ -189,7 +179,7 @@ public class ActualizarM extends JFrame {
         jPanel1.add(tipoTF);
         tipoTF.setBounds(280, 270, 190, 30);
 
-        CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
+        CBUbiM1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(CBUbiM1);
         CBUbiM1.setBounds(570, 130, 190, 30);
 

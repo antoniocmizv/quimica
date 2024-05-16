@@ -1,6 +1,8 @@
 package com.mycompany.Clases;
 
-public class Producto implements Comparable {
+import com.mycompany.ConexionSQL.Conexion;
+
+public class Producto implements Comparable ,metodosProducto {
     private String id_producto;
     private String nombre;
     private int cantidad;
@@ -104,5 +106,18 @@ public class Producto implements Comparable {
         //comparo los productos por su nombre
         return this.nombre.compareTo(p.getNombre());
 
+    }
+
+    @Override
+    public void modificar(Producto p) {
+        this.nombre = p.getNombre();
+        this.cantidad = p.getCantidad();
+        this.stock_minimo = p.getStock_minimo();
+        this.ubicacion = p.getUbicacion();
+        this.almacen = p.getAlmacen();
+        this.id_almacen = p.getId_almacen();
+        this.id_ubicacion = p.getId_ubicacion();
+
+        Conexion.modificarProducto(this);
     }
 }
