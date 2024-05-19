@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Insertar Producto</title>
+    <link rel="stylesheet" href="css/estilo-insertar.css">
+
+</head>
+<body>
+<div class="home-button-container" style="position: absolute; top: 10px; left: 10px;">
+    <button onclick="window.location.href='/busqueda'">Página Principal</button>
+</div>
+<div class="logout-container">
+    <form action="/logout" method="post">
+        <input type="submit" value="Cerrar Sesión"/>
+    </form>
+</div>
+<div class="contenedor">
+    <h1>Insertar Producto</h1>
+
+    <form th:action="@{/insertarProducto}" method="post">
+        <div>
+            <label>Nombre:</label>
+            <input type="text" name="nombre" required>
+        </div>
+        <div>
+            <label>Cantidad:</label>
+            <input type="number" name="cantidad" required>
+        </div>
+        <div>
+            <label>Almacén:</label>
+            <select id="almacen" name="almacen" required>
+
+                <option th:each="almacen : ${almacenes}" th:value="${almacen}" th:text="${almacen}"></option>
+            </select>
+
+        </div>
+        <div>
+            <label>Ubicación:</label>
+            <select name="ubicacion" id="ubicacion" required>
+                <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion}"></option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Insertar Producto">
+        </div>
+    </form>
+</div>
+<script>
+    document.getElementById('almacen').addEventListener('change', function () {
+        var almacenSeleccionado = this.value;
+        var selectUbicacion = document.getElementById('ubicacion');
+
+        // Limpia las opciones existentes
+        selectUbicacion.innerHTML = '';
+
+        // Realiza una solicitud AJAX al servidor para obtener las ubicaciones del almacén seleccionado
+        fetch('/obtenerUbicaciones?almacen=' + almacenSeleccionado)
+            .then(response => response.json())
+            .then(ubicaciones => {
+                // Añade una opción por cada ubicación
+                ubicaciones.forEach(ubicacion => {
+                    var option = document.createElement('option');
+                    option.value = ubicacion;
+                    option.text = ubicacion;
+                    selectUbicacion.add(option);
+                });
+            });
+    });
+</script>
+</body>
+</html>

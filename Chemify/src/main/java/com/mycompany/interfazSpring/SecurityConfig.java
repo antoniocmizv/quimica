@@ -1,9 +1,11 @@
 package com.mycompany.interfazSpring;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
@@ -24,18 +26,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("USER");
 
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("static.css/**", "/js/**", "/img/**").permitAll()
+                .antMatchers("/buscarProducto").permitAll()
+                .antMatchers("/", "/inicio").permitAll()
+                .antMatchers("/busqueda").permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/inicio")
+                .defaultSuccessUrl("/busqueda", true)
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll()
+                .logoutSuccessUrl("/inicio")
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .invalidSessionUrl("/inicio")
+                .sessionFixation().migrateSession()
+                .maximumSessions(1)
+                .expiredUrl("/inicio");
     }
 }

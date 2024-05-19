@@ -738,6 +738,71 @@ public class Conexion implements ConexionManager {
         }
     }
 
+    public static Quimico obtenerQuimico(String id) {
+        try {
+            conexion = conecta();
+            String sql = "SELECT * FROM productos p " +
+                    "INNER JOIN ubicaciones u ON p.Id_Ubicacion = u.Id_Ubicacion " +
+                    "INNER JOIN salas s ON u.Codigo_Almacen = s.Id_Almacen " +
+                    "INNER JOIN quimicos q ON p.Id_Producto = q.Id_Producto " +
+                    "INNER JOIN formato f on q.Id_Formato = f.Id_Formato " +
+                    "WHERE p.Id_Producto = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+            rs.next();
+            String id_producto = rs.getString("id_producto");
+            String nombre = rs.getString("nombre_producto");
+            int cantidad = rs.getInt("cantidad");
+            int stock_minimo = rs.getInt("stock_minimo");
+            String nombre_ubicacion = rs.getString("nombre_ubicacion");
+            String nombre_almacen = rs.getString("Nombre_Almacen");
+            String pureza = rs.getString("pureza");
+            String fecha_caducidad = rs.getString("fecha_caducidad");
+            String formato = rs.getString("formato");
+            //String riesgo = rs.getString("nombre_riesgo");
+            int id_almacen = rs.getInt("id_almacen");
+            int id_ubicacion = rs.getInt("id_ubicacion");
+
+            return new Quimico(id_producto, nombre, cantidad, stock_minimo, nombre_ubicacion,
+                    nombre_almacen, id_almacen, id_ubicacion, pureza, fecha_caducidad, formato, "Nocivo, comburente, corrosivo, peligroso para el medio ambiente, carcinogeno");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+
+    public static ArrayList<Producto> obtenerTodosLosProductos() {
+        try {
+            conexion = conecta();
+            String sql = "SELECT * FROM productos p " +
+                    "INNER JOIN ubicaciones u ON p.Id_Ubicacion = u.Id_Ubicacion " +
+                    "INNER JOIN salas s ON u.Codigo_Almacen = s.Id_Almacen";
+            ps = conexion.prepareStatement(sql);
+            rs = ps.executeQuery();
+            ArrayList<Producto> productos = new ArrayList<>();
+            while (rs.next()) {
+                String id_producto = rs.getString("id_producto");
+                String nombre = rs.getString("nombre_producto");
+                int cantidad = rs.getInt("cantidad");
+                int stock_minimo = rs.getInt("stock_minimo");
+                String nombre_ubicacion = rs.getString("nombre_ubicacion");
+                String nombre_almacen = rs.getString("Nombre_Almacen");
+                int id_almacen = rs.getInt("id_almacen");
+                int id_ubicacion = rs.getInt("id_ubicacion");
+
+                Producto producto = new Producto(id_producto, nombre, cantidad, stock_minimo, nombre_ubicacion,
+                        nombre_almacen, id_almacen, id_ubicacion);
+                productos.add(producto);
+            }
+            return productos;
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+
+
     @Override
     public void insertar(Producto p) {
 

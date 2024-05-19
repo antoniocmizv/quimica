@@ -5,6 +5,7 @@
 package com.mycompany.chemify;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.mycompany.interfazSpring.MiAplicacion;
 
 import javax.swing.*;
 
@@ -28,5 +29,6 @@ public class Chemify {
                 new Login();
             }
         });
+
     }
 }
