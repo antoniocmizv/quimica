@@ -68,6 +68,54 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="js/easterEgg.js"></script>
+<script>
+    // Selecciona todos los elementos de la tabla
+    var elementosTabla = document.querySelectorAll('table tr');
+
+    // Agrega el controlador de eventos a cada elemento de la tabla
+    elementosTabla.forEach(function (elemento) {
+        elemento.addEventListener('contextmenu', function (e) {
+            // Previene el comportamiento predeterminado del clic derecho
+            e.preventDefault();
+
+            // Elimina cualquier menú contextual existente
+            ocultarMenuContextual();
+
+            // Muestra tu propio menú contextual
+            mostrarMenuContextual(e.pageX, e.pageY);
+        });
+    });
+
+    function mostrarMenuContextual(x, y) {
+        // Crea el menú contextual
+        var menu = document.createElement('div');
+        menu.id = 'menuContextual'; // Asegúrate de asignar un id al menú
+        menu.style.position = 'absolute';
+        menu.style.left = x + 'px';
+        menu.style.top = y + 'px';
+        menu.innerHTML = '<a href="ruta/a/pagina/de/modificacion">Modificar datos</a>';
+
+        // Agrega el menú al cuerpo del documento
+        document.body.appendChild(menu);
+    }
+
+    document.body.addEventListener('click', function () {
+        // Oculta el menú contextual
+        ocultarMenuContextual();
+    });
+
+    function ocultarMenuContextual() {
+        // Selecciona el menú contextual
+        var menu = document.querySelector('#menuContextual');
+
+        // Si el menú existe, lo elimina
+        if (menu) {
+            menu.remove();
+        }
+    }
+</script>
+
+
 
 
 </body>

@@ -91,7 +91,7 @@ public class ActualizarM extends JFrame {
             JOptionPane.showMessageDialog(null, "Por favor, introduce un número válido en los campos Cantidad y Stock Mínimo");
         }
 
-        //Actualizo el producto en la base de datos añadiendo el listener
+
 
 
     }

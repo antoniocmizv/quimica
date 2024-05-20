@@ -5,6 +5,7 @@ import com.mycompany.Clases.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -772,35 +773,35 @@ public class Conexion implements ConexionManager {
         }
     }
 
-    public static ArrayList<Producto> obtenerTodosLosProductos() {
-        try {
-            conexion = conecta();
-            String sql = "SELECT * FROM productos p " +
-                    "INNER JOIN ubicaciones u ON p.Id_Ubicacion = u.Id_Ubicacion " +
-                    "INNER JOIN salas s ON u.Codigo_Almacen = s.Id_Almacen";
-            ps = conexion.prepareStatement(sql);
-            rs = ps.executeQuery();
-            ArrayList<Producto> productos = new ArrayList<>();
-            while (rs.next()) {
-                String id_producto = rs.getString("id_producto");
-                String nombre = rs.getString("nombre_producto");
-                int cantidad = rs.getInt("cantidad");
-                int stock_minimo = rs.getInt("stock_minimo");
-                String nombre_ubicacion = rs.getString("nombre_ubicacion");
-                String nombre_almacen = rs.getString("Nombre_Almacen");
-                int id_almacen = rs.getInt("id_almacen");
-                int id_ubicacion = rs.getInt("id_ubicacion");
+  public static HashMap<String, Producto> obtenerTodosLosProductos() {
+    try {
+        conexion = conecta();
+        String sql = "SELECT * FROM productos p " +
+                "INNER JOIN ubicaciones u ON p.Id_Ubicacion = u.Id_Ubicacion " +
+                "INNER JOIN salas s ON u.Codigo_Almacen = s.Id_Almacen";
+        ps = conexion.prepareStatement(sql);
+        rs = ps.executeQuery();
+        HashMap<String, Producto> productos = new HashMap<>();
+        while (rs.next()) {
+            String id_producto = rs.getString("id_producto");
+            String nombre = rs.getString("nombre_producto");
+            int cantidad = rs.getInt("cantidad");
+            int stock_minimo = rs.getInt("stock_minimo");
+            String nombre_ubicacion = rs.getString("nombre_ubicacion");
+            String nombre_almacen = rs.getString("Nombre_Almacen");
+            int id_almacen = rs.getInt("id_almacen");
+            int id_ubicacion = rs.getInt("id_ubicacion");
 
-                Producto producto = new Producto(id_producto, nombre, cantidad, stock_minimo, nombre_ubicacion,
-                        nombre_almacen, id_almacen, id_ubicacion);
-                productos.add(producto);
-            }
-            return productos;
-        } catch (Exception ex) {
-            System.out.println(ex);
-            return null;
+            Producto producto = new Producto(id_producto, nombre, cantidad, stock_minimo, nombre_ubicacion,
+                    nombre_almacen, id_almacen, id_ubicacion);
+            productos.put(id_producto, producto);
         }
+        return productos;
+    } catch (Exception ex) {
+        System.out.println(ex);
+        return null;
     }
+}
 
 
     @Override

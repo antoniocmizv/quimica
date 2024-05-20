@@ -120,4 +120,12 @@ public class Producto implements Comparable ,metodosProducto {
 
         Conexion.modificarProducto(this);
     }
+
+    @Override
+    public boolean verificarStock(Producto p) {
+        if (p.getCantidad() >= p.getStock_minimo()) {
+            return false;
+        }
+        return true;
+    }
 }

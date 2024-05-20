@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -75,7 +76,9 @@ public class GeneradorPDF {
         ArrayList<Producto> productos = Conexion.buscarProductos(productoBuscado);
         try {
             if (productoBuscado == null || productoBuscado.isEmpty()) {
-                productos = Conexion.obtenerTodosLosProductos();
+                HashMap<String, Producto> productoHashMap= Conexion.obtenerTodosLosProductos();
+
+                productos = new ArrayList<>(productoHashMap.values());
             }
 
             PdfWriter.getInstance(document, pdfData);

@@ -147,3 +147,28 @@ body, p {
     width: 60px; /* Ajusta esto según el tamaño deseado */
     height: 60px; /* Ajusta esto según el tamaño deseado */
 }
+
+@media only screen and (max-width: 600px) {
+    .contenedor-tabla {
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    table {
+        font-size: 16px; /* Aumenta el tamaño de la fuente para una mejor legibilidad en pantallas pequeñas */
+    }
+
+    .logout-container {
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+
+    form input[type="text"] {
+        width: 100%; /* Ajusta el ancho según necesites */
+    }
+
+    .img-container img {
+        width: 50px; /* Ajusta esto según el tamaño deseado */
+        height: 50px; /* Ajusta esto según el tamaño deseado */
+    }
+}
