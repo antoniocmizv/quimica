@@ -72,44 +72,44 @@ public class Quimico extends Producto {
             switch (riesgo){
                case "comburente"
                      -> {
-                     pictogramas.add(new Pictograma(1, "comburente", "comburente.png"));
+                     pictogramas.add(new Pictograma(1, "comburente", "img/comburente.png"));
                 }
                 case "corrosivo"
                      -> {
-                     pictogramas.add(new Pictograma(2, "corrosivo", "corrosivo.png"));
+                     pictogramas.add(new Pictograma(2, "corrosivo", "img/corrosivo.png"));
                 }
                 case "toxicidad aguda"
                      -> {
-                     pictogramas.add(new Pictograma(3, "toxicidad aguda", "toxicidad_aguda.png"));
+                     pictogramas.add(new Pictograma(3, "toxicidad aguda", "img/toxicidad_aguda.png"));
                 }
                 case "peligroso para el medio ambiente"
                      -> {
                      pictogramas.add(new Pictograma(4, "peligroso para el medio ambiente",
-                             "peligroso-ambiente.png"));
+                             "img/peligroso-ambiente.png"));
                 }
                 case "carcinógeno"
                      -> {
-                     pictogramas.add(new Pictograma(5, "carcinógeno", "carcinogeno.png"));
+                     pictogramas.add(new Pictograma(5, "carcinógeno", "img/carcinogeno.png"));
                 }
                 case "inflamable"
                      -> {
-                     pictogramas.add(new Pictograma(6, "inflamable", "inflamable.png"));
+                     pictogramas.add(new Pictograma(6, "inflamable", "img/inflamable.png"));
                 }
                 case "gases a presión"
                      -> {
-                     pictogramas.add(new Pictograma(7, "gases a presión", "gas.png"));
+                     pictogramas.add(new Pictograma(7, "gases a presión", "img/gas.png"));
                 }
                 case "riesgo biológico"
                      -> {
-                     pictogramas.add(new Pictograma(8, "riesgo biológico", "biologico.png"));
+                     pictogramas.add(new Pictograma(8, "riesgo biológico", "img/biologico.png"));
                 }
                 case "nocivo"
                      -> {
-                     pictogramas.add(new Pictograma(9, "nocivo", "nocivo.png"));
+                     pictogramas.add(new Pictograma(9, "nocivo", "img/nocivo.png"));
                 }
                 case "irritante"
                      -> {
-                     pictogramas.add(new Pictograma(10, "irritante", "nocivo.png"));
+                     pictogramas.add(new Pictograma(10, "irritante", "img/nocivo.png"));
                 }
             }
         }

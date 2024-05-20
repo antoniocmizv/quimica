@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="css/estilo-inicio.css">
+</head>
+
+<body>
+<div class="contenedor">
+    <h1>CHEMIFY</h1>
+    <h1>Login</h1>
+    <p>Por favor, ingrese sus credenciales.</p>
+    <div th:if="${loginError}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <div class="img-container">
+        <img src="img/quimica.png" alt="img">
+    </div>
+    <p style="color: red" th:if="${param.error}">Error de autenticación y/o autorización.</p>
+    <form th:action="@{/login}" method="post">
+        <div><label> User : <input type="text" name="username"/> </label></div>
+        <div><label> Password: <input type="password" name="password"/> </label></div>
+        <div><input type="submit" value="Acceso"/></div>
+    </form>
+    <p>Si no tiene una cuenta, <a href="/registro">regístrese</a>.</p>
+
+</div>
+
+
+</body>
+
+</html>

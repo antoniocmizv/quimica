@@ -5,19 +5,22 @@ import java.util.List;
 import com.mycompany.ConexionSQL.Conexion;
 
 public class SistemaAlertasStock {
+    public static void main(String[] args) {
+        verificarStock();
+    }
 
     // Función para verificar el nivel de stock y enviar alertas si es necesario
-    public static void verificarStock() {
+    public static String verificarStock() {
         List<Producto> productos = Conexion.obtenerProductos(); // Obtener la lista de productos desde la base de datos
-
+        String mensaje = "";
         for (Producto producto : productos) {
 
             if (producto.getCantidad() < producto.getStock_minimo()) {
-                // Enviar una alerta
-                enviarAlertaStock(producto);
-                System.out.println("Alerta de stock enviada para el producto: " + producto.getNombre());
+                mensaje += "\nAlerta de stock: El producto " + producto.getNombre() + " tiene un nivel de stock bajo.";
+                System.out.println(mensaje);
             }
         }
+        return mensaje;
     }
 
     // Función para enviar una alerta de stock

@@ -10,7 +10,8 @@ import com.mycompany.ConexionSQL.Conexion;
 public class EnvioCorreo {
     public static void main(String[] args) {
         // Ejemplo de cómo utilizar la función de enviar alerta de stock
-        enviarAlertaStock("acasmor1311@ieszaidinvergeles.org", "Alerta de Stock", "El producto X tiene un nivel de stock bajo.");
+        enviarAlertaStock("lasenololy@gmail.com", "Alerta de Stock",
+                "El producto X tiene un nivel de stock bajo.");
     }
 
     public static void enviarAlertaStock(String destinatario, String asunto, String mensaje) {
