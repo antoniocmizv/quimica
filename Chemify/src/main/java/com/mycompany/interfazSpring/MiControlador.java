@@ -28,6 +28,15 @@ public class MiControlador {
         return "inicio";
     }
 
+    @GetMapping("/inicioTest")
+    public String showLoginTest(){
+        return "inicioTest";
+    }
+
+    @GetMapping("/recuperar-contraseña")
+    public String showContrasena(){
+        return "contrasenaOlvidada.html";
+    }
     @GetMapping("/acceso")
     public String showAcceso(Model model) {
         List<Producto> productos = new ArrayList<>();
@@ -50,6 +59,11 @@ public class MiControlador {
         model.addAttribute("loginError", true);
         model.addAttribute("errorMessage", "Usuario o contraseña incorrectos");
         return "inicio";
+    }
+
+    @PostMapping("/register")
+    public String registro(Acceso user , Model model){
+       return null;
     }
 
     @PostMapping("/buscarProducto")

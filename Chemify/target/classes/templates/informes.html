@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Generar Informe de Stock</title>
+    <link rel="stylesheet" href="css/estilo-insertar.css">
+</head>
+<body>
+<div class="home-button-container" style="position: absolute; top: 10px; left: 10px;">
+    <button onclick="window.location.href='/busqueda'">Página Principal</button>
+</div>
+<div class="logout-container">
+    <form action="/logout" method="post">
+        <input type="submit" value="Cerrar Sesión"/>
+    </form>
+</div>
+<div class="contenedor">
+    <h1>Generar Informe de Stock</h1>
+
+    <form th:action="@{/descargarPDF}" method="post" id="informeForm">
+        <div>
+            <label>Tipo de Informe:</label>
+            <select id="tipoInforme" name="tipoInforme" required onchange="mostrarBuscador()">
+                <option value="completo">Sacar informe completo</option>
+                <option value="nombre">Sacar informe por nombre</option>
+            </select>
+        </div>
+        <div id="buscadorNombre" style="display: none;">
+            <label>Nombre:</label>
+            <input type="text" name="nombreProducto">
+        </div>
+        <div>
+            <input type="submit" value="Descargar PDF">
+        </div>
+    </form>
+</div>
+<script>
+    function mostrarBuscador() {
+        var tipoInforme = document.getElementById('tipoInforme').value;
+        var buscadorNombre = document.getElementById('buscadorNombre');
+        var nombreProducto = document.querySelector('input[name="nombreProducto"]');
+        if (tipoInforme === 'nombre') {
+            buscadorNombre.style.display = 'block';
+        } else {
+            buscadorNombre.style.display = 'none';
+            nombreProducto.value = ''; // Borra el valor del campo nombreProducto
+        }
+    }
+</script>
+</body>
+</html>

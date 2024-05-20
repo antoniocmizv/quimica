@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalles del Químico</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<h1>Detalles del Químico</h1>
+<p>ID: <span th:text="${producto.getId_producto()}"></span></p>
+<p>Nombre: <span th:text="${producto.getNombre()}"></span></p>
+<p>Cantidad: <span th:text="${producto.getNombre()}"></span></p>
+<p>Stock mínimo: <span th:text="${producto.getStock_minimo()}"></span></p>
+<p>Ubicación: <span th:text="${producto.getUbicacion()}"></span></p>
+<p>Almacén: <span th:text="${producto.getUbicacion()}"></span></p>
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li th:each="pictograma, stat : ${producto.getPictogramas()}" data-target="#carouselExampleIndicators"
+            th:data-slide-to="${stat.index}" th:class="${stat.first} ? 'active' : ''"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div th:each="pictograma, stat : ${producto.pictogramas}"
+             th:class="${stat.first} ? 'carousel-item active' : 'carousel-item'">
+            <img th:src="${pictograma.getRuta()}" class="d-block w-100" alt="img">
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
