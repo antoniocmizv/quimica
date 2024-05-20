@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Conexion implements ConexionManager {
 
-    private static final String DB_URL = "jdbc:mysql://localhost/proyecto_quimica";
+    private static final String DB_URL = "jdbc:mysql://172.26.184:3306/laboratorioDeQuimica";
     private static final String USER = "root";
     private static final String PASS = "SQL2022";
     private static Connection conexion = null;

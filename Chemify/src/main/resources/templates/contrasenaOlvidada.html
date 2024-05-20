@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Recuperar contraseña</title>
-    <link rel="stylesheet" href="css/estilo-contrasenaOlvidada.css">
+    <link rel="stylesheet" href="/static/css/estilo-contrasenaOlvidada.css">
 </head>
 <body>
 <main class="container-forget">
@@ -14,9 +14,9 @@
         </header>
         <hr>
         <main>
-            <p>Please enter your acount email address or mobile number to search for your account</p>
+            <p>Ingrese la dirección de correo electrónico de su cuenta o el número de teléfono móvil para buscar su cuenta.</p>
             <form th:action="@{/forgetPassword}" method="post">
-            <input type="text" placeholder="Email address or  number phone" name="forgetPassword">
+            <input type="text" placeholder="Email o username" name="forgetPassword">
             </form>
         </main>
         <hr>

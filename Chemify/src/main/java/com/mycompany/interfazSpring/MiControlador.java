@@ -33,7 +33,7 @@ public class MiControlador {
         return "inicioTest";
     }
 
-    @GetMapping("/recuperar-contraseña")
+    @GetMapping("/recuperarContraseña")
     public String showContrasena(){
         return "contrasenaOlvidada.html";
     }

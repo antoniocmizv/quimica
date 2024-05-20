@@ -1,5 +1,6 @@
 package com.mycompany.Clases;
 
+
 public class Acceso {
     private String username;
     private String password;
