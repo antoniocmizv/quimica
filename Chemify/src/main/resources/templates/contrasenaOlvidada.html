@@ -7,22 +7,27 @@
     <link rel="stylesheet" href="css/estilo-contrasenaOlvidada.css">
 </head>
 <body>
+<div class="img-container">
+    <img src="img/quimica.png" alt="img">
+</div>
 <main class="container-forget">
     <div class="form-container">
         <header class="title">
-            <h2 class="h2-text">Find your Account</h2>
+            <h2 class="h2-text">Recupere su cuenta</h2>
         </header>
         <hr>
         <main>
-            <p>Ingrese la dirección de correo electrónico de su cuenta o el número de teléfono móvil para buscar su cuenta.</p>
+            <p>Ingrese el usuario de su cuenta para poder recuperar su cuenta, recuerde contacte con el administrador si tiene problemas.</p>
             <form th:action="@{/forgetPassword}" method="post">
-            <input type="text" placeholder="Email o username" name="forgetPassword">
+            <input type="text" placeholder="Usuario" name="forgetPassword">
             </form>
         </main>
         <hr>
         <footer>
-            <a href="sesion.html"><button style="background-color:#908deb;">Cancel</button></a>
-            <a href=""><button>Search</button></a>
+            <a href="inicio"><button style="background-color:#908deb;">Cancelar</button></a>
+            <form th:action="@{/restorePassword}" method="post">
+                <button type="submit">Recuperar</button>
+            </form>
         </footer>
     </div>
 </main>

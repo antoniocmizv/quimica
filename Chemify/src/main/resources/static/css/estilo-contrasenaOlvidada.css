@@ -7,7 +7,7 @@
 }
 body{
     background-color: #c9d6ff;
-    background: linear-gradient(to right, #282c38, #e2e2e2);
+    background: linear-gradient(to right, #000000, #95ecaa);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,13 +20,14 @@ body{
     justify-content: center;
     background-color: #fff;
     border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    box-shadow: 10px 10px 5px gray;
     position: relative;
     overflow: hidden;
     width: 768px;
     max-width: 100%;
     min-height: 480px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(79, 241, 36, 0.7), 0 2px 4px rgba(0, 0, 0, 0.1);
+
 }
 .form-container{
     position: absolute;
@@ -36,7 +37,7 @@ body{
     flex-direction: column;
     padding: 0px 40px;
     height: 100%;
-    line-height: auto;
+
 }
 .container-forget hr{
     width: 100%;
@@ -50,12 +51,17 @@ body{
     margin: 20px 0px;
     margin-bottom: 50px;
     display: flex;
-    justify-items: center;
+    justify-items: left;
     flex-direction: column;
 }
 .container-forget footer{
     margin-left: 50%;
     margin-top: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-items: right;
+    gap: 5px;
 }
 .container-forget h2{
     font-size: 2rem;
@@ -94,4 +100,15 @@ body{
     text-transform: uppercase;
     margin-top: 10px;
     cursor: pointer;
+}
+.img-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 20px;
+}
+
+.img-container img {
+    width: 100px; /* Ajusta esto según el tamaño deseado */
+    height: auto;
 }

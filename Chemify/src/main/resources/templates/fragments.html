@@ -5,7 +5,6 @@
             <th>Nombre</th>
             <th>Cantidad</th>
             <th>Almacen</th>
-            <th>Cantidad</th>
             <th>Stock Minimo</th>
             <th>Pureza</th>
             <th>Fecha de caducidad</th>
@@ -18,9 +17,8 @@
         <tr th:each="producto ,stat :${productos}">
             <td th:text="${producto.getNombre()}"></td>
             <td th:text="${producto.getCantidad()}"></td>
-            <td th:text="${producto.getStock_minimo()}"></td>
             <td th:text="${producto.getAlmacen()}"></td>
-            <td th:text="${producto.getCantidad()}"></td>
+            <td th:text="${producto.getStock_minimo()}"></td>
             <td th:text="${producto.getPureza()}"></td>
             <td th:text="${producto.getFecha_caducidad()}"></td>
             <td th:text="${producto.getFormato()}"></td>
@@ -61,7 +59,7 @@
             <th>Subtipo</th>
             <th>Descripcion</th>
             <th>Fecha De Compra</th>
-            <th>Núnero De Serie</th>
+            <th>Número De Serie</th>
         </tr>
         </thead>
         <tbody>

@@ -803,19 +803,19 @@ public class Conexion implements ConexionManager {
     }
 }
 
-    public static boolean registrarUsuario(String username, String password) {
+    public static void registrarUsuario(String username, String password) {
         try {
             conexion = conecta();
             String sql = "INSERT INTO usuarios (username, password, type) VALUES (?, ?, ?)";
             ps = conexion.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, password);
-            ps.setString(3, "USER");
+            ps.setString(3, "VIEWER");
             ps.executeUpdate();
-            return true;
+
         } catch (Exception ex) {
             System.out.println(ex);
-            return false;
+
         }
     }
 
