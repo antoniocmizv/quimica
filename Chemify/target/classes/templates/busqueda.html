@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Busqueda</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/estilo-busqueda.css">
+</head>
+
+<body>
+<div>
+    <div>
+        <div class="img-container">
+            <img src="img/quimica.png" alt="img">
+        </div>
+        <h1>CHEMIFY</h1>
+        <h1>Bienvenido</h1>
+        <p>Por favor, busque un producto.</p>
+        <div class="nav-links">
+            <a href="insertar">Insertar</a>
+            <a href="actualizar">Actualizar</a>
+            <a href="informes">Informes</a>
+            <a href="alertas">Alertas</a>
+        </div>
+
+        <div class="logout-container">
+            <form action="/logout" method="post">
+                <input type="submit" value="Cerrar Sesión"/>
+            </form>
+        </div>
+    </div>
+    <div>
+        <div th:if="${error}">
+            <p th:text="${error}"></p>
+        </div>
+        <form action="/buscarProducto" method="post">
+            <input type="text" name="nombreProducto" required>
+            <button type="submit"><img src="img/lupa.png" alt="img" width="20px" height="20px"></button>
+        </form>
+    </div>
+    <div th:if="${busquedaRealizada == true}" class="contenedor-tabla">
+        <h2>Resultados de la busqueda: </h2>
+
+        <div th:if="${quimico == true}">
+            <div th:replace="fragments :: quimicoTable(${productos})"></div>
+        </div>
+        <div th:if="${materiales == true}">
+            <div th:replace="fragments :: materialesTable(${productos})"></div>
+        </div>
+        <div th:if="${pA == true}">
+            <div th:replace="fragments :: productoAuxiliar(${productos})"></div>
+        </div>
+
+    </div>
+
+
+</div>
+<script>
+    function mostrarDetalles(event) {
+        var row = event.currentTarget;
+        var id = row.getAttribute('data-id');
+        window.location.href = '/producto/' + id;
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="js/easterEgg.js"></script>
+<script>
+    // Selecciona todos los elementos de la tabla
+    var elementosTabla = document.querySelectorAll('table tr');
+
+    // Agrega el controlador de eventos a cada elemento de la tabla
+    elementosTabla.forEach(function (elemento) {
+        elemento.addEventListener('contextmenu', function (e) {
+            // Previene el comportamiento predeterminado del clic derecho
+            e.preventDefault();
+
+            // Elimina cualquier menú contextual existente
+            ocultarMenuContextual();
+
+            // Muestra tu propio menú contextual
+            mostrarMenuContextual(e.pageX, e.pageY);
+        });
+    });
+
+    function mostrarMenuContextual(x, y) {
+        // Crea el menú contextual
+        var menu = document.createElement('div');
+        menu.id = 'menuContextual'; // Asegúrate de asignar un id al menú
+        menu.style.position = 'absolute';
+        menu.style.left = x + 'px';
+        menu.style.top = y + 'px';
+        menu.innerHTML = '<a href="ruta/a/pagina/de/modificacion">Modificar datos</a>';
+
+        // Agrega el menú al cuerpo del documento
+        document.body.appendChild(menu);
+    }
+
+    document.body.addEventListener('click', function () {
+        // Oculta el menú contextual
+        ocultarMenuContextual();
+    });
+
+    function ocultarMenuContextual() {
+        // Selecciona el menú contextual
+        var menu = document.querySelector('#menuContextual');
+
+        // Si el menú existe, lo elimina
+        if (menu) {
+            menu.remove();
+        }
+    }
+</script>
+
+
+
+
+</body>
+</html>

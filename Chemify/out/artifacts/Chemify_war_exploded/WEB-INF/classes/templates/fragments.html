@@ -1,0 +1,95 @@
+<div th:fragment="quimicoTable(quimicos= ${productos})">
+    <table>
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Almacen</th>
+            <th>Cantidad</th>
+            <th>Pureza</th>
+            <th>Fecha de caducidad</th>
+            <th>Formato</th>
+            <th>Riesgos</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="producto : ${productos}"  >
+            <td th:text="${producto.getNombre()}"></td>
+            <td th:text="${producto.getCantidad()}"></td>
+            <td th:text="${producto.getAlmacen()}"></td>
+            <td th:text="${producto.getCantidad()}"></td>
+            <td th:text="${producto.getPureza()}"></td>
+            <td th:text="${producto.getFecha_caducidad()}"></td>
+            <td th:text="${producto.getFormato()}"></td>
+            <td>
+                <div id="carouselExampleIndicators" class="carousel slide" >
+                    <div class="carousel-inner">
+                        <div th:each="pictograma, stat : ${producto.getPictogramas()}" class="carousel-item" th:classappend="${stat.first} ? 'active' : ''">
+                            <img th:src="${pictograma.getRuta()}" class="d-block w-100" alt="..." width="70px" height="70px">
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div th:fragment="materialesTable(materiales=${productos})">
+    <table>
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Almacen</th>
+            <th>Ubicacion</th>
+            <th>Subtipo</th>
+            <th>Descripcion</th>
+            <th>Fecha De Compra</th>
+            <th>Núnero De Serie</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="producto : ${productos}">
+            <td th:text="${producto.getNombre()}"></td>
+            <td th:text="${producto.getCantidad()}"></td>
+            <td th:text="${producto.getAlmacen()}"></td>
+            <td th:text="${producto.getUbicacion()}"></td>
+            <td th:text="${producto.getSubtipo()}"></td>
+            <td th:text="${producto.getDescripcion()}"></td>
+            <td th:text="${producto.getFecha_compra()}"></td>
+            <td th:text="${producto.getNumero_serie()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:fragment="productoAuxiliar(productoAuxiliar=${productos})">
+    <table>
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Almacen</th>
+            <th>Ubicacion</th>
+            <th>Formato</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="producto : ${productos}">
+            <td th:text="${producto.getNombre()}"></td>
+            <td th:text="${producto.getCantidad()}"></td>
+            <td th:text="${producto.getAlmacen()}"></td>
+            <td th:text="${producto.getUbicacion()}"></td>
+            <td th:text="${producto.getFormato()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Insertar Producto</title>
+    <link rel="stylesheet" href="css/estilo-insertar.css">
+
+</head>
+<body>
+<div class="logout-container">
+    <form action="/logout" method="post">
+        <input type="submit" value="Cerrar Sesión"/>
+    </form>
+</div>
+<div class="home-button-container" style="position: absolute; top: 10px; left: 10px;">
+    <form action="/inicio" method="get">
+        <input type="submit" value="Página Principal"/>
+    </form>
+</div>
+
+<div class="contenedor">
+    <h1>Insertar Producto</h1>
+    <select id="tipoProducto" name="tipoProducto">
+        <option value="quimico">Químico</option>
+        <option value="material">Material</option>
+        <option value="productoAuxiliar">Producto Auxiliar</option>
+    </select>
+</div>
+<form id="formularioQuimico" style="display: none;">
+    <div>
+        <label>Nombre:</label>
+        <input type="text" name="nombre" required>
+    </div>
+    <div>
+        <label>Cantidad:</label>
+        <input type="number" name="cantidad" required>
+    </div>
+    <div>
+        <label>Stock Mínimo:</label>
+        <input type="number" name="stockMinimo" required>
+        <div>
+            <label>Almacén:</label>
+            <select id="almacen" name="almacen" required>
+
+                <option th:each="almacen : ${almacenes}" th:value="${almacen}" th:text="${almacen}"></option>
+            </select>
+        </div>
+        <div>
+            <label>Ubicación:</label>
+            <select name="ubicacion" id="ubicacion" required>
+                <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion}"></option>
+            </select>
+        </div>
+        <div>
+            <label>Pureza:</label>
+            <input type="text" name="pureza" required>
+        </div>
+        <div>
+            <label>Fecha de Caducidad:</label>
+            <input type="date" name="fechaCaduciadd" required>
+        </div>
+        <div>
+            <label>Formato:</label>
+            <input type="text" name="formato" required>
+        </div>
+        <div>
+            <label>Riesgos:</label>
+            <input type="text" name="riesgos" required>
+        </div>
+        <div>
+            <input type="submit" value="Insertar Producto">
+        </div>
+    </div>
+</form>
+
+<form id="formularioMaterial" style="display: none;">
+    <!-- Campos del formulario para materiales -->
+</form>
+
+<form id="formularioProductoAuxiliar" style="display: none;">
+    <!-- Campos del formulario para productos auxiliares -->
+</form>
+<script>
+    document.getElementById('almacen').addEventListener('change', function () {
+        var almacenSeleccionado = this.value;
+        var selectUbicacion = document.getElementById('ubicacion');
+
+        // Limpia las opciones existentes
+        selectUbicacion.innerHTML = '';
+
+        // Realiza una solicitud AJAX al servidor para obtener las ubicaciones del almacén seleccionado
+        fetch('/obtenerUbicaciones?almacen=' + almacenSeleccionado)
+            .then(response => response.json())
+            .then(ubicaciones => {
+                // Añade una opción por cada ubicación
+                ubicaciones.forEach(ubicacion => {
+                    var option = document.createElement('option');
+                    option.value = ubicacion;
+                    option.text = ubicacion;
+                    selectUbicacion.add(option);
+                });
+            });
+    });
+
+
+    document.getElementById('tipoProducto').addEventListener('change', function () {
+        // Ocultar todos los formularios
+        document.getElementById('formularioQuimico').style.display = 'none';
+        document.getElementById('formularioMaterial').style.display = 'none';
+        document.getElementById('formularioProductoAuxiliar').style.display = 'none';
+
+        // Mostrar el formulario correspondiente
+        if (this.value === 'quimico') {
+            document.getElementById('formularioQuimico').style.display = 'block';
+        } else if (this.value === 'material') {
+            document.getElementById('formularioMaterial').style.display = 'block';
+        } else if (this.value === 'productoAuxiliar') {
+            document.getElementById('formularioProductoAuxiliar').style.display = 'block';
+        }
+    });
+</script>
+</body>
+</html>

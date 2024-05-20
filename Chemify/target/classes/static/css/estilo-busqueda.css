@@ -1,0 +1,174 @@
+body {
+    background-color: rgb(186, 245, 186);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+.nav-links a:hover {
+    color: blue;
+}
+.contenedor-tabla {
+    margin: 0 auto;
+    width: 95%;
+    border-radius: 10px;
+
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: left;
+    color: black;
+}
+
+
+th {
+    background-color: rgb(208, 206, 206);
+}
+
+tr:nth-child(even) {
+    background-color: rgb(186, 245, 186);
+}
+
+tr:nth-child(odd) {
+    background-color: white;
+}
+
+.logout-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    background-color: #fff;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.nav-links a:hover {
+    background-color: #f2f2f2;
+}
+
+.logout-container input[type="submit"] {
+    text-decoration: none;
+    color: black;
+    background-color: #fff;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-container input[type="submit"]:hover {
+    color: red;
+}
+
+/* Estilo para el campo de búsqueda */
+form input[type="text"] {
+    width: 80%; /* Ajusta el ancho según necesites */
+    padding: 10px; /* Aumenta el padding para más espacio interior */
+    margin: 10px 0; /* Añade margen para separarlo de otros elementos */
+    border: 2px solid #ccc; /* Borde más definido */
+    border-radius: 20px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente más grande para fácil lectura */
+}
+
+/* Estilo para el botón de búsqueda */
+form button[type="submit"] {
+    padding: 10px 20px; /* Padding generoso para mejor clickeabilidad */
+    background-color: #4CAF50; /* Color de fondo verde */
+    color: white; /* Texto en blanco para contraste */
+    border: none; /* Sin bordes para un look más limpio */
+    border-radius: 20px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de mano para indicar clickeabilidad */
+    font-size: 16px; /* Tamaño de fuente coherente con el input */
+    transition: background-color 0.3s; /* Transición suave al cambiar de color */
+}
+
+form button[type="submit"]:hover {
+    background-color: #45a049; /* Verde un poco más oscuro al pasar el mouse */
+}
+
+h1 {
+    text-align: center; /* Centra el texto */
+    font-family: 'Roboto', sans-serif; /* Cambio de fuente a Roboto */
+    font-size: 34px; /* Tamaño de la fuente */
+    color: #000000; /* Color del texto */
+    text-shadow: 1px 1px 2px #bbb; /* Sombra ligera para dar profundidad */
+}
+
+body, p {
+    text-align: center; /* Centra el texto */
+    font-family: 'Roboto', sans-serif; /* Mantiene la fuente Roboto */
+    color: #666666; /* Color de texto más claro */
+}
+
+
+.img-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.img-container img {
+    width: 60px; /* Ajusta esto según el tamaño deseado */
+    height: 60px; /* Ajusta esto según el tamaño deseado */
+}
+
+@media only screen and (max-width: 600px) {
+    .contenedor-tabla {
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    table {
+        font-size: 16px; /* Aumenta el tamaño de la fuente para una mejor legibilidad en pantallas pequeñas */
+    }
+
+    .logout-container {
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+
+    form input[type="text"] {
+        width: 100%; /* Ajusta el ancho según necesites */
+    }
+
+    .img-container img {
+        width: 50px; /* Ajusta esto según el tamaño deseado */
+        height: 50px; /* Ajusta esto según el tamaño deseado */
+    }
+}

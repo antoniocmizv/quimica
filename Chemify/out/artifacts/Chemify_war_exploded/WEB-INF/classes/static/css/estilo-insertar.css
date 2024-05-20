@@ -1,0 +1,84 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    background-color: rgb(186, 245, 186);
+}
+
+.contenedor {
+    margin: 0 auto;
+    width: 90%;
+    max-width: 500px;
+}
+
+form {
+    background-color: #f2f2f2;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+label {
+    text-align: left;
+    display: block;
+    margin: 15px 0 5px;
+}
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: white;
+    cursor: pointer;
+}
+
+select:hover {
+    background-color: #f2f2f2;
+}
+
+option {
+    padding: 10px;
+}
+.logout-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.logout-container input[type="submit"] {
+    text-decoration: none;
+    color: black;
+    background-color: #fff;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+.logout-container input[type="submit"]:hover {
+    color: red;
+}

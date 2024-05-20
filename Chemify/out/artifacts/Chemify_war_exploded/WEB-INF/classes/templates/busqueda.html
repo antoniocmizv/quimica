@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Busqueda</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/estilo-busqueda.css">
+</head>
+
+<body>
+<div>
+    <div>
+        <div class="img-container">
+            <img src="img/quimica.png" alt="img">
+        </div>
+        <h1>CHEMIFY</h1>
+        <h1>Bienvenido</h1>
+        <p>Por favor, busque un producto.</p>
+        <div class="nav-links">
+            <a href="insertar">Insertar</a>
+            <a href="actualizar">Actualizar</a>
+        </div>
+
+        <div class="logout-container">
+            <form action="/logout" method="post">
+                <input type="submit" value="Cerrar Sesión"/>
+            </form>
+        </div>
+    </div>
+    <div>
+        <form action="/buscarProducto" method="post">
+            <input type="text" name="nombreProducto" required>
+            <button type="submit">Buscar Producto</button>
+        </form>
+    </div>
+    <div th:if="${busquedaRealizada == true}" class="contenedor-tabla">
+        <h2>Resultados de la busqueda: </h2>
+
+        <div th:if="${quimico == true}">
+            <div th:replace="fragments :: quimicoTable(${productos})"></div>
+        </div>
+        <div th:if="${materiales == true}">
+            <div th:replace="fragments :: materialesTable(${productos})"></div>
+        </div>
+        <div th:if="${pA == true}">
+            <div th:replace="fragments :: productoAuxiliar(${productos})"></div>
+        </div>
+
+    </div>
+
+
+</div>
+<script>
+    function mostrarDetalles(event) {
+        var row = event.currentTarget;
+        var id = row.getAttribute('data-id');
+        window.location.href = '/producto/' + id;
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
