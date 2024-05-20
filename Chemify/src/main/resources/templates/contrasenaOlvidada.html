@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperar contraseña</title>
+    <link rel="stylesheet" href="css/estilo-contrasenaOlvidada.css">
+</head>
+<body>
+<main class="container-forget">
+    <div class="form-container">
+        <header class="title">
+            <h2 class="h2-text">Find your Account</h2>
+        </header>
+        <hr>
+        <main>
+            <p>Ingrese la dirección de correo electrónico de su cuenta o el número de teléfono móvil para buscar su cuenta.</p>
+            <form th:action="@{/forgetPassword}" method="post">
+            <input type="text" placeholder="Email o username" name="forgetPassword">
+            </form>
+        </main>
+        <hr>
+        <footer>
+            <a href="sesion.html"><button style="background-color:#908deb;">Cancel</button></a>
+            <a href=""><button>Search</button></a>
+        </footer>
+    </div>
+</main>
+</body>
+</html>

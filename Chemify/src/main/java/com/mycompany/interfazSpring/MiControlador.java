@@ -15,7 +15,7 @@ import java.util.List;
 public class MiControlador {
     @GetMapping("/")
     public String index() {
-        return "inicio";
+        return "inicioTest";
     }
 
     @GetMapping("/login")
@@ -145,6 +145,24 @@ public class MiControlador {
         EnvioCorreo.enviarAlertaStock(email, "Alerta de Stock", mensaje);
         model.addAttribute("mensaje", mensaje); // Agrega el mensaje al modelo
         return "alertas";
+    }
+    @GetMapping("/inicioTest")
+    public String showInicioTest() {
+        return "inicioTest";
+    }
+
+    @GetMapping("/recuperarContraseña")
+    public String showRecuperarContraseña() {
+        return "contrasenaOlvidada";
+    }
+    @PostMapping("/register")
+    public String register(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
+        if (Conexion.registrarUsuario(username, password)) {
+            return "inicio";
+        }
+        model.addAttribute("registerError", true);
+        model.addAttribute("errorMessage", "El usuario ya existe");
+        return "inicio";
     }
 }
 

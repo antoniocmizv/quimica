@@ -10,6 +10,12 @@ body {
     max-width: 500px;
 }
 
+form {
+    background-color: #f2f2f2;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
 input[type="text"],
 input[type="number"],
@@ -75,22 +81,4 @@ option {
 }
 .logout-container input[type="submit"]:hover {
     color: red;
-}
-@media only screen and (max-width: 768px) {
-    .contenedor {
-        width: 100%;
-        padding: 0 20px;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    input[type="submit"],
-    select {
-        font-size: 16px; /* Aumenta el tamaño de la fuente para una mejor legibilidad en pantallas pequeñas */
-    }
-
-    .logout-container {
-        margin-right: 10px;
-        margin-top: 10px;
-    }
 }
