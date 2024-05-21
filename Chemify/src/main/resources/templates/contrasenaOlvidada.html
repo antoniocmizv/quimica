@@ -17,18 +17,21 @@
         </header>
         <hr>
         <main>
-            <p>Ingrese el usuario de su cuenta para poder recuperar su cuenta, recuerde contacte con el administrador si tiene problemas.</p>
-            <form th:action="@{/forgetPassword}" method="post">
-            <input type="text" placeholder="Usuario" name="forgetPassword">
-            </form>
+            <p>Ingrese el usuario de su cuenta para poder recuperar su cuenta, recuerde contacte con el administrador si
+                tiene problemas.</p>
+            <div>
+                <form th:action="@{/restorePassword}" method="post">
+                    <input type="text" name="username" placeholder="Username">
+                    <button type="submit">Recuperar</button>
+                </form><a href="inicio">
+                <button style="background-color:#908deb;">Cancelar</button>
+            </div>
+
+        </a>
+
         </main>
         <hr>
-        <footer>
-            <a href="inicio"><button style="background-color:#908deb;">Cancelar</button></a>
-            <form th:action="@{/restorePassword}" method="post">
-                <button type="submit">Recuperar</button>
-            </form>
-        </footer>
+
     </div>
 </main>
 </body>

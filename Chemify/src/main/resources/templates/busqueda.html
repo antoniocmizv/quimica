@@ -18,11 +18,17 @@
         <h1>CHEMIFY</h1>
         <h1>Bienvenido</h1>
         <p>Por favor, busque un producto.</p>
-        <div class="nav-links">
+
+        <div id="mySidebar" class="sidebar">
+            <img src="img/laboratorio.png" class="img-sidebar" >
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
             <a href="insertar">Insertar</a>
-            <a href="actualizar">Actualizar</a>
             <a href="informes">Informes</a>
             <a href="alertas">Alertas</a>
+            <a href="dashboard">Panel</a>
+        </div>
+        <div id="main">
+            <button class="openbtn" onclick="openNav()">☰ Menú</button>
         </div>
 
         <div class="logout-container">
@@ -113,9 +119,25 @@
             menu.remove();
         }
     }
+
+    function openNav() {
+    var sidebar = document.getElementById("mySidebar");
+    var main = document.getElementById("main");
+
+    if (sidebar.style.width === "250px") {
+        sidebar.style.width = "0";
+        main.style.marginLeft = "0";
+    } else {
+        sidebar.style.width = "250px";
+        main.style.marginLeft = "250px";
+    }
+}
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }
 </script>
-
-
 
 
 </body>

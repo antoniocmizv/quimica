@@ -66,4 +66,39 @@ public class EnvioCorreo {
         }
     }
 
+    public static void enviarContrasena(String username, String password,String destinatario) {
+        // Configuración de las propiedades del servidor de correo
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        // Autenticación del usuario y contraseña del servidor de correo
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("chemify100@gmail.com", "qnhf rylk pync eytu");
+                // Reemplaza con tu correo y contraseña de Gmail
+            }
+        });
+
+        try {
+            String mensaje = "Hola " + username + ",\n\nTu contraseña es: " + password;
+            // Creación del mensaje
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("chemify100@gmail.com")); // Reemplaza con tu correo electrónico
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario)); // Correo del destinatario
+            message.setSubject("Contraseña Olvidada"); // Asunto del correo
+            message.setText(mensaje); // Contenido del correo
+
+            // Envío del mensaje
+            Transport.send(message);
+
+            System.out.println("Correo electrónico enviado con éxito.");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException("Error al enviar el correo electrónico.", e);
+        }
+    }
 }

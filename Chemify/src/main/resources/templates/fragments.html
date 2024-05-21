@@ -10,6 +10,7 @@
             <th>Fecha de caducidad</th>
             <th>Formato</th>
             <th>Riesgos</th>
+            <th>Acciones</th>
 
         </tr>
         </thead>
@@ -33,16 +34,25 @@
                         </div>
                     </div>
                     <a class="carousel-control-prev" th:href="'#carouselExampleIndicators' + ${stat.index}"
-                       role="button" data-slide="prev"  >
-                        <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: grey;"></span>
+                       role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"
+                              style="background-color: grey;"></span>
                         <span class="sr-only">Previous</span>
                     </a>
                     <a class="carousel-control-next" th:href="'#carouselExampleIndicators' + ${stat.index}"
                        role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"style="background-color: grey;"></span>
+                        <span class="carousel-control-next-icon" aria-hidden="true"
+                              style="background-color: grey;"></span>
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
+            </td>
+            <td>
+                <a th:href="@{/actualizarQuimico/{id}(id=${producto.getId_producto()})}"
+                   class="btn btn-primary">Actualizar</a>
+                <a th:href="@{/eliminarProducto/{id}(id=${producto.getId_producto()})}"
+                   onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?');"
+                   class="btn btn-primary">Eliminar</a>
             </td>
         </tr>
     </table>
@@ -60,6 +70,7 @@
             <th>Descripcion</th>
             <th>Fecha De Compra</th>
             <th>Número De Serie</th>
+            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -73,6 +84,13 @@
             <td th:text="${producto.getDescripcion()}"></td>
             <td th:text="${producto.getFecha_compra()}"></td>
             <td th:text="${producto.getNumero_serie()}"></td>
+            <td>
+                <a th:href="@{/actualizarMaterial/{id}(id=${producto.getId_producto()})}"
+                   class="btn btn-primary">Actualizar</a>
+                <a th:href="@{/eliminarProducto/{id}(id=${producto.getId_producto()})}"
+                   onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?');"
+                   class="btn btn-primary">Eliminar</a>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -87,6 +105,7 @@
             <th>Almacen</th>
             <th>Ubicacion</th>
             <th>Formato</th>
+            <th>Acciones</th>
 
         </tr>
         </thead>
@@ -98,6 +117,14 @@
             <td th:text="${producto.getAlmacen()}"></td>
             <td th:text="${producto.getUbicacion()}"></td>
             <td th:text="${producto.getFormato()}"></td>
+            <td>
+                <a th:href="@{/actualizarPa/{id}(id=${producto.getId_producto()})}"
+                   class="btn btn-primary">Actualizar</a>
+
+                <a th:href="@{/eliminarProducto/{id}(id=${producto.getId_producto()})}"
+                   onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?');"
+                   class="btn btn-primary">Eliminar</a>
+            </td>
         </tr>
         </tbody>
     </table>

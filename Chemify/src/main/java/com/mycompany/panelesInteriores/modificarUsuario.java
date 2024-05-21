@@ -50,7 +50,7 @@ public class modificarUsuario extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "El nombre y la contraseña no pueden estar vacíos.");
                     return;
                 }
-                User usuario = new User(nombre, contraseña, tipo);
+                User usuario = new User(nombre, contraseña, tipo, "");
                 Conexion.insertarUsuario(usuario);
                 modelo.addRow(new Object[]{nombre, contraseña, tipo});
                 NUsuario.setText("");

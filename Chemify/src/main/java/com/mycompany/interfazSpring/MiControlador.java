@@ -1,5 +1,6 @@
 package com.mycompany.interfazSpring;
 
+import com.itextpdf.text.pdf.qrcode.Mode;
 import com.mycompany.Clases.*;
 import com.mycompany.ConexionSQL.Conexion;
 import org.springframework.stereotype.Controller;
@@ -48,14 +49,14 @@ public class MiControlador {
         }
         // Si el usuario no es válido, redirige a la página de inicio y muestra un mensaje de error
         model.addAttribute("loginError", true);
-        model.addAttribute("errorMessage", "Usuario o contraseña incorrectos");
+        model.addAttribute("error", "Usuario o contraseña incorrectos");
         return "inicio";
     }
 
     @PostMapping("/buscarProducto")
     public String buscarProducto(@RequestParam("nombreProducto") String nombreProducto, Model model) {
         ArrayList<Producto> productos = Conexion.buscarProductos(nombreProducto);
-        if (productos==null || productos.isEmpty()) {
+        if (productos == null || productos.isEmpty()) {
             model.addAttribute("busquedaRealizada", false);
             model.addAttribute("error", "No se encontraron productos con ese nombre.");
             return "busqueda";
@@ -152,11 +153,182 @@ public class MiControlador {
     public String showRecuperarContraseña() {
         return "contrasenaOlvidada";
     }
+
     @PostMapping("/register")
-    public String register(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
-        Conexion.registrarUsuario(username, password);
+    public String register(@RequestParam("username") String username, @RequestParam("password") String password,
+                           @RequestParam("email") String email, Model model) {
+        if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
+            model.addAttribute("error", "Por favor, rellene todos los campos");
+            return "inicio";
+        }
+        Conexion.registrarUsuario(username, password, email);
         return "inicio";
     }
+
+    @PostMapping("/restorePassword")
+    public String restorePassword(@RequestParam("username") String username, Model model) {
+        String email = Conexion.recuperarEmail(username);
+        String password = Conexion.recuperarContraseña(username);
+        if (password == null) {
+            model.addAttribute("error", "El usuario no existe");
+            return "contrasenaOlvidada";
+        }
+        EnvioCorreo.enviarContrasena(username, password, email);
+        return "inicio";
+    }
+
+    @GetMapping("/dashboard")
+    public String showDashboard(Model model) {
+        int productCount = Conexion.countProducts(); // productService es tu servicio que interactúa con la base de datos
+        model.addAttribute("productCount", productCount);
+        int quimicoCount = Conexion.countQuimicos();
+        model.addAttribute("quimicoCount", quimicoCount);
+        String mensaje = SistemaAlertasStock.verificarStock();
+        model.addAttribute("mensaje", mensaje);
+        List<User> usuarios = Conexion.obtenerUsuarios();
+        model.addAttribute("usuarios", usuarios);
+        return "dashboard";
+    }
+
+    @GetMapping("/actualizarQuimico/{id}")
+    public String showActualizarQuimico(@PathVariable("id") int id, Model model) {
+        Quimico producto = Conexion.obtenerQuimico(id);
+        model.addAttribute("producto", producto);
+        List<String> almacenes = List.of(Conexion.obtenerLocalizaciones());
+        List<String> ubicaciones = List.of(Conexion.obtenerUbicacionesDeAlmacen(almacenes.get(0)));
+        List<String> pictogramas = List.of("Explosivo", "Inflamable", "Corrosivo", "Tóxico", "Irritante", "Peligroso para el medio ambiente");
+        String[] formato = Conexion.obtenerFormatosQ();
+        model.addAttribute("almacenes", almacenes);
+        model.addAttribute("ubicaciones", ubicaciones);
+        model.addAttribute("pictogramas", pictogramas);
+        model.addAttribute("formato", formato);
+
+        return "modificarQuimico";
+    }
+
+    @PostMapping("/actQuimi/{id}")
+    public String actualizarQuimico(@PathVariable("id") int id,
+                                    @RequestParam("nombre") String nombre,
+                                    @RequestParam("cantidad") int cantidad,
+                                    @RequestParam("pureza") String pureza,
+                                    @RequestParam("stock_minimo") int stock_minimo,
+                                    @RequestParam("almacen") String almacen,
+                                    @RequestParam("ubicacion") String ubicacion,
+                                    @RequestParam("formato") String formato) {
+        // Obtén el producto actual de la base de datos
+        Quimico productoActual = Conexion.obtenerQuimico(id);
+
+        // Actualiza el producto actual con los datos del formulario
+        productoActual.setNombre(nombre);
+        productoActual.setCantidad(cantidad);
+        productoActual.setPureza(pureza);
+        productoActual.setStock_minimo(stock_minimo);
+        productoActual.setAlmacen(almacen);
+        productoActual.setUbicacion(ubicacion);
+        productoActual.setFormato(formato);
+
+        int id_almacen = Conexion.obtenerIdAlmacen(almacen);
+        int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
+        productoActual.setId_almacen(id_almacen);
+        productoActual.setId_ubicacion(id_ubicacion);
+
+        // Guarda el producto actualizado en la base de datos
+        Conexion.actualizarQuimico(productoActual);
+        System.out.println("Producto actualizado: " + productoActual.getNombre());
+
+        // Redirige al usuario a la página de detalles del producto
+        return "redirect:/busqueda";
+    }
+    @PostMapping("/actMaterial/{id}")
+    public String actualizarMaterial(@PathVariable("id") int id,
+                                    @RequestParam("nombre") String nombre,
+                                    @RequestParam("cantidad") int cantidad,
+                                    @RequestParam("stock_minimo") int stock_minimo,
+                                    @RequestParam("almacen") String almacen,
+                                    @RequestParam("ubicacion") String ubicacion) {
+        // Obtén el producto actual de la base de datos
+        Materiales productoActual = Conexion.obtenerMateriales(id);
+
+        // Actualiza el producto actual con los datos del formulario
+        productoActual.setNombre(nombre);
+        productoActual.setCantidad(cantidad);
+        productoActual.setStock_minimo(stock_minimo);
+        productoActual.setAlmacen(almacen);
+        productoActual.setUbicacion(ubicacion);
+
+        int id_almacen = Conexion.obtenerIdAlmacen(almacen);
+        int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
+        productoActual.setId_almacen(id_almacen);
+        productoActual.setId_ubicacion(id_ubicacion);
+
+        // Guarda el producto actualizado en la base de datos
+        Conexion.actualizarMaterial(productoActual);
+        System.out.println("Producto actualizado: " + productoActual.getNombre());
+
+        // Redirige al usuario a la página de detalles del producto
+        return "redirect:/busqueda";
+    }
+    @PostMapping("/actPa/{id}")
+    public String actualizarPa(@PathVariable("id") int id,
+                                    @RequestParam("nombre") String nombre,
+                                    @RequestParam("cantidad") int cantidad,
+                                    @RequestParam("stock_minimo") int stock_minimo,
+                                    @RequestParam("almacen") String almacen,
+                                    @RequestParam("ubicacion") String ubicacion) {
+        // Obtén el producto actual de la base de datos
+        ProductoAuxiliar productoActual = Conexion.obtenerProductosAux(id);
+
+        // Actualiza el producto actual con los datos del formulario
+        productoActual.setNombre(nombre);
+        productoActual.setCantidad(cantidad);
+        productoActual.setStock_minimo(stock_minimo);
+        productoActual.setAlmacen(almacen);
+        productoActual.setUbicacion(ubicacion);
+
+        int id_almacen = Conexion.obtenerIdAlmacen(almacen);
+        int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
+        productoActual.setId_almacen(id_almacen);
+        productoActual.setId_ubicacion(id_ubicacion);
+
+        // Guarda el producto actualizado en la base de datos
+        Conexion.actualizarProductoAuxiliar(productoActual);
+        System.out.println("Producto actualizado: " + productoActual.getNombre());
+
+        // Redirige al usuario a la página de detalles del producto
+        return "redirect:/busqueda";
+    }
+
+    @GetMapping("/actualizarPa/{id}")
+    public String showActualizarPa(@PathVariable("id") int id, Model model) {
+        ProductoAuxiliar producto = Conexion.obtenerProductosAux(id);
+        model.addAttribute("producto", producto);
+        List<String> almacenes = List.of(Conexion.obtenerLocalizaciones());
+        List<String> ubicaciones = List.of(Conexion.obtenerUbicacionesDeAlmacen(almacenes.get(0)));
+        model.addAttribute("almacenes", almacenes);
+        model.addAttribute("ubicaciones", ubicaciones);
+        return "modificarPa";
+    }
+    @GetMapping("/actualizarMaterial/{id}")
+    public String showActualizarMaterial(@PathVariable("id") int id, Model model) {
+        Materiales producto = Conexion.obtenerMateriales(id);
+        model.addAttribute("producto", producto);
+        List<String> almacenes = List.of(Conexion.obtenerLocalizaciones());
+        List<String> ubicaciones = List.of(Conexion.obtenerUbicacionesDeAlmacen(almacenes.get(0)));
+        model.addAttribute("almacenes", almacenes);
+        model.addAttribute("ubicaciones", ubicaciones);
+        return "modificarMaterial";
+    }
+
+
+
+    @GetMapping("/eliminarProducto/{id}")
+    public String eliminarQuimico(@PathVariable("id") int id) {
+        // Elimina el químico de la base de datos
+        Conexion.eliminarProducto(id);
+        return "redirect:/busqueda";
+    }
+
+
 }
 
 

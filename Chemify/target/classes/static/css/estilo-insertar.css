@@ -1,23 +1,32 @@
 body {
     font-family: 'Roboto', sans-serif;
     text-align: center;
-    background-color: rgb(186, 245, 186);
+    background: linear-gradient(to right, #71e86a, #74fa86 50%, #a0ee9d);
 }
 
 .contenedor {
     margin: 0 auto;
     width: 90%;
     max-width: 500px;
+
 }
 
-form {
+.form-container {
     background-color: #f2f2f2;
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-items: center;
+    width: 90%;
+}
+.form-container label,input {
+    margin: 10px 0;
 }
 
-input[type="text"],
+.form-container [type="text"],
 input[type="number"],
 input[type="submit"] {
     width: 100%;
@@ -27,13 +36,13 @@ input[type="submit"] {
     border: 1px solid #ddd;
 }
 
-input[type="submit"] {
+.form-container input[type="submit"] {
     background-color: #4CAF50;
     color: white;
     cursor: pointer;
 }
 
-input[type="submit"]:hover {
+.form-container input[type="submit"]:hover {
     background-color: #45a049;
 }
 
@@ -81,4 +90,16 @@ option {
 }
 .logout-container input[type="submit"]:hover {
     color: red;
+}
+.home-button-container{
+    text-decoration: none;
+    color: black;
+    background-color: #fff;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    border: none;
+    cursor: pointer;
 }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/estilo-dashboard.css">
+</head>
+<body>
+<div class="sidebar">
+    <h1>Chemify</h1>
+    <img src="img/quimica.png" alt="" width="50px" height="50px" style="float:right">
+    <ul>
+        <li><a href="busqueda">Busqueda</a></li>
+        <li><a href="insertar">Insertar</a></li>
+        <li><a href="informes">Informes</a></li>
+        <li><a href="alertas">Alertas</a></li>
+        <li><a href="logout">Cerrar Sesión</a></li>
+    </ul>
+
+</div>
+<div class="main">
+    <h2>Panel de Control</h2>
+    <div class="dashboard">
+        <div class="card products">
+            <h3>Productos</h3>
+            <p id="product-count" th:text="${productCount}">0</p>
+            <p>Productos en el almacén</p>
+        </div>
+        <div class="card purchases">
+            <h3>Reactivos</h3>
+            <p id="quimicosCount" th:text="${quimicoCount}">0</p>
+            <p>Reactivos en el almacén</p>
+        </div>
+        <div class="card revenue">
+            <h3>Revenue</h3>
+            <p>457,398</p>
+            <p>revenue for the last 30 days (in usd)</p>
+        </div>
+    </div>
+    <div class="notifications">
+        <h3>Notificaciones</h3>
+        <p th:utext="${#strings.replace(mensaje, ';', '<br/>')}">No new notifications</p>
+    </div>
+    <div class="usuarios">
+    <h3>Usuarios</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre de usuario</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="usuario : ${usuarios}">
+                <td th:text="${usuario.getUsername()}"></td>
+                <td th:text="${usuario.getEmail()}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+
+</body>
+</html>

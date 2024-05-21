@@ -373,7 +373,8 @@ public class Conexion implements ConexionManager {
                 String username = rs.getString("username");
                 String password = rs.getString("password");
                 String type = rs.getString("type");
-                User user = new User(username, password, type);
+                String email = rs.getString("email");
+                User user = new User(username, password, type, email);
                 usuarios.add(user);
 
             }
@@ -457,6 +458,17 @@ public class Conexion implements ConexionManager {
             String sql = "DELETE FROM productos WHERE Id_Producto = ?";
             ps = conexion.prepareStatement(sql);
             ps.setString(1, producto.getId_producto());
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+    public static void eliminarProducto(int id) {
+        try {
+            conexion = conecta();
+            String sql = "DELETE FROM productos WHERE Id_Producto = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1, id);
             ps.executeUpdate();
         } catch (Exception ex) {
             System.out.println(ex);
@@ -803,19 +815,181 @@ public class Conexion implements ConexionManager {
     }
 }
 
-    public static void registrarUsuario(String username, String password) {
+    public static void registrarUsuario(String username, String password,String email) {
         try {
             conexion = conecta();
-            String sql = "INSERT INTO usuarios (username, password, type) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO usuarios (username, password, type,email) VALUES (?, ?, ?,?)";
             ps = conexion.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, password);
             ps.setString(3, "VIEWER");
+            ps.setString(4, email);
             ps.executeUpdate();
 
         } catch (Exception ex) {
             System.out.println(ex);
 
+        }
+    }
+
+    public static String recuperarEmail(String username) {
+        try {
+            conexion = conecta();
+            String sql = "SELECT email FROM usuarios WHERE username = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getString("email");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+
+    public static String recuperarContraseña(String username) {
+        try {
+            conexion = conecta();
+            String sql = "SELECT password FROM usuarios WHERE username = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getString("password");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+
+    public static int countProducts() {
+        try {
+            conexion = conecta();
+            String sql = "SELECT COUNT(*) FROM productos";
+            ps = conexion.prepareStatement(sql);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return 0;
+        }
+    }
+
+    public static int countQuimicos() {
+        try {
+            conexion = conecta();
+            String sql = "SELECT COUNT(*) FROM quimicos ";
+            ps = conexion.prepareStatement(sql);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return 0;
+        }
+    }
+
+    public static Quimico obtenerQuimico(int id) {
+        try {
+            conexion = conecta();
+            String sql = "SELECT * FROM productos p " +
+                    "INNER JOIN ubicaciones u ON p.Id_Ubicacion = u.Id_Ubicacion " +
+                    "INNER JOIN salas s ON u.Codigo_Almacen = s.Id_Almacen " +
+                    "INNER JOIN quimicos q ON p.Id_Producto = q.Id_Producto " +
+                    "INNER JOIN formato f on q.Id_Formato = f.Id_Formato " +
+                    "WHERE p.Id_Producto = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            rs.next();
+            String id_producto = rs.getString("id_producto");
+            String nombre = rs.getString("nombre_producto");
+            int cantidad = rs.getInt("cantidad");
+            int stock_minimo = rs.getInt("stock_minimo");
+            String nombre_ubicacion = rs.getString("nombre_ubicacion");
+            String nombre_almacen = rs.getString("Nombre_Almacen");
+            String pureza = rs.getString("pureza");
+            String fecha_caducidad = rs.getString("fecha_caducidad");
+            String formato = rs.getString("formato");
+            //String riesgo = rs.getString("nombre_riesgo");
+            int id_almacen = rs.getInt("id_almacen");
+            int id_ubicacion = rs.getInt("id_ubicacion");
+
+            return new Quimico(id_producto, nombre, cantidad, stock_minimo, nombre_ubicacion,
+                    nombre_almacen, id_almacen, id_ubicacion, pureza, fecha_caducidad, formato, "Nocivo, comburente, corrosivo, peligroso para el medio ambiente, carcinogeno");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+
+    public static void eliminarQuimico(int id) {
+
+    }
+
+    public static ProductoAuxiliar obtenerProductosAux(int id) {
+        try {
+            conexion = conecta();
+            String sql = "SELECT * FROM productos p " +
+                    "INNER JOIN ubicaciones u ON p.Id_Ubicacion = u.Id_Ubicacion " +
+                    "INNER JOIN salas s ON u.Codigo_Almacen = s.Id_Almacen " +
+                    "INNER JOIN productos_auxiliares a ON p.Id_Producto = a.Id_Producto " +
+                    "WHERE p.Id_Producto = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            rs.next();
+            String id_producto = rs.getString("id_producto");
+            String nombre = rs.getString("nombre_producto");
+            int cantidad = rs.getInt("cantidad");
+            int stock_minimo = rs.getInt("stock_minimo");
+            String nombre_ubicacion = rs.getString("nombre_ubicacion");
+            String nombre_almacen = rs.getString("Nombre_Almacen");
+            String formato = rs.getString("formato");
+            int id_almacen = rs.getInt("id_almacen");
+            int id_ubicacion = rs.getInt("id_ubicacion");
+
+            return new ProductoAuxiliar(id_producto, nombre, cantidad, stock_minimo, nombre_ubicacion,
+                    nombre_almacen, id_almacen, id_ubicacion, formato);
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return null;
+        }
+    }
+
+    public static Materiales obtenerMateriales(int id) {
+        try {
+            conexion = conecta();
+            String sql = "SELECT * FROM productos p " +
+                    "INNER JOIN ubicaciones u ON p.Id_Ubicacion = u.Id_Ubicacion " +
+                    "INNER JOIN salas s ON u.Codigo_Almacen = s.Id_Almacen " +
+                    "INNER JOIN materiales m ON p.Id_Producto = m.Id_Producto " +
+                    "WHERE p.Id_Producto = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            rs.next();
+            String id_producto = rs.getString("id_producto");
+            String nombre = rs.getString("nombre_producto");
+            int cantidad = rs.getInt("cantidad");
+            int stock_minimo = rs.getInt("stock_minimo");
+            String nombre_ubicacion = rs.getString("nombre_ubicacion");
+            String nombre_almacen = rs.getString("Nombre_Almacen");
+            String subtipo = rs.getString("subtipo");
+            String descripcion = rs.getString("descripcion");
+            String fecha_compra = rs.getString("fecha_compra");
+            String numero_serie = rs.getString("n_serie");
+            int id_almacen = rs.getInt("id_almacen");
+            int id_ubicacion = rs.getInt("id_ubicacion");
+
+            return new Materiales(id_producto, nombre, cantidad, stock_minimo, nombre_ubicacion,
+                    nombre_almacen, id_almacen, id_ubicacion, subtipo, descripcion, fecha_compra, numero_serie);
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return null;
         }
     }
 

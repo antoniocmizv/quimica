@@ -1,7 +1,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     text-align: center;
-    background-color: rgb(186, 245, 186);
+    background: linear-gradient(to right, #71e86a, #74fa86 50%, #a0ee9d);
 }
 
 .contenedor {

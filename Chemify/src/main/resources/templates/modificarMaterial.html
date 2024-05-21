@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Actualizar Quimico</title>
+    <link rel="stylesheet" th:href="@{/css/estilo-modificar.css}">
+</head>
+<body>
+<div class="logout-container">
+    <form action="/busqueda" method="get">
+        <input type="submit" value="Inicio"/>
+    </form>
+</div>
+<div class="contenedor">
+    <div class="img-container">
+        <img src="../img/quimica.png" alt="img">
+    </div>
+    <h1>Actualizar Material</h1>
+    <form action="#" th:action="@{/actMaterial/__${producto.id_producto}__}" th:object="${producto}" method="post">    <input type="hidden" th:field="*{id_producto}">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" th:field="*{nombre}">
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" th:field="*{cantidad}">
+        <label for="stock_minimo">Stock mínimo:</label>
+        <input type="number" id="stock_minimo" th:field="*{stock_minimo}">
+        <label>Almacén:</label>
+        <select id="almacen" name="almacen" required>
+            <option th:each="almacen : ${almacenes}" th:value="${almacen}" th:text="${almacen}"></option>
+        </select>
+        <label>Ubicación:</label>
+        <select name="ubicacion" id="ubicacion" required>
+            <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion}"></option>
+        </select>
+        <label for="subtipo">Subtipo:</label>
+        <input type="text" id="subtipo" th:field="*{subtipo}">
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" th:field="*{descripcion}">
+        <label for="fecha_compra">Fecha de compra:</label>
+        <input type="date" id="fecha_compra" th:field="*{fecha_compra}">
+        <label for="numero_serie">Número de serie:</label>
+        <input type="text" id="numero_serie" th:field="*{numero_serie}">
+        <input type="submit" value="Actualizar">
+    </form>
+</div>
+
+<script>
+    document.getElementById('almacen').addEventListener('change', function () {
+        var almacenSeleccionado = this.value;
+        var selectUbicacion = document.getElementById('ubicacion');
+
+        // Limpia las opciones existentes
+        selectUbicacion.innerHTML = '';
+
+        // Realiza una solicitud AJAX al servidor para obtener las ubicaciones del almacén seleccionado
+        fetch('/obtenerUbicaciones?almacen=' + almacenSeleccionado)
+            .then(response => response.json())
+            .then(ubicaciones => {
+                // Añade una opción por cada ubicación
+                ubicaciones.forEach(ubicacion => {
+                    var option = document.createElement('option');
+                    option.value = ubicacion;
+                    option.text = ubicacion;
+                    selectUbicacion.add(option);
+                });
+            });
+    });
+
+
+    document.getElementById('tipoProducto').addEventListener('change', function () {
+        // Ocultar todos los formularios
+        document.getElementById('formularioQuimico').style.display = 'none';
+        document.getElementById('formularioMaterial').style.display = 'none';
+        document.getElementById('formularioProductoAuxiliar').style.display = 'none';
+
+        // Mostrar el formulario correspondiente
+        if (this.value === 'quimico') {
+            document.getElementById('formularioQuimico').style.display = 'block';
+        } else if (this.value === 'material') {
+            document.getElementById('formularioMaterial').style.display = 'block';
+        } else if (this.value === 'productoAuxiliar') {
+            document.getElementById('formularioProductoAuxiliar').style.display = 'block';
+        }
+    });
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+
+</body>
+</html>
