@@ -806,6 +806,7 @@ public class Conexion implements ConexionManager {
 
             Producto producto = new Producto(id_producto, nombre, cantidad, stock_minimo, nombre_ubicacion,
                     nombre_almacen, id_almacen, id_ubicacion);
+
             productos.put(id_producto, producto);
         }
         return productos;

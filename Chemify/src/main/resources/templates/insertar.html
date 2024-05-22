@@ -27,7 +27,7 @@
 </div>
 <div class="form-container">
 
-    <form id="formularioQuimico" style="display: none;">
+    <form id="formularioQuimico" style="display: none;" action="/insertarQuimico" method="post">
         <!-- Campos del formulario para químicos -->
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre">
@@ -54,7 +54,7 @@
         <input type="submit" value="Insertar">
     </form>
 
-    <form id="formularioMaterial" style="display: none;">
+    <form id="formularioMaterial" style="display: none;" action="/insertarMaterial" method="post">
         <!-- Campos del formulario para materiales -->
         <label for="nombreMat">Nombre:</label>
         <input type="text" id="nombreMat" name="nombre">
@@ -64,9 +64,7 @@
         <input type="number" id="stock_minimoMat" name="stock_minimo">
         <label>Almacén:</label>
         <select id="almacenMat" name="almacen" required>
-            <option th:each="almacen : ${
-        almacenes
-    }" th:value="${almacen}" th:text="${almacen}"></option>
+            <option th:each="almacen : ${ almacenes }" th:value="${almacen}" th:text="${almacen}"></option>
         </select>
         <label>Ubicación:</label>
         <select name="ubicacion" id="ubicacionMat" required>
@@ -84,7 +82,7 @@
 
     </form>
 
-    <form id="formularioProductoAuxiliar" style="display: none;">
+    <form id="formularioProductoAuxiliar" style="display: none;" action="/insertarProductoAuxiliar" method="post">
         <!-- Campos del formulario para productos auxiliares -->
         <label for="nombreProdAux">Nombre:</label>
         <input type="text" id="nombreProdAux" name="nombre">
@@ -100,15 +98,9 @@
         <select name="ubicacion" id="ubicacionProdAux" required>
             <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion}"></option>
         </select>
-        <label for="tipo">Tipo:</label>
-        <input type="text" id="tipo" name="tipo">
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcionPa" name="descripcion">
-        <label for="fecha_compra">Fecha de compra:</label>
-        <input type="date" id="fecha_compraPa" name="fecha_compra">
-        <label for="numero_serie">Número de serie:</label>
-        <input type="text" id="numero_seriePa" name="numero_serie">
-        <input type="submit" value="Insertar">
+        <label for="tipo">Formato:</label>
+        <input type="text" id="tipo" name="formato">
+
 
     </form>
 </div>

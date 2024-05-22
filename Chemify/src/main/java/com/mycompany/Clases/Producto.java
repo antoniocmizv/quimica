@@ -128,4 +128,12 @@ public class Producto implements Comparable ,metodosProducto {
         }
         return true;
     }
+
+    @Override
+    public boolean verificarDisponibilidad() {
+        if (this.cantidad > 0) {
+            return true;
+        }
+        return false;
+    }
 }

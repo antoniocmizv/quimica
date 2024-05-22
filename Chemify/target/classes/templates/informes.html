@@ -6,7 +6,9 @@
 </head>
 <body>
 <div class="home-button-container" style="position: absolute; top: 10px; left: 10px;">
-    <button onclick="window.location.href='/busqueda'">Página Principal</button>
+    <form action="/busqueda" method="get">
+        <input type="submit" value="Página Principal"/>
+    </form>
 </div>
 <div class="logout-container">
     <form action="/logout" method="post">

@@ -12,7 +12,7 @@
     </form>
 </div>
 <div class="home-button-container" style="position: absolute; top: 10px; left: 10px;">
-    <form action="/inicio" method="get">
+    <form action="/busqueda" method="get">
         <input type="submit" value="Página Principal"/>
     </form>
 </div>
@@ -25,60 +25,85 @@
         <option value="productoAuxiliar">Producto Auxiliar</option>
     </select>
 </div>
-<form id="formularioQuimico" style="display: none;">
-    <div>
-        <label>Nombre:</label>
-        <input type="text" name="nombre" required>
-    </div>
-    <div>
-        <label>Cantidad:</label>
-        <input type="number" name="cantidad" required>
-    </div>
-    <div>
-        <label>Stock Mínimo:</label>
-        <input type="number" name="stockMinimo" required>
-        <div>
-            <label>Almacén:</label>
-            <select id="almacen" name="almacen" required>
+<div class="form-container">
 
-                <option th:each="almacen : ${almacenes}" th:value="${almacen}" th:text="${almacen}"></option>
-            </select>
-        </div>
-        <div>
-            <label>Ubicación:</label>
-            <select name="ubicacion" id="ubicacion" required>
-                <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion}"></option>
-            </select>
-        </div>
-        <div>
-            <label>Pureza:</label>
-            <input type="text" name="pureza" required>
-        </div>
-        <div>
-            <label>Fecha de Caducidad:</label>
-            <input type="date" name="fechaCaduciadd" required>
-        </div>
-        <div>
-            <label>Formato:</label>
-            <input type="text" name="formato" required>
-        </div>
-        <div>
-            <label>Riesgos:</label>
-            <input type="text" name="riesgos" required>
-        </div>
-        <div>
-            <input type="submit" value="Insertar Producto">
-        </div>
-    </div>
-</form>
+    <form id="formularioQuimico" style="display: none;" action="/insertarQuimico" method="post">
+        <!-- Campos del formulario para químicos -->
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre">
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" name="cantidad">
+        <label for="stock_minimo">Stock mínimo:</label>
+        <input type="number" id="stock_minimo" name="stock_minimo">
+        <label>Almacén:</label>
+        <select id="almacen" name="almacen" required>
+            <option th:each="almacen : ${almacenes}" th:value="${almacen}" th:text="${almacen}"></option>
+        </select>
+        <label>Ubicación:</label>
+        <select name="ubicacion" id="ubicacion" required>
+            <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion}"></option>
+        </select>
 
-<form id="formularioMaterial" style="display: none;">
-    <!-- Campos del formulario para materiales -->
-</form>
+        <label for="pureza">Pureza:</label>
+        <input type="text" id="pureza" name="pureza">
+        <label for="formato">Formato:</label>
+        <select name="formato" id="formato" required>
+            <option th:each="formato : ${formato}" th:value="${formato}" th:text="${formato}"></option>
+        </select>
 
-<form id="formularioProductoAuxiliar" style="display: none;">
-    <!-- Campos del formulario para productos auxiliares -->
-</form>
+        <input type="submit" value="Insertar">
+    </form>
+
+    <form id="formularioMaterial" style="display: none;" action="/insertarMaterial" method="post">
+        <!-- Campos del formulario para materiales -->
+        <label for="nombreMat">Nombre:</label>
+        <input type="text" id="nombreMat" name="nombre">
+        <label for="cantidadMat">Cantidad:</label>
+        <input type="number" id="cantidadMat" name="cantidad">
+        <label for="stock_minimoMat">Stock mínimo:</label>
+        <input type="number" id="stock_minimoMat" name="stock_minimo">
+        <label>Almacén:</label>
+        <select id="almacenMat" name="almacen" required>
+            <option th:each="almacen : ${ almacenes }" th:value="${almacen}" th:text="${almacen}"></option>
+        </select>
+        <label>Ubicación:</label>
+        <select name="ubicacion" id="ubicacionMat" required>
+            <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion}"></option>
+        </select>
+        <label for="subtipo">Subtipo:</label>
+        <input type="text" id="subtipo" name="subtipo">
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion">
+        <label for="fecha_compra">Fecha de compra:</label>
+        <input type="date" id="fecha_compra" name="fecha_compra">
+        <label for="numero_serie">Número de serie:</label>
+        <input type="text" id="numero_serie" name="numero_serie">
+        <input type="submit" value="Insertar">
+
+    </form>
+
+    <form id="formularioProductoAuxiliar" style="display: none;" action="/insertarProductoAuxiliar" method="post">
+        <!-- Campos del formulario para productos auxiliares -->
+        <label for="nombreProdAux">Nombre:</label>
+        <input type="text" id="nombreProdAux" name="nombre">
+        <label for="cantidadProdAux">Cantidad:</label>
+        <input type="number" id="cantidadProdAux" name="cantidad">
+        <label for="stock_minimoProdAux">Stock mínimo:</label>
+        <input type="number" id="stock_minimoProdAux" name="stock_minimo">
+        <label>Almacén:</label>
+        <select id="almacenProdAux" name="almacen" required>
+            <option th:each="almacen : ${almacenes}" th:value="${almacen}" th:text="${almacen}"></option>
+        </select>
+        <label>Ubicación:</label>
+        <select name="ubicacion" id="ubicacionProdAux" required>
+            <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion}"></option>
+        </select>
+        <label for="tipo">Formato:</label>
+        <input type="text" id="tipo" name="formato">
+
+
+    </form>
+</div>
 <script>
     document.getElementById('almacen').addEventListener('change', function () {
         var almacenSeleccionado = this.value;

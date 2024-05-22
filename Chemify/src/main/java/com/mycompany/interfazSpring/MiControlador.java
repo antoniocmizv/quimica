@@ -239,13 +239,14 @@ public class MiControlador {
         // Redirige al usuario a la página de detalles del producto
         return "redirect:/busqueda";
     }
+
     @PostMapping("/actMaterial/{id}")
     public String actualizarMaterial(@PathVariable("id") int id,
-                                    @RequestParam("nombre") String nombre,
-                                    @RequestParam("cantidad") int cantidad,
-                                    @RequestParam("stock_minimo") int stock_minimo,
-                                    @RequestParam("almacen") String almacen,
-                                    @RequestParam("ubicacion") String ubicacion) {
+                                     @RequestParam("nombre") String nombre,
+                                     @RequestParam("cantidad") int cantidad,
+                                     @RequestParam("stock_minimo") int stock_minimo,
+                                     @RequestParam("almacen") String almacen,
+                                     @RequestParam("ubicacion") String ubicacion) {
         // Obtén el producto actual de la base de datos
         Materiales productoActual = Conexion.obtenerMateriales(id);
 
@@ -268,13 +269,14 @@ public class MiControlador {
         // Redirige al usuario a la página de detalles del producto
         return "redirect:/busqueda";
     }
+
     @PostMapping("/actPa/{id}")
     public String actualizarPa(@PathVariable("id") int id,
-                                    @RequestParam("nombre") String nombre,
-                                    @RequestParam("cantidad") int cantidad,
-                                    @RequestParam("stock_minimo") int stock_minimo,
-                                    @RequestParam("almacen") String almacen,
-                                    @RequestParam("ubicacion") String ubicacion) {
+                               @RequestParam("nombre") String nombre,
+                               @RequestParam("cantidad") int cantidad,
+                               @RequestParam("stock_minimo") int stock_minimo,
+                               @RequestParam("almacen") String almacen,
+                               @RequestParam("ubicacion") String ubicacion) {
         // Obtén el producto actual de la base de datos
         ProductoAuxiliar productoActual = Conexion.obtenerProductosAux(id);
 
@@ -308,6 +310,7 @@ public class MiControlador {
         model.addAttribute("ubicaciones", ubicaciones);
         return "modificarPa";
     }
+
     @GetMapping("/actualizarMaterial/{id}")
     public String showActualizarMaterial(@PathVariable("id") int id, Model model) {
         Materiales producto = Conexion.obtenerMateriales(id);
@@ -320,11 +323,78 @@ public class MiControlador {
     }
 
 
-
     @GetMapping("/eliminarProducto/{id}")
     public String eliminarQuimico(@PathVariable("id") int id) {
         // Elimina el químico de la base de datos
         Conexion.eliminarProducto(id);
+        return "redirect:/busqueda";
+    }
+
+    @PostMapping("/insertarQuimico")
+    public String insertarQuimico(@RequestParam("nombre") String nombre,
+                                  @RequestParam("cantidad") int cantidad,
+                                  @RequestParam("pureza") String pureza,
+                                  @RequestParam("stock_minimo") int stock_minimo,
+                                  @RequestParam("almacen") String almacen,
+                                  @RequestParam("ubicacion") String ubicacion,
+                                  @RequestParam("formato") String formato) {
+        // Crea un nuevo químico con los datos del formulario
+        int id_almacen = Conexion.obtenerIdAlmacen(almacen);
+        int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
+        Quimico quimico = new Quimico("0", nombre, cantidad, stock_minimo, ubicacion, almacen,
+                id_almacen, id_ubicacion, pureza, "", formato, "");
+
+        // Guarda el químico en la base de datos
+        Conexion.insertarQuimico(quimico);
+        System.out.println("Químico insertado: " + quimico.getNombre());
+
+        // Redirige al usuario a la página de detalles del químico
+        return "redirect:/busqueda";
+    }
+
+    @PostMapping("/insertarMaterial")
+    public String insertarMaterial(@RequestParam("nombre") String nombre,
+                                   @RequestParam("cantidad") int cantidad,
+                                   @RequestParam("stock_minimo") int stock_minimo,
+                                   @RequestParam("almacen") String almacen,
+                                   @RequestParam("ubicacion") String ubicacion,
+                                   @RequestParam("subtipo") String subtipo,
+                                   @RequestParam("descripcion") String descripcion,
+                                   @RequestParam("numero_serie") String numero_serie) {
+        // Crea un nuevo químico con los datos del formulario
+
+        int id_almacen = Conexion.obtenerIdAlmacen(almacen);
+        int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
+
+        Materiales material = new Materiales("0", nombre, cantidad, stock_minimo, ubicacion, almacen,
+                id_almacen, id_ubicacion, subtipo, descripcion, "", numero_serie);
+
+                // Guarda el químico en la base de datos
+                Conexion.insertarMaterial(material);
+        System.out.println("Material insertado: " + material.getNombre());
+
+        // Redirige al usuario a la página de detalles del químico
+        return "redirect:/busqueda";
+    }
+
+    @PostMapping("/insertarProductoAuxiliar")
+    public String insertarProductoAuxiliar(@RequestParam("nombre") String nombre,
+                                           @RequestParam("cantidad") int cantidad,
+                                           @RequestParam("stock_minimo") int stock_minimo,
+                                           @RequestParam("almacen") String almacen,
+                                           @RequestParam("ubicacion") String ubicacion,
+                                           @RequestParam("formato") String formato){
+        // Crea un nuevo químico con los datos del formulario
+        int id_almacen = Conexion.obtenerIdAlmacen(almacen);
+        int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
+
+        ProductoAuxiliar producto = new ProductoAuxiliar("0",nombre, cantidad, stock_minimo, ubicacion,almacen,id_almacen,id_ubicacion,formato);
+
+        // Guarda el químico en la base de datos
+        Conexion.insertarProductoAuxiliar(producto);
+        System.out.println("Producto Auxiliar insertado: " + producto.getNombre());
+
+        // Redirige al usuario a la página de detalles del químico
         return "redirect:/busqueda";
     }
 
