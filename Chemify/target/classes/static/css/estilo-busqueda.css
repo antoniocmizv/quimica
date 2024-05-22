@@ -6,7 +6,7 @@
     font-family: 'Montserrat', sans-serif;
 }
 body {
-    background: linear-gradient(to right, #71e86a, #74fa86 50%, #a0ee9d);
+    background-color: #adeea7;
 }
 
 .contenedor-tabla {
@@ -18,8 +18,13 @@ body {
 
 table {
     width: 100%;
-    border-collapse: collapse;
-    border-radius: 10px;
+    border-collapse: separate; /* Cambia a 'separate' para permitir bordes redondeados */
+    border-spacing: 0; /* Elimina el espacio entre las celdas */
+    padding: 10px;
+    text-align: left;
+    color: black;
+    border-radius: 10px; /* Añade bordes redondeados a la tabla */
+    font-family: 'Montserrat', sans-serif; /* Asegura que la fuente sea consistente con el resto de la página */
 }
 
 th, td {
@@ -27,12 +32,14 @@ th, td {
     padding: 10px;
     text-align: left;
     color: black;
+    border-radius: 4px; /* Añade bordes redondeados a las celdas */
 }
 
 
 th {
     background-color: rgb(208, 206, 206);
 }
+
 tr, a{
 
     width: 100px;
@@ -40,11 +47,12 @@ tr, a{
     margin: 3px;
     text-align: center;
 
+
 }
 
 
 tr:nth-child(even) {
-    background-color: rgb(186, 245, 186);
+    background-color: rgb(197, 246, 197);
 }
 
 tr:nth-child(odd) {
@@ -62,8 +70,8 @@ tr:nth-child(odd) {
 
 .logout-container input[type="submit"] {
     text-decoration: none;
-    color: black;
-    background-color: #fff;
+    color: #ffffff;
+    background-color: #006666;; /* Verde un poco más oscuro al pasar el mouse */
     padding: 10px 20px;
     margin: 0 10px;
     border-radius: 5px;
@@ -100,21 +108,21 @@ form button[type="submit"] {
 }
 
 form button[type="submit"]:hover {
-    background-color: #45a049; /* Verde un poco más oscuro al pasar el mouse */
+    background-color: #006666;; /* Verde un poco más oscuro al pasar el mouse */
 }
 
 h1 {
     text-align: center; /* Centra el texto */
 
     font-size: 34px; /* Tamaño de la fuente */
-    color: #000000; /* Color del texto */
+    color: #3c5b3f; /* Color del texto */
     text-shadow: 1px 1px 2px #bbb; /* Sombra ligera para dar profundidad */
 }
 
 body, p {
     text-align: center; /* Centra el texto */
     font-family: 'Roboto', sans-serif; /* Mantiene la fuente Roboto */
-    color: #666666; /* Color de texto más claro */
+    color: #6a855c; /* Color de texto más claro */
 }
 
 
@@ -137,7 +145,7 @@ body, p {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #000000;
+    background-color: #006666;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -154,6 +162,7 @@ body, p {
     color: #ffffff;
     transition: 0.3s;
     display: block;
+    font-weight: bold;
 
 
 }
@@ -173,10 +182,12 @@ body, p {
 .openbtn {
     font-size: 20px;
     cursor: pointer;
-    background-color: #111;
+    background-color: #006666;
     color: white;
     padding: 10px 15px;
     border: none;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
 .openbtn:hover {
