@@ -27,7 +27,7 @@
             <a href="alertas">Alertas</a>
             <a href="dashboard">Panel</a>
         </div>
-        <div id="main">
+        <div id="main" th:if="${admin == true}">
             <button class="openbtn" onclick="openNav()">☰ Menú</button>
         </div>
 
@@ -46,17 +46,17 @@
             <button type="submit"><img src="img/lupa.png" alt="img" width="20px" height="20px"></button>
         </form>
     </div>
-    <div th:if="${busquedaRealizada == true}" class="contenedor-tabla">
+    <div th:if="${busquedaRealizada == true} " class="contenedor-tabla">
         <h2>Resultados de la busqueda: </h2>
 
         <div th:if="${quimico == true}">
-            <div th:replace="fragments :: quimicoTable(${productos})"></div>
+            <div th:replace="fragments :: quimicoTable(${productos},${admin})" ></div>
         </div>
         <div th:if="${materiales == true}">
-            <div th:replace="fragments :: materialesTable(${productos})"></div>
+            <div th:replace="fragments :: materialesTable(${productos},${admin})"></div>
         </div>
         <div th:if="${pA == true}">
-            <div th:replace="fragments :: productoAuxiliar(${productos})"></div>
+            <div th:replace="fragments :: productoAuxiliar(${productos},${admin})"></div>
         </div>
 
     </div>

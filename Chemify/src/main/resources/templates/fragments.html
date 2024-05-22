@@ -1,4 +1,4 @@
-<div th:fragment="quimicoTable(quimicos= ${productos})">
+<div th:fragment="quimicoTable(productos, admin)">
     <table>
         <thead>
         <tr>
@@ -10,7 +10,7 @@
             <th>Fecha de caducidad</th>
             <th>Formato</th>
             <th>Riesgos</th>
-            <th>Acciones</th>
+            <th th:if="${admin == true}" >Acciones</th>
 
         </tr>
         </thead>
@@ -47,7 +47,7 @@
                     </a>
                 </div>
             </td>
-            <td>
+            <td th:if="${admin == true}">
                 <a th:href="@{/actualizarQuimico/{id}(id=${producto.getId_producto()})}"
                    class="btn btn-primary">Actualizar</a>
                 <a th:href="@{/eliminarProducto/{id}(id=${producto.getId_producto()})}"
@@ -57,7 +57,7 @@
         </tr>
     </table>
 </div>
-<div th:fragment="materialesTable(materiales=${productos})">
+<div th:fragment="materialesTable(productos,admin)">
     <table>
         <thead>
         <tr>
@@ -70,7 +70,7 @@
             <th>Descripcion</th>
             <th>Fecha De Compra</th>
             <th>Número De Serie</th>
-            <th>Acciones</th>
+            <th th:if="${admin == true}">Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -84,10 +84,10 @@
             <td th:text="${producto.getDescripcion()}"></td>
             <td th:text="${producto.getFecha_compra()}"></td>
             <td th:text="${producto.getNumero_serie()}"></td>
-            <td>
+            <td th:if="${admin == true}">
                 <a th:href="@{/actualizarMaterial/{id}(id=${producto.getId_producto()})}"
                    class="btn btn-primary">Actualizar</a>
-                <a th:href="@{/eliminarProducto/{id}(id=${producto.getId_producto()})}"
+                <a  th:href="@{/eliminarProducto/{id}(id=${producto.getId_producto()})} "
                    onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?');"
                    class="btn btn-primary">Eliminar</a>
             </td>
@@ -95,7 +95,7 @@
         </tbody>
     </table>
 </div>
-<div th:fragment="productoAuxiliar(productoAuxiliar=${productos})">
+<div th:fragment="productoAuxiliar(productos,admin)">
     <table>
         <thead>
         <tr>
@@ -105,7 +105,7 @@
             <th>Almacen</th>
             <th>Ubicacion</th>
             <th>Formato</th>
-            <th>Acciones</th>
+            <th th:if="${admin == true}" >Acciones</th>
 
         </tr>
         </thead>
@@ -117,7 +117,7 @@
             <td th:text="${producto.getAlmacen()}"></td>
             <td th:text="${producto.getUbicacion()}"></td>
             <td th:text="${producto.getFormato()}"></td>
-            <td>
+            <td th:if="${admin == true}">
                 <a th:href="@{/actualizarPa/{id}(id=${producto.getId_producto()})}"
                    class="btn btn-primary">Actualizar</a>
 

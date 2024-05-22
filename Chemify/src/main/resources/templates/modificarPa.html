@@ -14,7 +14,6 @@
     <div class="img-container">
         <img src="../img/quimica.png" alt="img">
     </div>
-    <button onclick="goBack()">Atrás</button>
     <h1>Actualizar Producto Auxiliar</h1>
     <form action="#" th:action="@{/actPa/__${producto.id_producto}__}" th:object="${producto}" method="post">
         <input type="hidden" th:field="*{id_producto}">
@@ -77,9 +76,6 @@
             document.getElementById('formularioProductoAuxiliar').style.display = 'block';
         }
     });
-    function goBack() {
-        window.history.back();
-    }
 </script>
 
 

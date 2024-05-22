@@ -994,6 +994,35 @@ public class Conexion implements ConexionManager {
         }
     }
 
+    public static int countMateriales() {
+        try {
+            conexion = conecta();
+            String sql = "SELECT COUNT(*) FROM materiales ";
+            ps = conexion.prepareStatement(sql);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return 0;
+        }
+    }
+
+    public static boolean esAdmin(String username) {
+        try {
+            conexion = conecta();
+            String sql = "SELECT type FROM usuarios WHERE username = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getString("type").equals("admin");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }
+
 
     @Override
     public void insertar(Producto p) {

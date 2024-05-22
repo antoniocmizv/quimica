@@ -10,10 +10,11 @@
         <input type="submit" value="Inicio"/>
     </form>
 </div>
+<div class="img-container">
+    <img src="../img/quimica.png" alt="img">
+</div>
 <div class="contenedor">
-    <div class="img-container">
-        <img src="../img/quimica.png" alt="img">
-    </div>
+
 
     <h1>Actualizar Quimico</h1>
     <form action="#" th:action="@{/actQuimi/__${producto.id_producto}__}" th:object="${producto}" method="post">    <input type="hidden" th:field="*{id_producto}">

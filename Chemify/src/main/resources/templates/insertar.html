@@ -12,14 +12,16 @@
     </form>
 </div>
 <div class="home-button-container" style="position: absolute; top: 10px; left: 10px;">
-    <form action="/busqueda" method="get">
+    <form action="busqueda" method="get">
         <input type="submit" value="Página Principal"/>
     </form>
 </div>
+<div class="img-container"><img src="img/quimica.png" alt=""></div>
 
 <div class="contenedor">
     <h1>Insertar Producto</h1>
     <select id="tipoProducto" name="tipoProducto">
+        <option value="">Selecciona un tipo de producto</option>
         <option value="quimico">Químico</option>
         <option value="material">Material</option>
         <option value="productoAuxiliar">Producto Auxiliar</option>
@@ -28,6 +30,8 @@
 <div class="form-container">
 
     <form id="formularioQuimico" style="display: none;" action="/insertarQuimico" method="post">
+
+
         <!-- Campos del formulario para químicos -->
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre">
@@ -43,6 +47,8 @@
         <select name="ubicacion" id="ubicacion" required>
             <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion}"></option>
         </select>
+        <label for="fechaCaducidad" >Fecha de caducidad:</label>
+        <input type="date" id="fechaCaducidad" name="fechaCaducidad">
 
         <label for="pureza">Pureza:</label>
         <input type="text" id="pureza" name="pureza">
@@ -50,7 +56,6 @@
         <select name="formato" id="formato" required>
             <option th:each="formato : ${formato}" th:value="${formato}" th:text="${formato}"></option>
         </select>
-
         <input type="submit" value="Insertar">
     </form>
 
@@ -100,7 +105,7 @@
         </select>
         <label for="tipo">Formato:</label>
         <input type="text" id="tipo" name="formato">
-
+        <input type="submit" value="Insertar">
 
     </form>
 </div>

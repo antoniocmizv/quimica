@@ -14,6 +14,13 @@ import java.util.List;
 
 @Controller
 public class MiControlador {
+    private final SecurityConfig securityConfig;
+    private  String typeUser =null;
+
+    public MiControlador(SecurityConfig securityConfig) {
+        this.securityConfig = securityConfig;
+    }
+
     @GetMapping("/")
     public String index() {
         return "inicio";
@@ -39,12 +46,29 @@ public class MiControlador {
     @GetMapping("/busqueda")
     public String showBusqueda(Model model) {
         model.addAttribute("busquedaRealizada", false);
+        if (typeUser != null && typeUser.equals("admin")) {
+            model.addAttribute("admin", true);
+        } else {
+            model.addAttribute("admin", false);
+        }
+
         return "busqueda";
     }
 
     @PostMapping("/login")
     public String acceso(Acceso user, Model model) {
         if (Conexion.validarUsuario(user.getUsername(), user.getPassword())) {
+            //Si el usuario es administrador redirige a la página de administrador
+            if (Conexion.esAdmin(user.getUsername())) {
+                typeUser = "admin";
+                model.addAttribute("admin", true);
+                return "busqueda";
+            }
+            else {
+                typeUser = "user";
+
+            }
+            model.addAttribute("admin", false);
             return "busqueda";
         }
         // Si el usuario no es válido, redirige a la página de inicio y muestra un mensaje de error
@@ -70,6 +94,11 @@ public class MiControlador {
         } else if (productos.get(0) instanceof ProductoAuxiliar) {
             model.addAttribute("pA", true);
         }
+        if (typeUser != null && typeUser.equals("admin")) {
+            model.addAttribute("admin", true);
+        } else {
+            model.addAttribute("admin", false);
+        }
         return "busqueda";
     }
 
@@ -77,8 +106,10 @@ public class MiControlador {
     public String showInsertar(Model model) {
         List<String> almacenes = List.of(Conexion.obtenerLocalizaciones());
         List<String> ubicaciones = List.of(Conexion.obtenerUbicacionesDeAlmacen(almacenes.get(0)));
+        String[] formato = Conexion.obtenerFormatosQ();
         model.addAttribute("almacenes", almacenes);
         model.addAttribute("ubicaciones", ubicaciones);
+        model.addAttribute("formato", formato);
         return "insertar";
 
     }
@@ -185,6 +216,8 @@ public class MiControlador {
         model.addAttribute("quimicoCount", quimicoCount);
         String mensaje = SistemaAlertasStock.verificarStock();
         model.addAttribute("mensaje", mensaje);
+        int materialesCount = Conexion.countMateriales();
+        model.addAttribute("materialesCount", materialesCount);
         List<User> usuarios = Conexion.obtenerUsuarios();
         model.addAttribute("usuarios", usuarios);
         return "dashboard";
@@ -337,12 +370,13 @@ public class MiControlador {
                                   @RequestParam("stock_minimo") int stock_minimo,
                                   @RequestParam("almacen") String almacen,
                                   @RequestParam("ubicacion") String ubicacion,
-                                  @RequestParam("formato") String formato) {
+                                  @RequestParam("formato") String formato,
+                                  @RequestParam("fechaCaducidad") String fecha_caducidad) {
         // Crea un nuevo químico con los datos del formulario
         int id_almacen = Conexion.obtenerIdAlmacen(almacen);
         int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
         Quimico quimico = new Quimico("0", nombre, cantidad, stock_minimo, ubicacion, almacen,
-                id_almacen, id_ubicacion, pureza, "", formato, "");
+                id_almacen, id_ubicacion, pureza, fecha_caducidad, formato, "");
 
         // Guarda el químico en la base de datos
         Conexion.insertarQuimico(quimico);

@@ -70,8 +70,8 @@ tr:nth-child(odd) {
 
 .logout-container input[type="submit"] {
     text-decoration: none;
-    color: #ffffff;
-    background-color: #006666;; /* Verde un poco más oscuro al pasar el mouse */
+    background-color: #006666; /* Color de fondo verde */
+    color: #ffffff;; /* Verde un poco más oscuro al pasar el mouse */
     padding: 10px 20px;
     margin: 0 10px;
     border-radius: 5px;
@@ -81,9 +81,6 @@ tr:nth-child(odd) {
     cursor: pointer;
 }
 
-.logout-container input[type="submit"]:hover {
-    color: red;
-}
 
 /* Estilo para el campo de búsqueda */
 form input[type="text"] {
@@ -114,9 +111,13 @@ form button[type="submit"]:hover {
 h1 {
     text-align: center; /* Centra el texto */
 
-    font-size: 34px; /* Tamaño de la fuente */
-    color: #3c5b3f; /* Color del texto */
+    font-size: 44px; /* Tamaño de la fuente */
+    color: #000000; /* Color del texto */
     text-shadow: 1px 1px 2px #bbb; /* Sombra ligera para dar profundidad */
+    margin: 20px 0; /* Margen arriba y abajo */
+    font-family: 'JetBrains Mono ExtraBold '; /* Mantiene la fuente Montserrat */
+    border: black;
+
 }
 
 body, p {
@@ -134,8 +135,8 @@ body, p {
 }
 
 .img-container img {
-    width: 60px; /* Ajusta esto según el tamaño deseado */
-    height: 60px; /* Ajusta esto según el tamaño deseado */
+    width: 100px; /* Ajusta esto según el tamaño deseado */
+    height: 100px; /* Ajusta esto según el tamaño deseado */
 }
 
 .sidebar {
