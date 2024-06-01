@@ -372,7 +372,7 @@ public class Conexion implements ConexionManager {
             while (rs.next()) {
                 String username = rs.getString("username");
                 String password = rs.getString("password");
-                String type = rs.getString("type");
+                int type = rs.getInt("type");
                 String email = rs.getString("email");
                 User user = new User(username, password, type, email);
                 usuarios.add(user);
@@ -392,7 +392,7 @@ public class Conexion implements ConexionManager {
             ps = conexion.prepareStatement(sql);
             ps.setString(1, usuario.getUsername());
             ps.setString(2, usuario.getPassword());
-            ps.setString(3, usuario.getType());
+            ps.setInt(3, usuario.getType());
             ps.executeUpdate();
         } catch (Exception ex) {
             System.out.println(ex);
@@ -823,7 +823,7 @@ public class Conexion implements ConexionManager {
             ps = conexion.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, password);
-            ps.setString(3, "VIEWER");
+            ps.setInt(3, 0);
             ps.setString(4, email);
             ps.executeUpdate();
 
@@ -1016,10 +1016,46 @@ public class Conexion implements ConexionManager {
             ps.setString(1, username);
             rs = ps.executeQuery();
             rs.next();
-            return rs.getString("type").equals("admin");
+            if (rs.getInt("type")==1) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception ex) {
             System.out.println(ex);
             return false;
+        }
+    }
+
+    public static ArrayList<Producto> buscarProductosPorAlmacen(String nombreAlmacen) {
+        try {
+            conexion = conecta();
+            String sql = "SELECT * FROM productos p " +
+                    "INNER JOIN ubicaciones u ON p.Id_Ubicacion = u.Id_Ubicacion " +
+                    "INNER JOIN salas s ON u.Codigo_Almacen = s.Id_Almacen " +
+                    "WHERE s.nombre_almacen = ?";
+            ps = conexion.prepareStatement(sql);
+            ps.setString(1, nombreAlmacen);
+            rs = ps.executeQuery();
+            ArrayList<Producto> productos = new ArrayList<>();
+            while (rs.next()) {
+                String id_producto = rs.getString("id_producto");
+                String nombre = rs.getString("nombre_producto");
+                int cantidad = rs.getInt("cantidad");
+                int stock_minimo = rs.getInt("stock_minimo");
+                String nombre_ubicacion = rs.getString("nombre_ubicacion");
+                String nombre_almacen = rs.getString("Nombre_Almacen");
+                int id_almacen = rs.getInt("id_almacen");
+                int id_ubicacion = rs.getInt("id_ubicacion");
+
+                Producto producto = new Producto(id_producto, nombre, cantidad, stock_minimo, nombre_ubicacion,
+                        nombre_almacen, id_almacen, id_ubicacion);
+                productos.add(producto);
+            }
+            return productos;
+        }catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
         }
     }
 

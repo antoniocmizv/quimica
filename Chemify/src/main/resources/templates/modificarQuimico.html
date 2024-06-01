@@ -17,7 +17,8 @@
 
 
     <h1>Actualizar Quimico</h1>
-    <form action="#" th:action="@{/actQuimi/__${producto.id_producto}__}" th:object="${producto}" method="post">    <input type="hidden" th:field="*{id_producto}">
+    <form action="#" th:action="@{/actQuimi/__${producto.id_producto}__}" th:object="${producto}" method="post">
+        <input type="hidden" th:field="*{id_producto}">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" th:field="*{nombre}">
         <label for="cantidad">Cantidad:</label>
@@ -65,6 +66,13 @@
                 });
             });
     });
+    ocument.getElementById('m+').addEventListener('submit', function (event) {
+        var cantidad = document.getElementById('cantidad').value;
+        if (cantidad < 0 || cantidad > 2147483647) {
+            alert('La cantidad no puede ser negativa ni mayor que 2147483647');
+            event.preventDefault(); // Evita que se envíe el formulario
+        }
+    });
 
 
     document.getElementById('tipoProducto').addEventListener('change', function () {
@@ -85,6 +93,14 @@
     function goBack() {
         window.history.back();
     }
+    document.getElementById('formularioQuimico').addEventListener('submit', function (event) {
+    var cantidad = document.getElementById('cantidad').value;
+    if (cantidad < 0 || cantidad > 2147483647) {
+        alert('La cantidad no puede ser negativa ni mayor que 2147483647');
+        event.preventDefault(); // Evita que se envíe el formulario
+    }
+});
+
 </script>
 
 

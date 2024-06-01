@@ -15,7 +15,8 @@
         <img src="../img/quimica.png" alt="img">
     </div>
     <h1>Actualizar Material</h1>
-    <form action="#" th:action="@{/actMaterial/__${producto.id_producto}__}" th:object="${producto}" method="post">    <input type="hidden" th:field="*{id_producto}">
+    <form action="#" th:action="@{/actMaterial/__${producto.id_producto}__}" th:object="${producto}" method="post">
+        <input type="hidden" th:field="*{id_producto}">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" th:field="*{nombre}">
         <label for="cantidad">Cantidad:</label>
@@ -80,9 +81,18 @@
             document.getElementById('formularioProductoAuxiliar').style.display = 'block';
         }
     });
+
     function goBack() {
         window.history.back();
     }
+
+    document.getElementById('formularioQuimico').addEventListener('submit', function (event) {
+        var cantidad = document.getElementById('cantidad').value;
+        if (cantidad < 0 || cantidad > 2147483647) {
+            alert('La cantidad no puede ser negativa ni mayor que 2147483647');
+            event.preventDefault(); // Evita que se envíe el formulario
+        }
+    });
 </script>
 
 

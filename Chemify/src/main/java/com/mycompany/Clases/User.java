@@ -4,9 +4,9 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String type;
+    private int type;
 
-    public User(String username, String password, String type, String email) {
+    public User(String username, String password, int type, String email) {
         this.username = username;
         this.password = password;
         this.type = type;
@@ -29,11 +29,11 @@ public class User {
         this.password = password;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
        this.type = type;
     }
 

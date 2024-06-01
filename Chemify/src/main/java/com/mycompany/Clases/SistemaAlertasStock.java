@@ -17,7 +17,6 @@ public class SistemaAlertasStock {
 
             if (producto.verificarStock(producto)) {
                 mensaje += "\nAlerta de stock: El producto " + producto.getNombre() + " tiene un nivel de stock bajo;";
-                System.out.println(mensaje);
             }
         }
         return mensaje;

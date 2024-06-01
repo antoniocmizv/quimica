@@ -43,7 +43,7 @@ public class modificarUsuario extends javax.swing.JPanel {
             try {
                 String nombre = NUsuario.getText().trim();
                 String contraseña = CUsuario.getText().trim();
-                String tipo = (String) TipoUsuario.getSelectedItem();
+                int tipo = (int) TipoUsuario.getSelectedItem();
 
                 // Validación de entrada
                 if (nombre.isEmpty() || contraseña.isEmpty()) {

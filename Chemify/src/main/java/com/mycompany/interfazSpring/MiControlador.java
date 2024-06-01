@@ -3,9 +3,11 @@ package com.mycompany.interfazSpring;
 import com.itextpdf.text.pdf.qrcode.Mode;
 import com.mycompany.Clases.*;
 import com.mycompany.ConexionSQL.Conexion;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
@@ -15,7 +17,7 @@ import java.util.List;
 @Controller
 public class MiControlador {
     private final SecurityConfig securityConfig;
-    private  String typeUser =null;
+    private String typeUser = null;
 
     public MiControlador(SecurityConfig securityConfig) {
         this.securityConfig = securityConfig;
@@ -63,8 +65,7 @@ public class MiControlador {
                 typeUser = "admin";
                 model.addAttribute("admin", true);
                 return "busqueda";
-            }
-            else {
+            } else {
                 typeUser = "user";
 
             }
@@ -137,27 +138,35 @@ public class MiControlador {
     }
 
     @GetMapping("informes")
-    public String showInformes() {
+    public String showInformes(Model model) {
+        List<String> almacen = List.of(Conexion.obtenerLocalizaciones());
+        model.addAttribute("almacenes", almacen);
         return "informes";
     }
 
     @PostMapping("/descargarPDF")
-    public void descargarPDF(@RequestParam(value = "nombreProducto", required = false) String nombreProducto, HttpServletResponse response) {
+    public void descargarPDF(@RequestParam(value = "nombreProducto", required = false) String nombreProducto,
+                             @RequestParam(value = "almacen", required = false) String almacen,
+                             HttpServletResponse response) {
         try {
-            // Genera el PDF
-            byte[] pdfData = GeneradorPDF.generarPdfByte(nombreProducto);
+            byte[] pdfData;
+            if (almacen != null && !almacen.isEmpty()) {
+                pdfData = GeneradorPDF.generarPdfByteAlmacenes(almacen);
+            } else if (nombreProducto != null && !nombreProducto.isEmpty()) {
+                pdfData = GeneradorPDF.generarPdfByte(nombreProducto);
+            } else {
+                nombreProducto = "";
+                pdfData = GeneradorPDF.generarPdfByte(nombreProducto);
+            }
 
-            // Configura la respuesta
             response.setContentType("application/pdf");
             response.setHeader("Content-Disposition", "attachment; filename=informe.pdf");
 
-            // Escribe los datos del PDF en la respuesta
             OutputStream os = response.getOutputStream();
             os.write(pdfData);
             os.flush();
             os.close();
         } catch (Exception e) {
-            // Maneja la excepción
             e.printStackTrace();
         }
     }
@@ -220,6 +229,8 @@ public class MiControlador {
         model.addAttribute("materialesCount", materialesCount);
         List<User> usuarios = Conexion.obtenerUsuarios();
         model.addAttribute("usuarios", usuarios);
+        List<String> almacenes = List.of(Conexion.obtenerLocalizaciones());
+        model.addAttribute("almacenes", almacenes);
         return "dashboard";
     }
 
@@ -403,8 +414,8 @@ public class MiControlador {
         Materiales material = new Materiales("0", nombre, cantidad, stock_minimo, ubicacion, almacen,
                 id_almacen, id_ubicacion, subtipo, descripcion, "", numero_serie);
 
-                // Guarda el químico en la base de datos
-                Conexion.insertarMaterial(material);
+        // Guarda el químico en la base de datos
+        Conexion.insertarMaterial(material);
         System.out.println("Material insertado: " + material.getNombre());
 
         // Redirige al usuario a la página de detalles del químico
@@ -417,12 +428,12 @@ public class MiControlador {
                                            @RequestParam("stock_minimo") int stock_minimo,
                                            @RequestParam("almacen") String almacen,
                                            @RequestParam("ubicacion") String ubicacion,
-                                           @RequestParam("formato") String formato){
+                                           @RequestParam("formato") String formato) {
         // Crea un nuevo químico con los datos del formulario
         int id_almacen = Conexion.obtenerIdAlmacen(almacen);
         int id_ubicacion = Conexion.obtenerIdUbicacion(ubicacion);
 
-        ProductoAuxiliar producto = new ProductoAuxiliar("0",nombre, cantidad, stock_minimo, ubicacion,almacen,id_almacen,id_ubicacion,formato);
+        ProductoAuxiliar producto = new ProductoAuxiliar("0", nombre, cantidad, stock_minimo, ubicacion, almacen, id_almacen, id_ubicacion, formato);
 
         // Guarda el químico en la base de datos
         Conexion.insertarProductoAuxiliar(producto);
@@ -432,7 +443,21 @@ public class MiControlador {
         return "redirect:/busqueda";
     }
 
+    @PostMapping("/darAlta")
+    public String darAlta(@RequestParam("tipoAlta") String tipoAlta,
+                          @RequestParam(value = "nombreAlmacen", required = false) String nombreAlmacen,
+                          @RequestParam(value = "nombreUbicacion", required = false) String nombreUbicacion,
+                          @RequestParam(value = "almacenUbicacion", required = false) String almacenUbicacion,
+                          @RequestParam(value = "nombreFormato", required = false) String nombreFormato,
+                          @RequestParam(value = "nombrePictograma", required = false) String nombrePictograma,
+                          @RequestParam(value = "imagenPictograma", required = false) MultipartFile imagenPictograma) {
+        // Aquí puedes manejar cada tipo de alta en función del valor de tipoAlta
+        // Por ejemplo, si tipoAlta es "almacen", puedes usar nombreAlmacen para dar de alta un nuevo almacén
+        // Si tipoAlta es "ubicacion", puedes usar nombreUbicacion y almacenUbicacion para dar de alta una nueva ubicación
+        // Y así sucesivamente para los otros tipos de alta
+        return showDashboard(null);
 
+    }
 }
 
 

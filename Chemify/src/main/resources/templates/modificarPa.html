@@ -76,6 +76,13 @@
             document.getElementById('formularioProductoAuxiliar').style.display = 'block';
         }
     });
+    document.getElementById('form').addEventListener('submit', function (event) {
+        var cantidad = document.getElementById('cantidad').value;
+        if (cantidad < 0 || cantidad > 2147483647) {
+            alert('La cantidad no puede ser negativa ni mayor que 2147483647');
+            event.preventDefault(); // Evita que se envíe el formulario
+        }
+    });
 </script>
 
 

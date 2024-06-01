@@ -70,6 +70,40 @@ body {
     box-sizing: border-box;
     border-radius: 5px;
 }
+.darAlta {
+    background-color: #5cb85c;
+    color: black;
+    margin-top: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+.darAlta h3 {
+    margin-bottom: 20px;
+}
+.darAlta form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.darAlta form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+.darAlta form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #1e8be7;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.darAlta form button:hover {
+    background-color: #1e8be7;
+}
+
 .usuarios {
     background-color: #84d4ec;
     color: black;

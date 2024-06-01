@@ -42,24 +42,81 @@
         <h3>Notificaciones</h3>
         <p th:utext="${#strings.replace(mensaje, ';', '<br/>')}">No new notifications</p>
     </div>
+    <div class="darAlta">
+        <form th:action="@{/darAlta}" method="post" id="altaForm">
+            <select id="tipoAlta" name="tipoAlta" onchange="mostrarCampos()">
+                <option value="selecciona">Selecciona una opción</option>
+                <option value="almacen">Dar de alta un almacén</option>
+                <option value="ubicacion">Dar de alta una ubicación</option>
+                <option value="formato">Dar de alta un formato</option>
+                <option value="pictograma">Dar de alta un pictograma</option>
+            </select>
+
+            <div id="camposAlmacen" style="display: none;">
+                <label for="nombreAlmacen">Nombre del almacén:</label>
+                <input type="text" id="nombreAlmacen" name="nombreAlmacen">
+            </div>
+
+            <div id="camposUbicacion" style="display: none;">
+                <label for="nombreUbicacion">Nombre de la ubicación:</label>
+                <input type="text" id="nombreUbicacion" name="nombreUbicacion">
+                <label>Almacén:</label>
+                <select id="almacen" name="almacen" required>
+                    <option th:each="almacen : ${almacenes}" th:value="${almacen}" th:text="${almacen}"></option>
+                </select>
+            </div>
+
+            <div id="camposFormato" style="display: none;">
+                <label for="nombreFormato">Nombre del formato:</label>
+                <input type="text" id="nombreFormato" name="nombreFormato">
+            </div>
+
+            <div id="camposPictograma" style="display: none;">
+                <label for="nombrePictograma">Nombre del pictograma:</label>
+                <input type="text" id="nombrePictograma" name="nombrePictograma">
+                <label for="imagenPictograma">Imagen del pictograma:</label>
+                <input type="file" id="imagenPictograma" name="imagenPictograma">
+            </div>
+
+            <input type="submit" value="Enviar" id="submitAlta">
+        </form>
+    </div>
     <div class="usuarios">
-    <h3>Usuarios</h3>
-    <table>
-        <thead>
+        <h3>Usuarios</h3>
+        <table>
+            <thead>
             <tr>
                 <th>Nombre de usuario</th>
                 <th>Email</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr th:each="usuario : ${usuarios}">
                 <td th:text="${usuario.getUsername()}"></td>
                 <td th:text="${usuario.getEmail()}"></td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
-</div>
+<script>
+    function mostrarCampos() {
+        var tipoAlta = document.getElementById("tipoAlta").value;
+        document.getElementById("camposAlmacen").style.display = "none";
+        document.getElementById("camposUbicacion").style.display = "none";
+        document.getElementById("camposFormato").style.display = "none";
+        document.getElementById("camposPictograma").style.display = "none";
 
+        if (tipoAlta == "almacen") {
+            document.getElementById("camposAlmacen").style.display = "block";
+        } else if (tipoAlta == "ubicacion") {
+            document.getElementById("camposUbicacion").style.display = "block";
+        } else if (tipoAlta == "formato") {
+            document.getElementById("camposFormato").style.display = "block";
+        } else if (tipoAlta == "pictograma") {
+            document.getElementById("camposPictograma").style.display = "block";
+        }
+    }
+</script>
 </body>
 </html>
